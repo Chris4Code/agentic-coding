@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hybrid Setups - Agentic Coding Background Knowledge</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="AI rewrite of study notes on deep diving into agentic coding">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-bedc9f0f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1e950b5d.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Agentic Coding Background Knowledge</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="hybrid-setups"><a class="header" href="#hybrid-setups">Hybrid Setups</a></h1>
+<p><a href="./local-models.html">The previous chapter</a> treated local and cloud as an either/or. Most working setups are neither: a local model handles the high-volume, latency-sensitive, and confidential work, and a frontier cloud model is called in for the work that genuinely needs it. This chapter describes concrete hybrid architectures, organized along the two axes that shape them — <strong>who runs the setup</strong> (a single developer, a small team, an enterprise) and <strong>what local hardware is available</strong> (a dedicated PC, a single consumer GPU, an AI workstation).</p>
+<p>Two questions define any hybrid setup:</p>
+<ul>
+<li><strong>Routing</strong> — which requests go to the local model and which go to the cloud, and what makes that decision: task type, difficulty, current load, or a data-sensitivity label.</li>
+<li><strong>Governance</strong> — which requests are <em>allowed</em> to leave the machine at all, and how that is enforced so a fallback rule or a misconfiguration cannot silently send confidential code to a third party.</li>
+</ul>
+<p>The infrastructure that answers both is the routing layer from <a href="./local-models.html#proxies-and-routers">Local Models § Proxies and Routers</a>: a gateway (<a href="./local-models.html#litellm--langfuse">LiteLLM</a>), a per-task router (<code>claude-code-router</code>), or an aggregator (<a href="./local-models.html#open-router">OpenRouter</a>) sitting between the harness and every model it can reach.</p>
+<h2 id="why-hybrid"><a class="header" href="#why-hybrid">Why hybrid</a></h2>
+<p>Local and cloud each win on different factors, and few real workloads are dominated by just one:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Factor</th><th>Local wins</th><th>Cloud wins</th></tr>
+</thead>
+<tbody>
+<tr><td>Marginal cost per request</td><td>≈ 0 (electricity)</td><td>— (metered per token)</td></tr>
+<tr><td>Peak capability</td><td>— (capped by VRAM and model size)</td><td>frontier models</td></tr>
+<tr><td>Latency, small model</td><td>no network round-trip</td><td>—</td></tr>
+<tr><td>Latency, large model</td><td>—</td><td>datacenter bandwidth beats a local big model</td></tr>
+<tr><td>Throughput under concurrency</td><td>— (one box saturates)</td><td>elastic</td></tr>
+<tr><td>Data exposure</td><td>nothing leaves the machine</td><td>prompt and code leave the machine</td></tr>
+<tr><td>Offline / outage tolerance</td><td>keeps working</td><td>needs network + provider uptime</td></tr>
+<tr><td>Setup and maintenance</td><td>ongoing</td><td>≈ none</td></tr>
+</tbody>
+</table>
+</div>
+<p>The hybrid bet is to route each request to the tier that wins on <em>its</em> dominant factor. Inline autocomplete is dominated by latency and volume, so it goes local. A multi-file refactor of unfamiliar code is dominated by capability, so it goes to the cloud. A change to a proprietary authentication module is dominated by data exposure, so it stays local regardless of how hard it is.</p>
+<h2 id="routing-patterns"><a class="header" href="#routing-patterns">Routing patterns</a></h2>
+<pre class="mermaid">flowchart TD
+    R["Request from harness&lt;br/&gt;(Claude Code / Aider / Cline …)"] --&gt; RT{"Router&lt;br/&gt;(LiteLLM / claude-code-router)"}
+    RT --&gt;|"autocomplete · commit msg · title · small edit&lt;br/&gt;OR sensitivity = confidential"| L["Local engine&lt;br/&gt;llama.cpp / Ollama / vLLM"]
+    RT --&gt;|"planning · cross-file refactor · hard debug&lt;br/&gt;AND sensitivity = cloud-eligible"| C["Cloud frontier model&lt;br/&gt;Anthropic / OpenAI / OpenRouter"]
+    L -.-&gt;|failure signal → escalate| C
+    C -.-&gt;|outage / 429 / budget → fall back| L
+    L --&gt; O[("Langfuse&lt;br/&gt;traces · cost · classification")]
+    C --&gt; O
+</pre>
+
+<h3 id="task-tier-routing"><a class="header" href="#task-tier-routing">Task-tier routing</a></h3>
+<p>Split by the <em>kind</em> of request. High-volume, low-stakes calls — inline completion and <a href="./local-models.html#models">fill-in-the-middle</a>, commit messages, chat titles, one-line edits, and the model Claude Code invokes as <code>ANTHROPIC_SMALL_FAST_MODEL</code> — go to a small local model. Planning, architecture, cross-file reasoning, and hard debugging go to a cloud frontier model. This is the highest-value split, because the cheap requests are also the frequent ones and would otherwise dominate a metered bill.</p>
+<h3 id="capability-cascade"><a class="header" href="#capability-cascade">Capability cascade</a></h3>
+<p>Try the local model first; escalate to the cloud on a failure signal — tests still failing after a set number of local attempts, a low-confidence or “I need more context” response, a stuck tool-call loop, or an explicit developer “escalate this”. <code>claude-code-router</code> and LiteLLM fallback chains both express this. The cost is added latency on the escalated request, since the failed local attempt is paid for first.</p>
+<h3 id="data-classification-routing"><a class="header" href="#data-classification-routing">Data-classification routing</a></h3>
+<p>A rule maps each request to a sensitivity tier from the files or repository it touches — path globs, a <code>CODEOWNERS</code>-style manifest, or a git-remote allow-list — and the tier, not the difficulty, decides local-only versus cloud-eligible. This is governance expressed as routing; see <a href="#governance-in-hybrid-setups">Governance in hybrid setups</a>.</p>
+<h3 id="local-preprocessing-cloud-generation"><a class="header" href="#local-preprocessing-cloud-generation">Local preprocessing, cloud generation</a></h3>
+<p>The cheap, high-volume grunt work of an agent loop — embedding a codebase for <a href="./rags.html">retrieval</a>, summarizing files, compacting conversation state, the <a href="./basics.html#multi-turn-loops-and-loop-engineering">subagent</a> passes that return condensed results — runs on a local model, and only the final generation step calls the cloud. This keeps the <a href="./basics.html#multi-turn-loops-and-loop-engineering">communication tax</a> off the metered API.</p>
+<h3 id="cloud-primary-local-fallback"><a class="header" href="#cloud-primary-local-fallback">Cloud primary, local fallback</a></h3>
+<p>The inverse, for resilience: a cloud frontier model is the default, and a local model takes over on network loss, a provider outage, a rate limit (HTTP 429), or an exhausted budget. The local model is a capability downgrade, but it keeps the developer working.</p>
+<h2 id="setups-by-user-scale-and-hardware"><a class="header" href="#setups-by-user-scale-and-hardware">Setups by user scale and hardware</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Dedicated PC (CPU)</th><th>Single consumer GPU (16–32 GB)</th><th>AI workstation (128 GB unified)</th><th>Datacenter GPU stack</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Single developer</strong></td><td>local = small MoE for autocomplete; cloud = all agentic work</td><td>local = 30B-class coder for routine work; cloud = hard/large tasks</td><td>local covers most agentic work; cloud = the exception</td><td>not applicable — rent by the hour for a one-off large job</td></tr>
+<tr><td><strong>Small team</strong></td><td>pool the budget into one shared box instead</td><td>one shared GPU on <a href="./local-models.html#vllm">vLLM</a> + gateway; cloud for frontier + overflow</td><td>shared 70–120B MoE for the team; cloud for frontier + overflow</td><td>usually overkill; rent burst capacity instead of owning</td></tr>
+<tr><td><strong>Enterprise</strong></td><td>developer-local tier for offline / highest sensitivity only</td><td>not a serious shared tier at this scale</td><td>fleet of workstations as a distributed in-house tier</td><td>on-prem or VPC cluster on vLLM/SGLang — the primary local tier; cloud = sovereign frontier + DR</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="single-developer"><a class="header" href="#single-developer">Single developer</a></h3>
+<p>One machine, one user, no shared infrastructure. The router is <code>claude-code-router</code> or a local <a href="./local-models.html#litellm--langfuse">LiteLLM</a> instance; observability is optional.</p>
+<ul>
+<li><strong>Dedicated PC, CPU only.</strong> The local tier is limited to a small <a href="./local-models.html#mixture-of-experts-modells">Mixture-of-Experts</a> model — a ~30B-total / ~3B-active coder — for autocomplete and boilerplate at interactive speed; dense models above ~14B are too slow to sit in a loop (see <a href="./local-models.html#pcs">Local Models § PCs</a>). Everything agentic goes to a cloud API. The hybrid win here is mostly cost: the local model absorbs the constant trickle of completion and <code>SMALL_FAST_MODEL</code> calls that would otherwise dominate the bill.</li>
+<li><strong>Single consumer GPU, 16–32 GB.</strong> The local tier can run a 30B-class coding model (Qwen3-Coder-30B-A3B, Devstral, gpt-oss-20b — see <a href="./local-models.html#models">Local Models § Models</a>) that handles most day-to-day agentic work: routine edits, running tests, small features. The cloud frontier model is reserved for hard debugging, large refactors, and initial architecture. A <a href="#capability-cascade">capability cascade</a> fits well — local by default, escalate on repeated test failure.</li>
+<li><strong>AI workstation, 128 GB unified memory.</strong> A gpt-oss-120b- or GLM-4.5-Air-class model runs locally and covers the large majority of agentic coding. The cloud call becomes the exception: a specific frontier capability, a very long context, or a second opinion. At this tier “hybrid” is closer to “local with a cloud safety valve.”</li>
+</ul>
+<h3 id="small-teams"><a class="header" href="#small-teams">Small teams</a></h3>
+<p>Roughly 2–15 developers. The economically sensible move is to <strong>pool one strong machine</strong> rather than give everyone a weak local tier. A single AI workstation, or a 24–48 GB GPU box, runs <a href="./local-models.html#vllm">vLLM</a> — built for concurrent serving — behind a shared <a href="./local-models.html#litellm--langfuse">LiteLLM</a> gateway that issues per-developer <a href="./local-models.html#api-key-hygiene">virtual keys</a> with individual budgets, plus a self-hosted <a href="./local-models.html#litellm--langfuse">Langfuse</a> for per-developer cost and trace visibility.</p>
+<ul>
+<li><strong>Dedicated PCs per developer</strong> are weak as a team setup — each box manages only small-model autocomplete, and there is no shared frontier tier. Redirect that hardware budget into one pooled server.</li>
+<li><strong>A shared single consumer GPU</strong> running vLLM serves the team’s small-to-mid model traffic (completion, <code>SMALL_FAST_MODEL</code>, routine edits); the gateway routes agentic and hard requests to a cloud API. Concurrency is the limit — a few simultaneous heavy sessions saturate one card, at which point the gateway <a href="#cloud-primary-local-fallback">bursts overflow</a> to the cloud.</li>
+<li><strong>A shared AI workstation</strong> runs a 70–120B MoE for the whole team’s routine agentic work, with cloud handling frontier needs and overflow. This is the sweet spot for a small team that wants most inference in-house without operating a cluster.</li>
+</ul>
+<p>Governance at this scale lives in the gateway config: which repositories or path patterns are local-only, so no fallback rule can route a confidential repository’s code to the cloud, and a <a href="./local-models.html#open-router">Zero Data Retention</a> endpoint for everything that is cloud-eligible.</p>
+<h3 id="enterprise-teams"><a class="header" href="#enterprise-teams">Enterprise teams</a></h3>
+<p>The local tier becomes real infrastructure, fronted by a gateway with SSO, org/team/user budgets, audit logging, and guardrails (LiteLLM Enterprise, Langfuse EE, or an equivalent). The cloud tier is a <strong>sovereign or in-region</strong> frontier endpoint: <a href="./local-models.html#open-router">OpenRouter’s <code>eu.</code> / <code>us.</code> in-region routing</a>, a regional provider, or a contracted enterprise agreement with ZDR.</p>
+<ul>
+<li><strong>Datacenter GPU stack.</strong> An on-premise or private-cloud (VPC) cluster of <a href="./local-models.html#datacenter-gpu-stacks">datacenter GPUs</a> (H100/H200/B200 or MI300X class, NVLink-connected) running <a href="./local-models.html#vllm">vLLM</a> or SGLang. This is the primary in-house tier: HBM bandwidth in the multiple-TB/s range gives high single-stream throughput <em>and</em> the aggregate memory to serve a frontier-scale <a href="./local-models.html#mixture-of-experts-modells">MoE</a> model (DeepSeek-V3-class, ~670B parameters and up) that no single workstation can hold, while <a href="./basics.html#pagedattention-vllm">PagedAttention</a> and continuous batching keep many concurrent developer sessions on one pool. The trade-offs — buy-vs-rent economics, datacenter power and cooling, enterprise driver licensing — are in <a href="./local-models.html#datacenter-gpu-stacks">Local Models § Datacenter GPU Stacks</a>. At this tier the cloud call is genuinely the exception: a capability the in-house model still lacks, or disaster-recovery failover.</li>
+<li><strong>A fleet of AI workstations</strong> is the lighter alternative: many 128 GB unified-memory boxes, each serving a few developers, coordinated by the same gateway. It trades the cluster’s peak throughput and frontier-model capacity for much lower operational overhead and no rack, and doubles as the developer-local tier below.</li>
+<li><strong>Developer-local AI workstations</strong> stay useful as the highest-sensitivity and offline tier regardless of which shared option is chosen: code that policy forbids leaving a laptop is handled entirely on-device, the shared cluster or fleet handles normal in-house inference, and the sovereign cloud endpoint handles frontier work on code cleared for it.</li>
+<li><strong>Data-classification routing is mandatory, not optional.</strong> A policy layer maps every request to a classification — from repository, path, or an explicit tag — and a routing tier; network egress filtering enforces it as a backstop; every cloud call is logged with its classification for audit.</li>
+<li><strong>Disaster recovery runs both ways</strong>: the cluster fails over to the cloud endpoint, and the cloud dependency fails over to the cluster.</li>
+</ul>
+<h2 id="cost-and-capability-trade-offs"><a class="header" href="#cost-and-capability-trade-offs">Cost and capability trade-offs</a></h2>
+<p>The crossover between owning hardware and paying per token depends on request mix, but the shape is consistent:</p>
+<ul>
+<li>A <strong>single consumer GPU</strong> (roughly $1,000–4,000 at <a href="./local-models.html#hardware">2026’s inflated prices</a>) pays for itself against API spend within months for a developer who runs agents heavily all day; for light use, a cloud API alone is cheaper and far simpler.</li>
+<li>An <strong>AI workstation</strong> (~$2,000–5,000 for a 128 GB machine) makes sense once the local model is capable enough to keep the large majority of requests — very roughly 70–80% — off the API.</li>
+<li>A <strong>team GPU pool</strong> competes with per-seat API subscriptions plus overage. It wins at scale and where data policy requires it; it loses on operational overhead below roughly 15–20 heavy users.</li>
+</ul>
+<p>Research Note: these thresholds are rules of thumb from the cost structure described in <a href="./cost-control.html">Cost Control</a>, not measured break-even points. Actual crossover depends on the request mix, the chosen models, local electricity cost, and how much genuine frontier capability the work requires.</p>
+<h2 id="governance-in-hybrid-setups"><a class="header" href="#governance-in-hybrid-setups">Governance in hybrid setups</a></h2>
+<p>The defining risk of a hybrid setup is <strong>silent leakage</strong>: a fallback rule, a misconfigured router, or an unexamined default that sends confidential code to a cloud provider without anyone intending it. The controls, layered:</p>
+<ul>
+<li><strong>Explicit allow-lists, not block-lists.</strong> A repository or path is cloud-eligible only if it is listed; the default is local-only.</li>
+<li><strong>Disable blind fallbacks on sensitive routes</strong> (<code>allow_fallbacks: false</code>). A failed local call on protected code returns an error — it does not escalate to the cloud.</li>
+<li><strong>ZDR and in-region routing on every cloud route</strong> — <code>zdr: true</code>, <code>data_collection: "deny"</code>, regional endpoints (see <a href="./local-models.html#open-router">Local Models § Open Router</a>).</li>
+<li><strong>Network egress filtering</strong> as a backstop, so the gateway is not the only thing between the agent and an external API.</li>
+<li><strong>Audit every cloud call.</strong> Langfuse (or an equivalent) records the model, token counts, cost, and the data classification for each request that left the building.</li>
+</ul>
+<p>The <a href="./local-models.html#prompt-injection-and-excessive-agency">prompt-injection and excessive-agency</a> concerns from the previous chapter apply unchanged to the local tier of a hybrid setup, and the broader treatment is in the <a href="./security.html">Security</a> chapter.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="local-models.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="sw-factories.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="local-models.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="sw-factories.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="additional-js/mermaid-eefea253.min.js"></script>
+        <script src="additional-js/mermaid-init-ccf746f1.js"></script>
+        <script src="additional-js/footer-a2886c2f.js"></script>
+        <script src="additional-js/right-sidebar-7ee5643a.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,746 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Local Models and Hybrid Cloud usage - Agentic Coding Background Knowledge</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="AI rewrite of study notes on deep diving into agentic coding">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-bedc9f0f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1e950b5d.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Agentic Coding Background Knowledge</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="local-models-and-hybrid-cloud-usage"><a class="header" href="#local-models-and-hybrid-cloud-usage">Local Models and Hybrid Cloud usage</a></h1>
+<p>Running an agentic coding harness against a model on your own hardware — instead of a cloud API — trades a per-token bill and a network dependency for an up-front hardware cost, a slower model, and full control over where your code goes. This chapter covers what that trade actually involves: the <a href="#local-inference-engines">inference engines</a> that serve a model locally, the <a href="#hardware">hardware</a> that determines how fast (and how large) a model you can run, the <a href="#models">open-weight models</a> worth running and the <a href="#quantization">quantization</a> that makes them fit, the <a href="#ui-frontends">frontends</a> and <a href="#proxies-and-routers">gateways</a> that sit between the model and the tools that use it, and the <a href="#agent-sandboxes">sandboxing</a> and <a href="#security-and-key-management">key-management</a> concerns specific to pointing an autonomous agent at a model with no provider-side safety layer.</p>
+<p>This content of this chapter is vizualized by the following diagram. From the metal up to the model providers:</p>
+<ul>
+<li>A local serving stack (hardware → low-level SW → inference engine)</li>
+<li>The two ways it is consumed</li>
+<li>The router layer that lets one harness reach both a local model and a cloud provider through a single interface.</li>
+</ul>
+<pre class="mermaid">flowchart BT
+    subgraph PROV["Model providers"]
+        direction LR
+        ANT["Anthropic"] ~~~ OAI["OpenAI"] ~~~ GOO["Google"] ~~~ ALI["Alibaba"] ~~~ ZAI["Z.ai"] ~~~ MIS["Mistral"] ~~~ ETC["..."]
+    end
+
+    subgraph GW["Proxies and routers"]
+        direction LR
+        BYO["Bring Your Own LLM"] ~~~ LLF["LiteLLM + Langfuse"] ~~~ ORTR["Open Router"]
+    end
+
+    DU["Direct Usage"]
+    OPS["On Premise Service"]
+
+    subgraph ENG["Inference Engines"]
+        direction LR
+        LCPP["llama.cpp"] ~~~ OLL["Ollama"] ~~~ VLLM["vLLM"]
+    end
+
+    subgraph SW["Low Level SW Stacks"]
+        direction LR
+        CUDA["NVIDIA · CUDA"] ~~~ ROCM["AMD · ROCm"] ~~~ SYCL["Intel · SYCL"] ~~~ VK["Vulkan"] ~~~ MTL["Apple Metal / MLX"]
+    end
+
+    subgraph HW["Hardware"]
+        direction LR
+        PC["PCs"] ~~~ CGPU["Consumer GPUs"] ~~~ WS["AI-Workstations"] ~~~ DC["Datacenter GPU stacks"]
+    end
+
+    HW --&gt; SW --&gt; ENG
+    ENG --&gt; DU
+    ENG --&gt; OPS
+    DU --&gt; BYO
+    DU --&gt; ORTR
+    OPS --&gt; LLF
+    OPS --&gt; ORTR
+    LLF -.-&gt; ORTR
+    BYO --&gt; PROV
+    LLF --&gt; PROV
+    ORTR --&gt; PROV
+    PROV -.-&gt;|"open weights"| ENG
+</pre>
+
+<p>One mechanical fact drives most of the decisions in this chapter, so it is worth stating first: <strong>local LLM inference is almost always limited by memory bandwidth, not by compute</strong>. Generating each token requires streaming the model’s active weights from memory through the processor once. Token throughput is therefore roughly <em>(usable memory bandwidth) ÷ (bytes of active weights per token)</em> until some other limit is hit. This is why VRAM capacity and bandwidth matter more than raw FLOPS, why CPU inference is slow, why <a href="#mixture-of-experts-modells">Mixture-of-Experts models</a> change the picture, and why <a href="#quantization">quantization</a> usually speeds generation up rather than just shrinking the model.</p>
+<h2 id="local-inference-engines"><a class="header" href="#local-inference-engines">Local inference engines</a></h2>
+<p>An inference engine loads model weights, manages the <a href="./basics.html#key-value-store">KV cache</a>, and runs the token-generation loop, exposing an API (almost always OpenAI-compatible, increasingly also Anthropic-compatible) that a harness talks to. Three engines cover nearly all local agentic-coding use.</p>
+<p>The weights themselves almost always come from <strong><a href="https://huggingface.co">Hugging Face</a></strong>, the dominant hosting platform for open-weight models — think “GitHub for models”: each model lives in a versioned repository with a <em>model card</em> documenting its license, architecture and benchmarks, and the engine either downloads from it directly or via a wrapper (see <a href="#models">Models</a> for the platform’s role in more detail).</p>
+<p>What you download is one of two file formats.</p>
+<ul>
+<li><strong>safetensors</strong> is Hugging Face’s default tensor container —  weights at their trained precision (BF16/FP16) plus a JSON header, memory-mappable, consumed by PyTorch-based stacks (vLLM, SGLang, <code>transformers</code>).</li>
+<li><strong>GGUF</strong> (“GGML Universal Format”) is llama.cpp’s single self-describing file: weights, tokenizer, chat template and quantization metadata in one blob, designed to be memory-mapped and split across CPU and GPU.</li>
+</ul>
+<p>GPU-quantized formats (AWQ, GPTQ, FP8) ship as <code>safetensors</code>; the original model labs almost never publish GGUF, so the community converts and quantizes each release (see <a href="#models">Models</a>).</p>
+<h3 id="llamacpp"><a class="header" href="#llamacpp">llama.cpp</a></h3>
+<p><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> is a C/C++ inference engine built on the <strong><code>ggml</code></strong> tensor library, maintained by the ggml-org project (founded by Georgi Gerganov). It is the reference engine for local, resource-constrained inference and the substrate several other tools are built on.</p>
+<ul>
+<li><strong>Formats and quantization.</strong> GGUF only, but with the widest quantization range of any engine: <a href="#quantization">K-quants and i-quants</a> from roughly 1.5 to 8 bits per weight, plus full F16/BF16.</li>
+<li><strong>Hardware ubiquity.</strong> The build supports CUDA, HIP/ROCm, Metal, SYCL, Vulkan, OpenCL, and heavily optimized CPU paths (AVX2/AVX-512/AMX on x86, NEON/SVE on ARM) — see <a href="#consumer-gpus-and-low-level-sw-stacks">Consumer GPUs and low-level SW stacks</a>.</li>
+<li><strong>CPU + GPU hybrid inference.</strong> The <code>-ngl N</code> flag places the first <em>N</em> transformer layers on the GPU and runs the rest on CPU and system RAM, letting a model larger than VRAM run slowly rather than not at all. Overall throughput then collapses toward the CPU numbers in <a href="#pcs">PCs</a> for the offloaded portion.</li>
+<li><strong>Server mode.</strong> <code>llama-server</code> is a single binary exposing an OpenAI-compatible <code>/v1/chat/completions</code> API, a built-in web UI, and embeddings/reranking endpoints. Recent builds also expose an Anthropic-style <code>/v1/messages</code> endpoint.</li>
+<li><strong>Concurrency.</strong> <code>llama-server</code> splits the context memory into a fixed number of <code>--parallel N</code> slots and does continuous batching across active requests, but it has no <a href="./basics.html#pagedattention-vllm">PagedAttention</a>: raising <em>N</em> shrinks each request’s usable context, and the engine is tuned for low-concurrency latency rather than aggregate throughput. Independent load tests consistently show its latency degrading much faster than vLLM’s past a handful of concurrent users.</li>
+<li><strong>Speculative decoding.</strong> Supported via a small draft model (<code>--model-draft</code>), plus draft-free prompt-lookup variants.</li>
+</ul>
+<h3 id="ollama"><a class="header" href="#ollama">Ollama</a></h3>
+<p><a href="https://github.com/ollama/ollama">Ollama</a> (MIT-licensed, developed by Ollama Inc.) wraps a low-level engine behind a Docker-like CLI (<code>ollama pull</code>, <code>ollama run</code>), a background daemon, and an OpenAI-compatible REST API. It began as a thin llama.cpp wrapper; since 2025 it ships its own <code>ggml</code>-based inference engine, used for newer and multimodal architectures, alongside the llama.cpp-derived path for others. It also added an <a href="#apple-metal">MLX</a> path for Apple Silicon.</p>
+<p>Ollama’s value is operational: a container-style model registry (<code>ollama.com/library</code>) addressed like image tags, a declarative <code>Modelfile</code> for deriving customized models, automatic GPU/CPU split, and automatic unloading of idle models (<code>OLLAMA_KEEP_ALIVE</code>, default 5 minutes). It can also pull any GGUF repo from Hugging Face directly (<code>ollama run hf.co/{user}/{repo}:{quant}</code>).</p>
+<p>Because Ollama runs a llama.cpp-derived engine underneath, the choice between them is not about capability but about how much control you want to trade for convenience:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Ollama</th><th>llama.cpp directly (<code>llama-server</code>)</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Setup</strong></td><td>one installer, <code>ollama run &lt;model&gt;</code></td><td>build with the right backend flags, or fetch a prebuilt binary; pick and download the GGUF yourself</td></tr>
+<tr><td><strong>Model management</strong></td><td>automatic pull, templating and caching from its registry or Hugging Face</td><td>manual download; you supply the chat template and launch flags</td></tr>
+<tr><td><strong>Memory</strong></td><td>auto-detects the GPU/CPU layer split; unloads idle models to free VRAM</td><td>you set <code>-ngl</code> and free memory by killing the process</td></tr>
+<tr><td><strong>Tuning</strong></td><td>sensible but conservative hidden defaults (context length, GPU layers, batch size)</td><td>every parameter exposed — the way to extract maximum tokens/sec from a given card</td></tr>
+<tr><td><strong>New models</strong></td><td>often lags upstream by days to weeks</td><td>day-one support, since it <em>is</em> upstream</td></tr>
+<tr><td><strong>Overhead</strong></td><td>a small Go orchestration and HTTP hop per request</td><td>none</td></tr>
+<tr><td><strong>Concurrency</strong></td><td>same slot-based model as <code>llama-server</code>, wrapped</td><td>direct control over <code>--parallel</code> and batching</td></tr>
+</tbody>
+</table>
+</div>
+<p>The practical rule: reach for Ollama when you want local models to “just work” and are running one model at a time interactively; drop to <code>llama-server</code> when you are chasing throughput on a specific GPU, need a brand-new architecture, or want to script the exact launch configuration. Serving many concurrent users is a job for <a href="#vllm">vLLM</a> regardless.</p>
+<h3 id="vllm"><a class="header" href="#vllm">vLLM</a></h3>
+<p><a href="https://github.com/vllm-project/vllm">vLLM</a> (originating at UC Berkeley) is the production-serving engine. Its defining feature, <strong><a href="./basics.html#pagedattention-vllm">PagedAttention</a></strong>, stores the KV cache in fixed-size blocks allocated on demand, raising KV-memory utilization from ~20–40% to ~96% and improving throughput 2–4× at matched latency (<a href="https://arxiv.org/abs/2309.06180">Kwon et al., SOSP ’23</a>). It adds continuous batching, tensor/pipeline/expert parallelism for multi-GPU serving, and automatic prefix caching (a shared system prompt or document is computed once and reused).</p>
+<p>The trade-offs make vLLM a poor fit for single-user local use:</p>
+<ul>
+<li>Its fast path is <code>safetensors</code> plus AWQ/GPTQ/FP8; GGUF loading exists but is experimental.</li>
+<li>It pre-allocates a KV-cache pool sized by <code>--gpu-memory-utilization</code> (<strong>default 0.9</strong> — 90% of the card) and has no CPU-offload path, so it out-of-memories easily on 8–16 GB cards and cannot run a model that does not fit in VRAM.</li>
+<li>The Python/CUDA toolchain and 90% pre-allocation are pure overhead for one user on a laptop.</li>
+</ul>
+<p>vLLM wins when many concurrent requests hit a model that fits entirely in datacenter- or workstation-class VRAM. <strong>SGLang</strong> (with RadixAttention, a prefix-tree KV reuse that beats vLLM on the shared-prefix workloads typical of agents) and NVIDIA’s <strong>TensorRT-LLM</strong> (fastest on NVIDIA, at the cost of per-model engine compilation) are the main alternatives in that regime.</p>
+<pre class="mermaid">flowchart TD
+    Q{"What are you serving?"}
+    Q --&gt;|"one user, laptop / desktop,&lt;br/&gt;model may exceed VRAM"| A["llama.cpp&lt;br/&gt;(or Ollama for convenience)"]
+    Q --&gt;|"one user, Apple Silicon"| B["llama.cpp / Ollama / LM Studio&lt;br/&gt;with Metal or MLX"]
+    Q --&gt;|"many concurrent users,&lt;br/&gt;model fits in VRAM,&lt;br/&gt;NVIDIA / AMD datacenter GPU"| C["vLLM or SGLang"]
+    A --&gt; D["GGUF weights&lt;br/&gt;OpenAI + Anthropic API"]
+    B --&gt; D
+    C --&gt; E["safetensors + AWQ / GPTQ / FP8&lt;br/&gt;OpenAI API, PagedAttention"]
+</pre>
+
+<h2 id="hardware"><a class="header" href="#hardware">Hardware</a></h2>
+<p>Every hardware choice below comes back to the bandwidth-bound rule from the chapter intro. The ladder from a desktop’s system RAM to a datacenter GPU’s HBM spans more than an order of magnitude, and a model’s token throughput tracks position on that ladder:</p>
+<pre class="mermaid">flowchart LR
+    A["Dual-channel DDR5 desktop&lt;br/&gt;~50–90 GB/s"] --&gt; B["Unified memory&lt;br/&gt;(DGX Spark ~273, Strix Halo ~256,&lt;br/&gt;Apple M4 Max ~410–546,&lt;br/&gt;M3 Ultra ~800+ GB/s)"]
+    B --&gt; C["Consumer GPU VRAM&lt;br/&gt;(RTX 4090 ~1.0 TB/s,&lt;br/&gt;RTX 5090 ~1.8 TB/s)"]
+    C --&gt; D["Datacenter HBM&lt;br/&gt;(H100 3.35, H200 4.8,&lt;br/&gt;B200 ~8 TB/s;&lt;br/&gt;MI300X 5.3 TB/s)"]
+</pre>
+
+<p>Capacity sets the ceiling on <em>which</em> model runs at full speed; bandwidth sets <em>how fast</em> it generates. Spilling a model out of the fastest available memory tier drops throughput toward the next tier down.</p>
+<p>Research Note: the memory-bandwidth-bound analysis and the vendor bandwidth figures above are well established. The tokens-per-second figures throughout this chapter are drawn from independent community benchmarks that converge on similar ranges, not from primary vendor benchmarks, and vary with CPU, RAM speed, quantization and context length — treat them as order-of-magnitude, not precise.</p>
+<p>Research Note: hardware prices in this chapter are snapshots from mid-2026, when an industry-wide DRAM, GDDR7 and HBM supply shortage — driven by AI datacenter demand — had inflated nearly every price well above its original MSRP (the NVIDIA RTX PRO 6000 Blackwell’s list price roughly doubled; the RTX 5090 traded at about twice its $1,999 MSRP; NVIDIA raised the DGX Spark’s price by $700 mid-generation). Read every figure as a volatile range, not a stable MSRP.</p>
+<h3 id="pcs"><a class="header" href="#pcs">PCs</a></h3>
+<p>The cheapest way to run a local model is on a PC you already own, with no GPU: the model runs on the CPU out of system RAM. It is the most available hardware and, RAM prices aside, the lowest cost — but it is slow, because a mainstream desktop’s memory bandwidth is roughly 10–30× below a discrete GPU’s.</p>
+<ul>
+<li><strong>Bandwidth.</strong> Dual-channel DDR5 on a consumer board delivers about 50–90 GB/s usable (DDR5-6000 is ~96 GB/s theoretical). Populating all four DIMM slots typically <em>lowers</em> the achievable transfer rate. Workstation and server platforms with quad- or eight-channel memory (Threadripper PRO, Xeon-W, EPYC) reach 200–500+ GB/s and are the only genuinely interesting CPU option.</li>
+<li><strong>Realistic throughput</strong> (4-bit quant, llama.cpp, mainstream dual-channel DDR5): a 7–8B model runs at roughly 3–10 tokens/second; 13–14B at 2–5; a 30B <em>dense</em> model at 1–3, generally too slow for interactive agentic use; a 70B dense model at 1–2 on the fastest consumer CPUs.</li>
+<li><strong>The Mixture-of-Experts exception.</strong> Because decode speed tracks <em>active</em> parameters, a <a href="#mixture-of-experts-modells">Mixture-of-Experts</a> model such as a 30B-total / 3B-active design runs at genuinely interactive speeds on a CPU that could never usefully run a dense 30B — provided there is enough RAM to hold all the experts. This is the main reason CPU inference became practical for coding-sized models in 2025–2026.</li>
+</ul>
+<p>For agentic coding specifically, CPU-only inference suits a background code reviewer or a chat assistant more than real-time autocomplete or a fast autonomous loop.</p>
+<h3 id="consumer-gpus-and-low-level-sw-stacks"><a class="header" href="#consumer-gpus-and-low-level-sw-stacks">Consumer GPUs and Low-Level SW-Stacks</a></h3>
+<p>A discrete GPU has its own high-bandwidth memory (GDDR6/6X/7) wired directly to the processor on a wide bus and not shared with the OS. That dedicated VRAM is the single biggest lever for local inference: its bandwidth is 5–20× a desktop’s system RAM and uncontended, so <strong>VRAM bandwidth sets the token rate and VRAM capacity sets the largest model and context that run at full speed</strong>. The moment a model spills into system RAM, the offloaded layers run at CPU-RAM speed and overall throughput collapses.</p>
+<p>A rough capacity guide for 4-bit (<code>Q4_K_M</code>) coding models, weights plus KV cache plus overhead:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>VRAM</th><th>Runs well</th></tr>
+</thead>
+<tbody>
+<tr><td>8 GB</td><td>~7–8B, short context</td></tr>
+<tr><td>12 GB</td><td>~13–14B</td></tr>
+<tr><td>16 GB</td><td>~14B comfortably; a 30B-class MoE tightly; 32B dense only with small context</td></tr>
+<tr><td><strong>20–24 GB</strong></td><td><strong>~32B dense at usable context — the practical “useful local coding model” line</strong></td></tr>
+<tr><td>32 GB</td><td>32B dense with long context, or a 70B at low quant partly offloaded</td></tr>
+<tr><td>48 GB+</td><td>70B-class at 4-bit fully in VRAM</td></tr>
+</tbody>
+</table>
+</div>
+<p>The prerequisites for a desktop GPU build are easy to underestimate:</p>
+<ul>
+<li><strong>Power.</strong> A single RTX 4090 or 5090 draws 450–575 W under load; NVIDIA recommends an 850–1000 W PSU for a 5090 system, using the 12V-2×6 / 12VHPWR connector (the one with documented melting incidents when not fully seated). Two large cards mean a 1300–1600 W PSU and often a 240 V circuit.</li>
+<li><strong>Space and cooling.</strong> Triple-slot, ~300–360 mm cards; two of them need a board with adequate slot spacing and strong airflow.</li>
+<li><strong>PCIe lanes.</strong> Mainstream desktop CPUs expose ~20–28 usable lanes — one x16 card plus one x4. Running two or more GPUs at x8/x8, or four or more, requires a HEDT/workstation platform (Threadripper/PRO, Xeon-W, EPYC). For llama.cpp layer-split this barely matters (little inter-GPU traffic per token); for vLLM tensor parallelism you want x8+ and ideally NVLink.</li>
+</ul>
+<p>The rest of this section covers the four vendor software stacks plus the two cross-vendor backends. The recurring theme: <strong>CUDA is universal and supported first everywhere; ROCm is Linux-first and catching up; SYCL is the smallest and roughest; Vulkan and Metal are the portable fallbacks.</strong></p>
+<h4 id="nvidea--cuda"><a class="header" href="#nvidea--cuda">NVidea + CUDA</a></h4>
+<p><strong>CUDA</strong> is the default target for every inference engine. llama.cpp, Ollama, vLLM, SGLang, TensorRT-LLM and ExLlama all support new models on CUDA first, PyTorch’s default GPU build is CUDA, and the Blackwell generation (RTX 50-series, RTX PRO Blackwell, B200) adds native FP4 tensor-core support relevant as <a href="#quantization">FP4 quantization</a> matures.</p>
+<p>Drawbacks: NVIDIA segments VRAM aggressively (the 24 GB tier is stuck at the discontinued RTX 4090 and the older RTX 3090; the RTX 5090 offers 32 GB; more than that on one card means a workstation/datacenter part at several times the price); datacenter GPUs require enterprise driver licensing and the GeForce EULA restricts datacenter deployment; and the tooling assumes CUDA, making a later move to another vendor real work.</p>
+<p>Cards commonly used for local coding, with mid-2026 street prices (USD, inflated by the memory shortage — see the Research Note above):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Card</th><th>VRAM</th><th>Bandwidth</th><th>Price signal (Aug 2026)</th></tr>
+</thead>
+<tbody>
+<tr><td>RTX 3090 (used)</td><td>24 GB GDDR6X</td><td>~936 GB/s</td><td>~$700–1,000 — still the value pick for 24 GB (Ampere, no FP8)</td></tr>
+<tr><td>RTX 4090</td><td>24 GB GDDR6X</td><td>~1,008 GB/s</td><td>~$2,500–3,800 (discontinued; was $1,599 MSRP)</td></tr>
+<tr><td>RTX 5090</td><td>32 GB GDDR7</td><td>~1,792 GB/s</td><td>~$4,000–4,500 (was $1,999 MSRP)</td></tr>
+<tr><td>RTX 2000 Ada</td><td>16 GB GDDR6 ECC</td><td>~224 GB/s</td><td>~$600–900 — 70 W, low-profile</td></tr>
+<tr><td>RTX 4000 Ada</td><td>20 GB GDDR6 ECC</td><td>~360 GB/s</td><td>~$900–1,400 — 130 W, single-slot</td></tr>
+<tr><td>RTX PRO 6000 Blackwell</td><td>96 GB GDDR7 ECC</td><td>~1,790 GB/s</td><td>~$8,000–16,000 — the single-card “70B in VRAM” option; list price doubled in 2026</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="amd--rocm"><a class="header" href="#amd--rocm">AMD + ROCm</a></h4>
+<p><strong>ROCm</strong> (Radeon Open Compute) is AMD’s CUDA equivalent. It is Linux-first (the ROCm 7 line as of 2025–2026, with official PyTorch wheels). On Windows, AMD ships a HIP SDK and there are llama.cpp and Ollama ROCm builds, but serious ML — PyTorch-ROCm, vLLM, SGLang serving — is effectively Linux-only.</p>
+<p>Officially supported consumer cards are a shorter list than NVIDIA’s “every card”: the RDNA 3 Radeon RX 7900 XTX / XT / GRE and the Radeon PRO W7900 / W7800, with RDNA 4 (RX 9070 series) added later. Other cards often work unofficially via the <code>HSA_OVERRIDE_GFX_VERSION</code> environment variable. In llama.cpp the ROCm/HIP backend performs well on supported RDNA 3; on Windows or unsupported cards the <a href="#vulkan">Vulkan</a> backend is usually the pragmatic choice. A late-2025 benchmark on a Radeon AI PRO R9700 found ROCm ahead on prompt processing and Vulkan competitive on token generation — the two are now close.</p>
+<p>Drawbacks: a narrower supported-GPU matrix, historically churny version coupling between kernel and ROCm release, fewer prebuilt wheels, and new model architectures landing on CUDA first.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Card</th><th>VRAM</th><th>Bandwidth</th><th>Price signal (Aug 2026)</th></tr>
+</thead>
+<tbody>
+<tr><td>RX 7900 XTX</td><td>24 GB GDDR6</td><td>~960 GB/s</td><td>~$900 (was $999 MSRP)</td></tr>
+<tr><td>RX 7900 XT</td><td>20 GB GDDR6</td><td>~800 GB/s</td><td>~$700–970</td></tr>
+<tr><td>RX 9070 XT</td><td>16 GB GDDR6</td><td>~640 GB/s</td><td>~$730 (was $599 MSRP)</td></tr>
+<tr><td>Radeon PRO W7900</td><td>48 GB GDDR6 ECC</td><td>~864 GB/s</td><td>~$3,500–4,000</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="intel--sycl"><a class="header" href="#intel--sycl">Intel + SYCL</a></h4>
+<p>Intel’s GPU-compute stack is <strong>oneAPI</strong> with <strong>SYCL</strong> (an open Khronos standard) as the programming model, plus <strong>IPEX-LLM</strong>, a PyTorch/llama.cpp/Ollama acceleration layer for Intel CPUs, iGPUs and Arc GPUs. llama.cpp has an Intel-contributed SYCL backend targeting Arc discrete GPUs and 11th-gen-and-newer integrated graphics; Ollama support lags the llama.cpp backend, and Vulkan is an alternative path for Arc that is sometimes faster depending on driver version.</p>
+<p>Drawbacks: the smallest of the four ecosystems, a heavy toolchain install, driver maturity that varies by OS and kernel, and new models validated on Arc last.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Card</th><th>VRAM</th><th>Bandwidth</th><th>Price signal (Aug 2026)</th></tr>
+</thead>
+<tbody>
+<tr><td>Arc A770</td><td>16 GB GDDR6</td><td>~560 GB/s</td><td>~$250–350</td></tr>
+<tr><td>Arc B580</td><td>12 GB GDDR6</td><td>~456 GB/s</td><td>~$250–330</td></tr>
+<tr><td>Arc Pro B50</td><td>16 GB GDDR6</td><td>~224 GB/s</td><td>~$349 launch MSRP — 70 W SFF workstation card</td></tr>
+<tr><td>Arc Pro B60</td><td>24 GB GDDR6</td><td>~456 GB/s</td><td>~$500–600 (a partner dual-B60 48 GB board also exists)</td></tr>
+</tbody>
+</table>
+</div>
+<p>Research Note: some secondary sources and prior research for this book referred to an “Intel Arc B70” (32 GB). No such official Intel product could be verified; Intel’s Battlemage professional line is the B50 (16 GB) and B60 (24 GB), plus the partner dual-B60. Treat references to an “Arc B70” as unconfirmed.</p>
+<h4 id="vulkan"><a class="header" href="#vulkan">Vulkan</a></h4>
+<p>llama.cpp ships a <strong>Vulkan</strong> compute backend (compute shaders compiled to SPIR-V) that runs on any GPU with a conformant Vulkan 1.2+ driver — NVIDIA, AMD, Intel Arc and integrated graphics, some mobile GPUs — with no vendor SDK, just an up-to-date graphics driver.</p>
+<p>Versus the vendor stacks: Vulkan is slower than CUDA on NVIDIA (CUDA has the hand-tuned kernels; use it there). Against ROCm and SYCL it is now within roughly single-digit to low-tens-of-percent for token generation and much easier to set up. Choose Vulkan for an AMD GPU on Windows, an Intel Arc or iGPU without installing oneAPI, a mixed-vendor multi-GPU box (one backend across the whole rig), or any card that is not on its vendor’s official support list but has a working Vulkan driver. It is not available in vLLM or SGLang.</p>
+<h4 id="apple-metal"><a class="header" href="#apple-metal">Apple Metal</a></h4>
+<p>Apple Silicon has two stacks. The <strong>llama.cpp Metal backend</strong> runs GGUF models via Metal compute shaders and is mature with broad model coverage. <strong>MLX</strong> is Apple’s own array/ML framework with a unified-memory model (arrays live in shared memory, no CPU↔GPU copy); its <code>mlx-lm</code> and <code>mlx-vlm</code> libraries are generally faster than llama.cpp/Metal on M-series chips, which is why <a href="#ollama">Ollama</a> and <a href="#lm-studio">LM Studio</a> added MLX engines.</p>
+<p>The unified-memory advantage is capacity: CPU and GPU share one LPDDR5X pool, so a 128 GB Mac can put roughly an order of magnitude more model into GPU-accessible memory than a same-price discrete GPU. The cost is bandwidth and the absence of a CUDA ecosystem. Apple’s own bandwidth figures: M4 Pro 273 GB/s, M4 Max 410 or 546 GB/s, M3 Ultra “over 800 GB/s” with up to 512 GB. Even an M3 Ultra has roughly half an RTX 4090’s bandwidth; a 5090 has about twice an M3 Ultra’s. macOS also caps per-process GPU allocation at roughly 65–75% of total RAM by default (raisable via the <code>iogpu.wired_limit_mb</code> sysctl), so a 128 GB Mac exposes about 96 GB to a model out of the box.</p>
+<p>In practice an M4 Max comfortably runs 30B-class MoE and 32B dense coding models at usable speeds — the common “coding on a laptop” tier — while an M3 Ultra with 512 GB can <em>hold</em> a 671B MoE at low quant but generates it at only about 15–18 tokens/second.</p>
+<h3 id="ai-workstations"><a class="header" href="#ai-workstations">AI-Workstations</a></h3>
+<p>A distinct product category has emerged: a single low-power desktop box with a large pool of unified LPDDR5X shared by CPU and an integrated GPU/accelerator, sold specifically for local AI. The trade-off versus a discrete GPU is consistent — huge model capacity, but memory bandwidth an order of magnitude below discrete VRAM — so large <em>dense</em> models load but generate slowly, and <a href="#mixture-of-experts-modells">MoE models</a> are the sweet spot.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Machine</th><th>Unified memory</th><th>Bandwidth</th><th>Price signal (Aug 2026)</th></tr>
+</thead>
+<tbody>
+<tr><td>NVIDIA DGX Spark (GB10 Grace-Blackwell)</td><td>128 GB LPDDR5X</td><td>~273 GB/s</td><td>launched $3,999 (Oct 2025), raised to ~$4,699 (Feb 2026) citing LPDDR5X supply</td></tr>
+<tr><td>AMD Ryzen AI Max+ 395 “Strix Halo” mini-PCs</td><td>up to 128 GB LPDDR5X</td><td>~256 GB/s</td><td>Framework Desktop 128 GB ≈ $1,999; other 128 GB mini-PCs ~$1,700–2,300</td></tr>
+<tr><td>Apple Mac Studio M3 Ultra</td><td>up to 512 GB</td><td>~800+ GB/s</td><td>~$10,000 for 512 GB — highest capacity <em>and</em> bandwidth of the three</td></tr>
+</tbody>
+</table>
+</div>
+<p>The framing for the chapter: these machines exist to <strong>run models that do not fit in 24–32 GB at all</strong> — large-context work, 70B–200B+ MoE models, multi-model workflows — on a quiet, power-efficient desktop. A used RTX 3090 or an RTX 5090 will beat any of them on a model that fits in 24–32 GB; a 128 GB unified box wins the moment the model does not.</p>
+<h3 id="datacenter-gpu-stacks"><a class="header" href="#datacenter-gpu-stacks">Datacenter GPU Stacks</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>GPU</th><th>Memory</th><th>Bandwidth</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>NVIDIA A100</td><td>40 / 80 GB HBM2e</td><td>~1.6–2.0 TB/s</td><td>Ampere, 2020; still heavily rented</td></tr>
+<tr><td>NVIDIA H100 (SXM)</td><td>80 GB HBM3</td><td>~3.35 TB/s</td><td>Hopper; FP8 Transformer Engine</td></tr>
+<tr><td>NVIDIA H200</td><td>141 GB HBM3e</td><td>~4.8 TB/s</td><td>Hopper refresh — same compute as H100, more/faster memory</td></tr>
+<tr><td>NVIDIA B200</td><td>~180–192 GB HBM3e</td><td>~7.7–8 TB/s</td><td>Blackwell; native FP4</td></tr>
+<tr><td>AMD Instinct MI300X</td><td>192 GB HBM3</td><td>~5.3 TB/s</td><td>CDNA 3; more memory per GPU than an H100/H200</td></tr>
+<tr><td>AMD Instinct MI325X</td><td>256 GB HBM3e</td><td>~6 TB/s</td><td>CDNA 3 refresh (announced at 288 GB)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>NVLink</strong> is NVIDIA’s GPU-to-GPU fabric — 900 GB/s on Hopper, 1.8 TB/s per GPU on Blackwell, far above PCIe — and <strong>NVSwitch</strong> connects many GPUs all-to-all (a GB200 NVL72 rack is 72 Blackwell GPUs in one NVLink domain). This is what makes tensor-parallel serving of a model too large for one GPU practical.</p>
+<p>You need datacenter GPUs for local/self-hosted serving in two cases: a frontier-scale MoE model (DeepSeek-V3-class at ~670B parameters and up) whose weights need hundreds of gigabytes of aggregate HBM, or serving a whole team at low latency with vLLM/SGLang. HBM bandwidth also gives higher single-stream throughput than any consumer card.</p>
+<p>Drawbacks versus consumer hardware: an H100 costs roughly $25,000–30,000+ to buy and an 8-GPU node $250,000–400,000+, plus a rack, 10–15 kW of power, and serious cooling; allocation is supply-limited; and there is no consumer-driver fallback. Cloud rental is the usual answer — mid-2026 rates run roughly $1.5–3.5 per GPU-hour for an H100 on a “neocloud” marketplace, $2.3–4.5 for an H200, $4.5–7 for a B200, and $1.7–3 for an MI300X. For a single developer doing agentic coding, a cloud API or a local consumer GPU both beat renting a datacenter GPU.</p>
+<h2 id="models"><a class="header" href="#models">Models</a></h2>
+<p><strong>Hugging Face</strong> is the distribution hub. For local use it matters in four ways: the Hub itself (git-LFS model hosting and versioning), model cards (license, architecture, benchmark tables, chat template), the community quantization ecosystem, and the <code>hf download</code> CLI (formerly <code>huggingface-cli download</code>). A handful of accounts — <strong>bartowski</strong>, <strong>unsloth</strong>, <strong>mradermacher</strong>, <strong>lmstudio-community</strong>, <strong>ggml-org</strong> — re-publish <a href="#quantization">GGUF quantizations</a> of each model within days of release, since the original labs publish only <code>safetensors</code>. Some models (Llama, Gemma) are “gated” and require accepting a license on the model page; Mistral, Qwen, DeepSeek, GLM and OpenAI’s gpt-oss are ungated Apache-2.0 or MIT.</p>
+<p>Hugging Face’s automated <strong>Open LLM Leaderboard was retired in March 2025</strong> — static multiple-choice benchmarks had saturated. There is no single official successor; the field now tracks <strong>LMArena</strong> (human pairwise-preference Elo), <strong>Artificial Analysis</strong> (an aggregate intelligence index plus measured throughput/price per endpoint), and task-specific benchmarks: <strong>SWE-bench Verified</strong> and <strong>SWE-bench Pro</strong>, <strong>Terminal-Bench</strong>, and <strong>Aider polyglot</strong> for agentic coding. The <a href="#benchmarks">Benchmarks</a> section below describes these and how to run one against a local model.</p>
+<p>The table below maps currently-available open-weight models to the hardware tiers above, for coding and agentic use. Parameter counts are shown as <em>total / active</em> for MoE models. Benchmark scores are quoted only where a first-party source gives them; agentic-coding scores depend heavily on the surrounding scaffold, so read cross-model comparisons loosely.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Hardware tier</th><th>Models</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>8–16 GB VRAM</td><td>Qwen2.5-Coder-7B / 14B (Apache 2.0, 128K, fill-in-the-middle); Gemma 3 12B (vision); Devstral Small 24B (Apache 2.0, agent-tuned, 53.6% SWE-bench Verified on the OpenHands scaffold)</td><td>Inline autocomplete and single-file work</td></tr>
+<tr><td>24–32 GB VRAM</td><td><strong>Qwen3.8-27B</strong> (Aug 2026; dense 27B, hybrid linear + full attention → small KV cache, native vision, bundled <a href="#multi-token-prediction">MTP</a>, 262K context, Apache 2.0; ~16.5 GB at <code>Q4_K_M</code>, wants 24 GB for a usable agent context); <strong>Qwen3-Coder-30B-A3B</strong> (MoE 30.5B / 3.3B active, Apache 2.0, 51.6% SWE-bench Verified — the pick below 24 GB or with CPU offload); Qwen2.5-Coder-32B (Apache 2.0, 69.6% SWE-bench Verified, ~20 GB at 4-bit); <strong>gpt-oss-20b</strong> (OpenAI, MoE 21B / 3.6B active, ships in <a href="#quantization">MXFP4</a> → ~16 GB, Apache 2.0)</td><td>The practical local agentic-coding tier</td></tr>
+<tr><td>64–128 GB unified memory</td><td><strong>gpt-oss-120b</strong> (MoE 117B / 5.1B active, MXFP4 → ~80 GB); <strong>GLM-4.5-Air</strong> (MoE 106B / 12B active, MIT, includes MTP layers); Qwen3-Next-80B-A3B (~3B active, 256K); Llama 3.3 70B (dense — slower, all params move per token)</td><td>Frontier-ish agentic coders that fit a 128 GB Mac or Strix Halo box</td></tr>
+<tr><td>128 GB+ / multi-GPU / datacenter</td><td>DeepSeek-V3 / V3.1 / V3.2 (MoE 671B / 37B active, MIT, MLA attention, MTP objective); Qwen3-Coder-480B-A35B (Apache 2.0, positioned near Claude Sonnet 4 on agentic coding); GLM-4.6 (MoE 357B, MIT, 200K); Kimi K2 (MoE ~1T / 32B active, Modified MIT); MiniMax-M2 (MoE 230B / 10B active, MIT, 69.4% SWE-bench Verified)</td><td>The open “frontier” tier</td></tr>
+</tbody>
+</table>
+</div>
+<p>Usage scenarios scale with size: <strong>inline autocomplete / fill-in-the-middle</strong> wants sub-second latency and runs a 1–14B dense or ~3B-active model; a <strong>chat assistant</strong> for multi-file reasoning wants 14–32B dense or a 30B-class MoE as a floor; an <strong>autonomous agent</strong> (tool calls, multi-file edits, long loops) wants a model explicitly post-trained for agentic tool use — Qwen3-Coder, Devstral, GLM-4.5+, gpt-oss, MiniMax-M2, DeepSeek-V3.x — and tends to drift or stall on real repositories below roughly 30B active-or-dense parameters.</p>
+<p><strong>Qwen3.8-27B on a consumer GPU.</strong> The August 2026 Qwen3.8 generation ships two open checkpoints — a 2.4 T-total / 95 B-active MoE that is datacenter-only, and this 27B dense model. It has no dedicated <code>-Coder</code> variant; coding is a first-class capability of the general model, and Qwen ships a matched CLI harness (“Qwen Code”). Its <strong>hybrid attention</strong> — roughly three-quarters Gated-DeltaNet linear-attention layers, one-quarter full-attention <a href="./basics.html#key-value-store">GQA</a> — means only about a quarter of its layers grow a <a href="./basics.html#memory-the-practical-limit-on-context-length">KV cache</a> with context: ~2 GB at 32K tokens against ~8 GB for a conventional 27B, so long-context agent loops stay affordable. At <code>Q4_K_M</code> the weights are ~16.5 GB, which sets the tiers: a 16 GB card overflows before any context (run Qwen3-Coder-30B-A3B instead), a 24 GB card (RTX 3090/4090, RX 7900 XTX) fits ~64K context and is the tier the model targets, and a 32 GB RTX 5090 reaches ~128K. Keep the quantization at <code>Q4_K_M</code> or higher — the Gated-DeltaNet state degrades badly at lower bit rates and tool-calling becomes unreliable. The bundled MTP head gives <a href="#multi-token-prediction">self-speculative decoding</a> with no draft model (community reports around 65 tokens/second on a 4090, roughly double the plain rate). Because the architecture is new, use an August-2026-or-later llama.cpp build — earlier builds mis-run the linear-attention path and emit garbage.</p>
+<p>Research Note: the 2025 models above (Qwen2.5-Coder, Qwen3-Coder, gpt-oss, Devstral, GLM-4.5-Air, DeepSeek-V3, MiniMax-M2, Kimi K2) are corroborated by first-party model cards, vendor blogs and arXiv reports. <strong>Qwen3.8-27B</strong> is also first-party-sourced (Qwen’s GitHub repo, Hugging Face model card, <code>config.json</code> and <code>LICENSE</code> file) — but its published benchmarks use SWE-bench Pro, an in-house “QwenSWEBench”, and Terminal-Bench 2.1 under the Claude Code harness, <em>not</em> SWE-bench Verified, so its coding scores do not compare directly to the Qwen2.5-Coder-32B and Qwen3-Coder-30B-A3B figures in the table above; the community consumer-GPU tokens/second numbers are secondary. The other 2026 successors — GLM-5.x (reported at ~753B total / ~40B active, MIT, with a Terminal-Bench 2.1 score of 81.0), DeepSeek-V4-Pro (reported ~1.6T / 49B active, 80.6% SWE-bench Verified), Qwen3.6, Gemma 4 26B-A4B — are real releases but their specifics here rest on Hugging Face organization listings, Wikipedia and vendor-adjacent blogs, because several first-party sources were unreachable at the time of research; verify against the primary model card before relying on any specific figure. Separately, the Kimi K2.6 / K2.7 / K3 releases are <strong>proprietary or release-restricted</strong>, not open weights like the original K2 — for a local setup, K2 is the anchor.</p>
+<h3 id="quantization"><a class="header" href="#quantization">Quantization</a></h3>
+<p>Weight quantization stores each parameter in fewer bits than its trained precision (BF16 = 16 bits), dequantizing a small block back to FP16 on the fly for each matrix multiply. It cuts memory roughly linearly with the bit count and — because local inference is memory-bandwidth bound — usually <em>speeds up</em> token generation as a side effect.</p>
+<p>The memory estimate:</p>
+<p>$$\text{weight bytes} \approx \text{params} \times \frac{\text{bits per weight}}{8}$$</p>
+<p>plus the <a href="./basics.html#memory-the-practical-limit-on-context-length">KV cache</a>, a few hundred megabytes to ~2 GB of compute buffers, and roughly 10–20% headroom for a usable context window. For <strong>Qwen2.5-Coder-32B</strong> (32.5B parameters): <code>Q4_K_M</code> (~4.85 effective bits/weight) ≈ 19.7 GB, fitting a 24 GB card with room for context; <code>Q5_K_M</code> (~5.5 bits) ≈ 22.3 GB; <code>Q8_0</code> (~8.5 bits) ≈ 34.5 GB.</p>
+<p><strong>GGUF quantization families</strong> (llama.cpp, and therefore Ollama and LM Studio):</p>
+<ul>
+<li><strong>Legacy</strong> — <code>Q4_0</code>, <code>Q5_0</code>, <code>Q8_0</code>: uniform per-block scaling. <code>Q8_0</code> is still the standard “almost lossless” reference.</li>
+<li><strong>K-quants</strong> — <code>Q2_K</code> to <code>Q6_K</code> with <code>_S</code>/<code>_M</code>/<code>_L</code> mixes (<a href="https://github.com/ggml-org/llama.cpp/pull/1684">PR #1684</a>): a super-block structure that spends more bits on the tensors that matter most (attention value projections, certain FFN weights, and always 6-bit for the output layer). Nominal bits/weight: Q4_K 4.5, Q5_K 5.5, Q6_K 6.56. <code>Q4_K_M</code> and <code>Q5_K_M</code> are the common sweet spots.</li>
+<li><strong>i-quants</strong> — <code>IQ1_*</code> to <code>IQ4_XS</code>: codebook quantization for very low bit rates (down to ~2 bits/weight), better quality-per-byte than K-quants below ~3 bits <em>but only with an importance matrix</em> (a calibration pass that records which weights matter); shipped without one they degrade badly.</li>
+</ul>
+<p><strong>GPU-native formats</strong> (<code>safetensors</code>, for vLLM/SGLang/ExLlama):</p>
+<ul>
+<li><strong>GPTQ</strong> — layer-by-layer error-minimizing INT4/INT3 using second-order information.</li>
+<li><strong>AWQ</strong> (Activation-aware Weight Quantization) — protects the ~1% most salient weight channels and quantizes the rest to INT4; the de-facto standard for 4-bit GPU serving.</li>
+<li><strong>EXL2 / EXL3</strong> (ExLlama, NVIDIA-only) — mixed bit-rate, calibration-based, specified by average bits/weight.</li>
+<li><strong>NF4</strong> (from the <a href="https://arxiv.org/abs/2305.14314">QLoRA paper</a>) — a 4-bit datatype matched to the roughly-Gaussian weight distribution; mostly used for QLoRA fine-tuning.</li>
+<li><strong>FP8</strong> (native on NVIDIA Hopper/Blackwell) — nearly indistinguishable from BF16, the default for high-end serving.</li>
+<li><strong>FP4 / MXFP4</strong> — 4-bit float with a shared micro-scale per block, native on Blackwell tensor cores. OpenAI’s gpt-oss models ship in MXFP4, which is why the 120B fits in 80 GB and the 20B in 16 GB out of the box.</li>
+</ul>
+<p><strong>Quality.</strong> KL-divergence against the FP16 model is the preferred quality proxy (it captures distribution shift, not just top-1 accuracy). The consensus: at 4 bits and above with a decent quant mix, quality loss is under ~1% and near-lossless for most tasks; around 3 bits the loss is noticeable but often usable, especially on large models; below 3 bits dense models degrade fast, though large MoE models tolerate it better. <strong>Coding is quantization-sensitive</strong> — exact-syntax and long-range-consistency tasks lose more than chat — so for a coding model, staying at <code>Q5_K_M</code> or higher when VRAM allows, and preferring a smaller model at higher precision over a larger one crushed to 2 bits, is the standard advice.</p>
+<h3 id="multi-token-prediction"><a class="header" href="#multi-token-prediction">Multi Token Prediction</a></h3>
+<p>Standard decoding predicts one token per forward pass. <strong>Multi-Token Prediction (MTP)</strong> adds lightweight extra heads (a shared embedding, a small transformer block, an output head) that predict several future positions in the same pass. It has two distinct uses:</p>
+<ol>
+<li><strong>As a training signal.</strong> Predicting multiple future tokens densifies the loss and forces longer-range planning into the representations. DeepSeek-V3 used an MTP objective during pre-training and reports it improves benchmark scores <em>even when the extra heads are discarded at inference</em> (<a href="https://arxiv.org/abs/2412.19437">DeepSeek-V3 technical report</a>).</li>
+<li><strong>As inference-time self-speculative decoding.</strong> Keeping the MTP head at inference, it cheaply proposes the next <em>k</em> tokens, the main model verifies them in one batched forward pass, and accepted tokens are emitted for free. Unlike classic <a href="#llamacpp">speculative decoding</a> there is no separate draft model to load — the draft path is a few hundred megabytes of extra heads inside the same model. This puts MTP in the same family as Medusa and EAGLE.</li>
+</ol>
+<p>DeepSeek-V3 reports roughly a 1.8× throughput gain at an 80–90% acceptance rate for the second token. Support in llama.cpp is newer (<a href="https://github.com/ggml-org/llama.cpp/pull/22673">PR #22673</a>, merged around May 2026) and still maturing; vLLM and SGLang have had DeepSeek-style MTP for longer. Only models pre-trained with MTP heads benefit — DeepSeek-V3/V4, Qwen3-Next and later, GLM-4.5-Air and GLM-5.x, Gemma 4’s MoE variant — while Llama 3, Mistral and older Gemma models have no MTP head.</p>
+<p>Research Note: the DeepSeek-V3 MTP mechanism and its ~1.8× figure are primary-sourced. Real-world MTP speedups in llama.cpp specifically are so far reported only in community benchmarks (a frequently-cited example is a 27B model going from ~38 to ~65 tokens/second on an RTX 3090), not independent primary measurements.</p>
+<h3 id="multi-modal-modells"><a class="header" href="#multi-modal-modells">Multi Modal Modells</a></h3>
+<p>Running a vision-language model locally lets a coding agent read screenshots of a running UI, design mockups, architecture diagrams, chart output and rendered error states — closing the visual loop on “does the frontend actually look right”.</p>
+<p>llama.cpp handles this through <strong><code>libmtmd</code></strong> (covering image and audio), which rewrote the older <code>llava.cpp</code>/<code>clip.cpp</code> path. You load two files: the quantized language-model GGUF plus an <strong><code>mmproj-*.gguf</code></strong> containing the vision encoder and projector. Supported architectures include Qwen2.5-VL and Qwen3-VL, Gemma 3 and Gemma 4 vision, MiniCPM-V, SmolVLM and LLaVA. <a href="#lm-studio">LM Studio</a> uses <code>mlx-vlm</code> on Apple Silicon; <a href="#ollama">Ollama</a> supports multimodal through its own engine.</p>
+<p>The vision encoder is <strong>quantization-sensitive</strong> — keep it at FP16 or 8-bit, since 4-bit visibly degrades comprehension. The <code>mmproj</code> file itself is a few hundred megabytes to ~1.3 GB, but image processing also spikes activation memory (llama.cpp allocates roughly 2 GB of compute buffers for vision) and each image expands into hundreds to a few thousand context tokens. On a 24 GB card the net effect is a meaningfully lower usable context ceiling. For pure code work a text-only coder is still preferred — the vision tower costs VRAM and context better spent on the repository.</p>
+<h3 id="mixture-of-experts-modells"><a class="header" href="#mixture-of-experts-modells">Mixture of Experts Modells</a></h3>
+<p>In a Mixture-of-Experts (MoE) transformer, each feed-forward block is replaced by <em>N</em> parallel expert FFNs plus a small <strong>router</strong> that, per token, selects the <strong>top-k</strong> experts (k ≪ N), runs only those, and combines their outputs. Attention layers stay dense. <a href="https://arxiv.org/abs/2401.04088">Mixtral 8×7B</a> (8 experts, top-2 → 47B total, ~13B active) established the modern template; <a href="https://arxiv.org/abs/2401.06066">DeepSeekMoE</a> added two now-standard refinements — many small fine-grained experts instead of a few large ones, and one or two always-on “shared” experts for common knowledge.</p>
+<p>The consequence for local inference is the single most important fact about MoE:</p>
+<blockquote>
+<p>You pay memory for <strong>all</strong> parameters, but memory-bandwidth traffic (and compute) for only the <strong>active</strong> ones.</p>
+</blockquote>
+<p>Since decode speed tracks active-parameter bytes while the model only <em>fits</em> if total-parameter bytes stay within RAM/VRAM, MoE shines precisely on large, slow memory — <a href="#apple-metal">Apple unified memory</a>, <a href="#ai-workstations">Strix Halo and DGX Spark</a>, or plain CPU with plenty of DDR5. A 235B-total / 22B-active model on a 128 GB Mac streams at roughly the speed of a 22B dense model while carrying the knowledge of something far larger. Compared head-to-head, Qwen3-Coder-30B-A3B (~3.3B active) and a dense 30B occupy the same ~19 GB at 4-bit, but the MoE decodes several times faster because far fewer weight bytes move per token — at the cost of a 3B-active MoE not matching a well-trained dense 30B in peak capability. On a bandwidth-rich single GPU the advantage narrows, and MoE mainly helps there by letting a bigger model fit at all.</p>
+<pre class="mermaid">flowchart TB
+    T["Input token"] --&gt; R["Router / gating network"]
+    R --&gt;|top-k selection| E2["Expert 2"]
+    R --&gt;|top-k selection| E5["Expert 5"]
+    R -.not activated.-&gt; E1["Expert 1"]
+    R -.not activated.-&gt; E3["Expert 3"]
+    R -.not activated.-&gt; E4["Expert 4"]
+    R -.not activated.-&gt; EN["Expert N"]
+    E2 --&gt; C["Weighted combine"]
+    E5 --&gt; C
+    C --&gt; O["Output"]
+    subgraph mem ["All N experts occupy memory · only k stream per token"]
+        E1
+        E2
+        E3
+        E4
+        E5
+        EN
+    end
+</pre>
+
+<p><strong>Expert offloading</strong> lets a model larger than VRAM still run well. llama.cpp’s <code>--n-cpu-moe N</code> keeps attention, the KV cache, the router and the shared experts on the GPU while pushing the routed-expert FFN weights of the first <em>N</em> layers to CPU RAM — far better for MoE than generic layer offload, because routed experts fire rarely and are the bulk of the parameters. The <code>--override-tensor</code> (<code>-ot</code>) regex flag gives finer control. <strong>KTransformers</strong> (Tsinghua MADSys, SOSP ’25) takes this furthest, running a DeepSeek-V3-class 671B MoE on a single 24 GB GPU plus system RAM with AMX-optimized CPU kernels, and is now also integrated into SGLang.</p>
+<h2 id="benchmarks"><a class="header" href="#benchmarks">Benchmarks</a></h2>
+<p>An agentic-coding benchmark score is <strong>not a property of the model</strong>. It is a property of <em>(model × agent scaffold × settings)</em>: the same backbone scores very differently under a minimal bash-only scaffold, <a href="https://github.com/All-Hands-AI/OpenHands">OpenHands</a>, and the Claude Code harness, and vendor tables that use different scaffolds, context limits, or self-“refined” versions of a benchmark are not comparable. Anthropic reported taking Claude 3.5 Sonnet from 45% to 49% on SWE-bench Verified purely by simplifying the tool set and rewording tool descriptions (<a href="https://www.anthropic.com/engineering/swe-bench-sonnet">anthropic.com</a>); the ~100-line bash-only <a href="https://github.com/SWE-agent/mini-swe-agent"><code>mini-SWE-agent</code></a> reports over 74%. So the numbers in the <a href="#models">model table</a> above are directional. When choosing between two local models, hold the scaffold and settings fixed and run the benchmark yourself.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Benchmark</th><th>What it measures</th><th>Score</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.swebench.com/"><strong>SWE-bench Verified</strong></a></td><td>resolve a real GitHub issue — 500 human-filtered Python tasks; produce a patch, the repo’s own tests run</td><td>% resolved (one attempt)</td><td>The de-facto headline number. All tasks are public with public fixes, so contamination is a known problem — OpenAI reported verbatim training-data reproduction in early 2026.</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2509.16941"><strong>SWE-bench Pro</strong></a></td><td>longer-horizon, multi-file tasks across 41 repos (Scale AI)</td><td>% resolved</td><td>A held-out set (12 repos, leaderboard-only) and a commercial set (18 private repos) resist contamination. Increasingly the number 2026 model cards report.</td></tr>
+<tr><td><a href="https://github.com/laude-institute/terminal-bench"><strong>Terminal-Bench</strong></a> 2.x</td><td>complete an end-to-end task from a shell in a Docker container</td><td>% of tasks resolved</td><td>Hand-authored (89 verified tasks in 2.1), not scraped, so the solution is not sitting in a public git history.</td></tr>
+<tr><td><a href="https://aider.chat/docs/leaderboards/"><strong>Aider polyglot</strong></a></td><td>solve a hard exercise <strong>and</strong> emit a valid diff — 225 Exercism problems across C++, Go, Java, JS, Python, Rust</td><td>% correct after one retry; % valid edit format</td><td>Tests the ability to <em>edit existing code</em>, not just write it.</td></tr>
+<tr><td><a href="https://github.com/LiveCodeBench/LiveCodeBench"><strong>LiveCodeBench</strong></a></td><td>competitive-programming problems, each tagged with a release date</td><td>pass@1</td><td>Contamination-controlled <em>if</em> you evaluate only on problems released after the model’s training cutoff.</td></tr>
+<tr><td><strong>SWE-rebench</strong> / <strong>SWE-bench-Live</strong></td><td>SWE-bench-style tasks mined from GitHub issues created after mid-2024, refreshed monthly</td><td>% resolved</td><td>The contamination-resistant SWE-bench. Agents score noticeably lower here than on the static set.</td></tr>
+<tr><td><strong>HumanEval</strong> / <strong>MBPP</strong> / <strong>BigCodeBench</strong></td><td>complete a small standalone function or task</td><td>pass@1</td><td>Legacy. Saturated for frontier models (96–98%); still useful for spread among small local models (~1–30B) and for regression checks.</td></tr>
+<tr><td><a href="https://xlang.ai/blog/osworld-verified"><strong>OSWorld-Verified</strong></a></td><td>computer-use tasks in a real desktop VM</td><td>% of tasks resolved</td><td>GUI agents rather than terminal/IDE coding, but appears next to Terminal-Bench on 2026 cards.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Reasoning scores are often quoted alongside these — <strong>GPQA Diamond</strong> (graduate-level science multiple-choice), <strong>AIME</strong> (year-stamped competition maths), <strong>LiveBench</strong> (monthly-refreshed, objectively scored) — as general-capability signals, not agentic ones.</p>
+<h3 id="running-a-benchmark-yourself"><a class="header" href="#running-a-benchmark-yourself">Running a benchmark yourself</a></h3>
+<p>Almost every harness routes model calls through <a href="#litellm--langfuse">LiteLLM</a> or the OpenAI SDK, so pointing one at a local model is the same everywhere: start the engine’s OpenAI-compatible server, set a base URL (<code>OPENAI_API_BASE=http://localhost:8000/v1</code> and a dummy key), and pass a provider-prefixed model name (<code>openai/&lt;name&gt;</code>, <code>ollama/&lt;name&gt;</code>, <code>hosted_vllm/&lt;name&gt;</code>). The exact environment variable or flag differs per project — check its README.</p>
+<ul>
+<li><strong>SWE-bench</strong> is two steps. It only <em>grades</em> patches, so you first run an <strong>agent scaffold</strong> — <a href="https://github.com/SWE-agent/mini-swe-agent"><code>mini-SWE-agent</code></a> (<code>pip install mini-swe-agent</code>; <code>mini-extra swebench</code>), SWE-agent, OpenHands, or Agentless — pointed at your local model to produce a predictions file, then grade it with the official Docker harness (<code>pip install swebench</code>; <code>swebench eval verified -p &lt;predictions.json&gt; --run-id &lt;id&gt;</code>). The harness needs x86-64, Docker, and ~120 GB of free disk, and Verified is ~500 test-heavy tasks — hours of local inference. Run a subset (<code>--instance_ids</code>), use SWE-bench Lite’s 300 tasks, or offload grading to <a href="https://github.com/swe-bench/sb-cli"><code>sb-cli</code></a>.</li>
+<li><strong>Terminal-Bench</strong> — <code>pip install terminal-bench</code>, then <code>tb run --agent terminus --model &lt;name&gt; --dataset-name terminal-bench-core</code>; tasks run in Docker.</li>
+<li><strong>Aider polyglot</strong> — the harness lives in the Aider repo’s <code>benchmark/</code> directory and runs in a Docker sandbox (<code>./benchmark/benchmark.py &lt;run&gt; --model &lt;name&gt; --edit-format whole</code>).</li>
+<li><strong>LiveCodeBench</strong> — <code>python -m lcb_runner.runner.main --model &lt;name&gt; --scenario codegeneration --start_date … --end_date …</code>, with the date window set past your model’s cutoff.</li>
+<li><strong>HumanEval, GPQA, MMLU-Pro</strong> and other fixed-answer sets — <a href="https://github.com/EleutherAI/lm-evaluation-harness"><code>lm-evaluation-harness</code></a> (the framework that powered the retired HF leaderboard), <a href="https://inspect.aisi.org.uk/"><code>inspect-ai</code></a> (now the standard for agentic evals), or <a href="https://github.com/groq/openbench">OpenBench</a> (<code>bench eval &lt;name&gt;</code>, one canonical implementation per benchmark) — all have a local-endpoint backend.</li>
+</ul>
+<h3 id="leaderboards-and-aggregators"><a class="header" href="#leaderboards-and-aggregators">Leaderboards and aggregators</a></h3>
+<p><strong><a href="https://artificialanalysis.ai/">artificialanalysis.ai</a></strong> is an independent firm that runs its own evaluations rather than republishing lab numbers. Its <strong>Artificial Analysis Intelligence Index</strong> is a composite over roughly ten evals (the current version weights agentic and terminal tasks most heavily, with Terminal-Bench 2.1 the largest coding component), re-versioned as the eval set changes. More useful for a local setup is its <strong>per-endpoint performance data</strong>: for the same open-weight model served by many providers it independently measures output tokens/second, time-to-first-token, latency, and price per million tokens — a good way to pick a hosted provider and a sanity-check reference for a local rig’s throughput. The limitation is that it measures <em>hosted</em> endpoints, not your machine, and a composite index hides task-specific strengths.</p>
+<p><strong><a href="https://lmarena.ai/">lmarena.ai</a></strong> (formerly LMSYS Chatbot Arena; the domain now redirects to <code>arena.ai</code>) is a crowdsourced human-preference evaluation: a user submits a prompt, votes between two anonymous model responses, and the votes feed a <strong>Bradley-Terry</strong> ranking with <strong>style control</strong> (covariates for response length and markdown density, so a model cannot climb by writing longer, more formatted answers). Sub-arenas include <strong>WebDev Arena</strong> (models build a web app, users vote on the rendered result) and <strong>Copilot Arena</strong> (a VS Code extension where accepting one of two stacked inline completions is the vote). It is a strong signal for real-world helpfulness and is hard to contaminate — prompts are live and unpredictable — but preference is not correctness, and the April 2025 <a href="https://arxiv.org/abs/2504.20879">“Leaderboard Illusion” paper</a> documented large labs submitting many private variants and publishing only the best, plus battle traffic skewed toward the biggest proprietary providers.</p>
+<p>Benchmark scores across the board are inflated by training-data contamination and by reward hacking against weak test oracles — an incorrect patch that still passes a thin test suite, or an agent that retrieves the known fix from git history. <a href="./sw-factories.html#why-not-just-a-bigger-agent">SW Factories § Why Not Just a Bigger Agent?</a> covers the evidence.</p>
+<h2 id="ui-frontends"><a class="header" href="#ui-frontends">UI Frontends</a></h2>
+<h3 id="lm-studio"><a class="header" href="#lm-studio">LM-Studio</a></h3>
+<p><strong>LM Studio</strong> is a proprietary, closed-source desktop application (Element Labs, Inc.) for discovering, downloading and running open-weight models locally, with a built-in inference server. It runs models through two bundled engines — <a href="#llamacpp">llama.cpp</a> for GGUF on all platforms, and Apple’s <a href="#apple-metal">MLX</a> on Apple Silicon — and does not load raw <code>safetensors</code>, AWQ or GPTQ.</p>
+<p>Its local server (default port 1234) speaks <strong>both</strong> the OpenAI wire format (<code>/v1/chat/completions</code>, tool calls, JSON-schema structured output) <strong>and</strong> an Anthropic-style <code>/v1/messages</code> endpoint (since v0.4.1), making it a drop-in local backend for a harness like Claude Code (<code>ANTHROPIC_BASE_URL=http://localhost:1234</code>). It has been an <strong>MCP host since v0.3.17</strong> (June 2025): MCP servers are configured in <code>~/.lmstudio/mcp.json</code>, every tool call raises a confirmation dialog, and MCP tools are reachable through the API. A companion <code>lms</code> CLI (open source) covers headless and service use. Speculative decoding is a first-class feature.</p>
+<p>On licensing: LM Studio has always been free for personal use, and since 8 July 2025 it is <strong>free for commercial and workplace use as well</strong>, with no form or contract. The Terms still describe a closed-source product — no reverse engineering, modification or redistribution — with liability capped at $50; paid Teams and Enterprise tiers exist only for collaboration, SSO and model-gating features, not for use of the app itself.</p>
+<h3 id="open-webui"><a class="header" href="#open-webui">Open-WebUI</a></h3>
+<p><strong>Open WebUI</strong> is a self-hosted, ChatGPT-style web frontend. It ships no models of its own — it is a UI and orchestration layer (SvelteKit frontend, FastAPI backend, pluggable vector stores for RAG) that connects to backends: a native Ollama client, or any OpenAI-compatible endpoint, which is what lets it sit in front of <a href="#litellm--langfuse">LiteLLM</a>, <a href="#open-router">OpenRouter</a>, vLLM or <code>llama-server</code>. It offers document upload and RAG, per-user and per-group workspaces, a two-tier RBAC model, and LDAP/OIDC SSO with SCIM provisioning. MCP support is via <strong><code>mcpo</code></strong>, a standalone MCP-to-OpenAPI proxy (native MCP support is newer and less established).</p>
+<p>Its license changed in 2025: MIT, then BSD-3-Clause, then from v0.6.6 (19 April 2025) the <strong>“Open WebUI License”</strong> — BSD-3-Clause plus a branding-protection clause and a contributor licence agreement. The clause forbids removing the “Open WebUI” branding from a deployment <em>unless</em> it serves 50 or fewer users in any 30-day period, you are a recognized contributor with written permission, or you hold an enterprise licence; code merged through v0.6.5 stays pure BSD-3. In practice it remains free and source-available for self-hosting and internal team use; the only real constraint is white-labeling a deployment larger than 50 users.</p>
+<p>For agentic coding, Open WebUI is the human-facing chat and admin surface — model catalog, RBAC, RAG over internal docs — not a coding agent. It has no repository checkout, no file-editing loop and no shell; the actual agentic work is done by Claude Code, Aider, Cline or opencode talking to the same backend.</p>
+<h2 id="proxies-and-routers"><a class="header" href="#proxies-and-routers">Proxies and Routers</a></h2>
+<p>These sit between a harness and one or more models, adding a unified API, routing, spend controls and observability. A common local-model stack layers all three: a <a href="#ui-frontends">frontend</a> for humans, a self-hosted gateway for control, and optionally a cloud aggregator for reach.</p>
+<pre class="mermaid">flowchart LR
+    A["Agentic coding client&lt;br/&gt;Claude Code / Aider / Cline / opencode"] --&gt;|OpenAI or Anthropic wire format| B["LiteLLM Proxy&lt;br/&gt;virtual keys · budgets · routing · fallbacks"]
+    H["Open WebUI&lt;br/&gt;(human chat + admin)"] --&gt; B
+    B --&gt; C["Local engine&lt;br/&gt;llama.cpp / vLLM / Ollama / LM Studio"]
+    B --&gt; D["OpenRouter&lt;br/&gt;(cloud aggregator, 500+ models)"]
+    B -. success / failure callback .-&gt; E[("Langfuse&lt;br/&gt;traces · cost · evals · prompt registry")]
+</pre>
+
+<h3 id="open-router"><a class="header" href="#open-router">Open Router</a></h3>
+<p><strong>OpenRouter</strong> is a cloud aggregation API: one OpenAI-compatible endpoint (it also exposes an Anthropic <code>/api/v1/messages</code> endpoint) in front of 500+ models across 80+ providers, with automatic provider routing and failover. It applies <strong>no markup on inference</strong> — per-token cost matches going direct. Its fees are a <strong>credit-purchase fee of 5.5% + $0.80 minimum by card</strong> (5% by crypto) on top-ups, and, for “bring your own key” use, <strong>5% of what the model would have cost at OpenRouter list price</strong> after a large free monthly allowance ($25,000 of list-price inference on pay-as-you-go). Opting in to prompt/response logging earns a 1% usage discount; the default is metadata-only logging.</p>
+<p>Routing controls (all per-request): <code>order</code> for an explicit provider sequence, <code>sort</code> by price/throughput/latency, <code>only</code>/<code>ignore</code> allow and block lists, <code>max_price</code>, and the <code>:nitro</code> (throughput) and <code>:floor</code> (price) model-slug shortcuts. Privacy controls: <code>data_collection: "deny"</code> excludes data-retaining providers, <code>zdr: true</code> restricts routing to Zero Data Retention endpoints, and enterprise in-region routing (<code>eu.openrouter.ai</code> / <code>us.openrouter.ai</code>) keeps prompts and completions in a region. The common characterization of OpenRouter as “US routing with a privacy caveat” is only true if none of these controls are set. It also passes each provider’s native <a href="./basics.html#prompt-caching---efficient-cloud-model-integration">prompt caching</a> through and pins follow-up requests to the same provider for about 10 minutes to preserve cache hits.</p>
+<h3 id="litellm--langfuse"><a class="header" href="#litellm--langfuse">LiteLLM + Langfuse</a></h3>
+<p><strong>LiteLLM</strong> is two products in one repository. The <strong>Python SDK</strong> normalizes 100+ providers to the OpenAI <code>chat/completions</code> call shape in-process, with no server. The <strong>LiteLLM Proxy</strong> (also called the AI Gateway) is a standalone OpenAI-compatible server that adds <strong>virtual keys</strong>, budgets, rate limits, routing and fallbacks, response caching, and an admin UI; virtual keys and spend tracking require a Postgres database. Virtual keys are the core idea: a client authenticates to the proxy with a revocable, budgeted, model-scoped <code>sk-…</code> token while the real upstream provider keys stay server-side, never distributed to developers or apps. A <strong>pass-through endpoint</strong> at <code>/anthropic/...</code> exposes the native Anthropic API through the proxy, which is how Claude Code is pointed at LiteLLM. The OSS core is MIT-licensed and covers the full proxy; a paid Enterprise tier adds SSO, audit logs and guardrails.</p>
+<p><strong>Langfuse</strong> is an open-source LLM <strong>observability</strong> platform: distributed traces of multi-step agent runs, token/cost/latency metrics, LLM-as-judge and human-annotation evaluations, datasets, and a versioned prompt registry. In June 2025 it moved <strong>all product features to MIT</strong> — only a thin enterprise set (project-level RBAC, data masking, audit logs, SCIM) stays commercial, and MIT self-hosting has no seat, retention or usage caps. Langfuse was acquired by ClickHouse, Inc. in January 2026, with its open-source commitment stated as unchanged.</p>
+<p>The two pair naturally because LiteLLM has a <strong>built-in Langfuse callback</strong> (<code>success_callback: ["langfuse"]</code>): every LLM call through the proxy emits a trace — model, messages, response, token usage, computed cost, latency — to a self-hosted Langfuse instance, and <code>turn_off_message_logging</code> keeps the spend data while dropping the prompt and response bodies. LiteLLM is the control plane (who may call which model, budgets, key rotation, failover); Langfuse is the observability plane (what happened inside each run, cost attribution, regression tracking). Both self-hostable and MIT for the parts most teams need — a fully on-premise “gateway plus tracing” stack in front of local or cloud models. OpenRouter, by contrast, bundles routing and light logging as a hosted service but is not self-hostable and offers no deep tracing.</p>
+<h3 id="bring-your-own-llm"><a class="header" href="#bring-your-own-llm">Bring Your Own LLM</a></h3>
+<p>Agentic coding tools rarely need a specific vendor — they need an endpoint that speaks OpenAI <code>chat/completions</code> or Anthropic <code>messages</code>. <code>llama-server</code>, <code>vllm serve</code>, Ollama and LM Studio all expose an OpenAI-compatible <code>/v1</code> surface; LM Studio, and to a lesser extent llama.cpp and vLLM, also expose an Anthropic <code>/v1/messages</code> endpoint.</p>
+<ul>
+<li><strong>Claude Code</strong> is redirected with four environment variables: <code>ANTHROPIC_BASE_URL</code> (the endpoint), <code>ANTHROPIC_AUTH_TOKEN</code> (the key sent as the auth header — a LiteLLM virtual key, <code>lmstudio</code>, etc.), <code>ANTHROPIC_MODEL</code>, and <code>ANTHROPIC_SMALL_FAST_MODEL</code> (the cheap model it uses for summaries and titles, which must also resolve on your endpoint). Point it directly at LM Studio or Ollama for a fully offline setup, at LiteLLM’s <code>/anthropic</code> pass-through for virtual keys and budgets, or use <strong>claude-code-router</strong> (a third-party MIT project that translates Anthropic to other formats and does per-task model routing).</li>
+<li><strong>Aider</strong> takes <code>--model ollama/qwen2.5-coder:14b --openai-api-base http://localhost:11434/v1</code>, or the equivalent in <code>~/.aider.conf.yml</code>.</li>
+<li><strong>Cline, Roo Code and Continue</strong> each have an “OpenAI Compatible” provider: base URL, key, model ID, and a few capability flags.</li>
+<li><strong>opencode</strong> is model-agnostic by design — any OpenAI-compatible base URL works.</li>
+</ul>
+<p>Recurring frictions: the <code>/v1</code> path (whether the tool appends it or expects it included is the single most common misconfiguration); tool-calling reliability and JSON-schema adherence that vary widely between local models, sometimes needing a model-specific chat/tool template on the server; Anthropic <code>cache_control</code> breakpoints being a no-op against most local servers, so long system prompts are re-processed every turn; and context length, since agentic clients are context-heavy and a 4–8K local context overflows quickly (LM Studio’s own guidance is ≥25K).</p>
+<h2 id="agent-sandboxes"><a class="header" href="#agent-sandboxes">Agent Sandboxes</a></h2>
+<p>Running an autonomous agent against a local model raises a containment question the cloud sidesteps: the agent has shell, network and file-write access, driven by a model with no provider-side moderation layer. The answer is to run the agent inside an isolated environment and present it through a terminal. This section covers the products that supply that environment — the orchestration platform <strong>Warp Oz</strong>, then the sandbox primitives <strong>E2B</strong>, <strong>Daytona</strong> and <strong>Modal</strong> and the wider field around them — followed by the terminal emulators an agent runs inside (Ghostty, Alacritty, WezTerm) and the isolation spectrum underneath.</p>
+<h3 id="warp-and-oz"><a class="header" href="#warp-and-oz">Warp and Oz</a></h3>
+<p><strong>Warp</strong> is a Rust, GPU-accelerated terminal that has repositioned itself as an “agentic development environment” — a blocks-based UI with AI command suggestions and an in-terminal coding agent. <strong>Oz</strong>, launched 10 February 2026, is Warp’s cloud <strong>agent-orchestration platform</strong>: it runs, manages and governs hundreds of coding agents in parallel — launched interactively or programmatically, with scheduled and recurring workflows — without the team building its own sandboxing and tracking infrastructure.</p>
+<ul>
+<li><strong>Execution model.</strong> Each agent runs in its own <strong>Docker container</strong> in a cloud environment that bundles the container, the git repositories and startup commands; multi-repo environments allow cross-repo changes. Agents can also run locally via the CLI with automatic session tracking.</li>
+<li><strong>Multi-harness.</strong> Oz is marketed as a control plane that runs <strong>Claude Code, OpenAI Codex and Warp’s own agent side by side</strong>, with cross-harness persistent memory.</li>
+<li><strong>Deployment.</strong> Cloud-hosted by default; <strong>self-hosted for enterprise</strong>; local via CLI.</li>
+<li><strong>Local and self-hosted models.</strong> Per <a href="https://www.warp.dev/pricing">Warp’s pricing page</a>, the <strong>Business tier ($50/user/month)</strong> is the entry point for “bring your own API keys and custom inference endpoints”; the <strong>Enterprise tier</strong> adds “route inference through your own cloud (BYOLLM)” — Warp handling routing, orchestration, governance and observability over the customer’s own model — plus self-hosted cloud agents on the customer’s infrastructure and enforced zero data retention. So Warp can be driven by a self-hosted model, but only from the Business tier up, and only Enterprise runs Oz itself on-premise.</li>
+</ul>
+<p>Research Note: Warp’s tier structure for these features changed after Oz’s launch — bring-your-own-key was initially described as a Build/Max feature and moved to the newer Business tier. The mapping above reflects the pricing page as of August 2026 and should be re-checked against the live page.</p>
+<h3 id="sandbox-primitives-e2b-daytona-modal"><a class="header" href="#sandbox-primitives-e2b-daytona-modal">Sandbox primitives: E2B, Daytona, Modal</a></h3>
+<p>Oz is one point in a broader market. Where Oz is an <strong>orchestration platform</strong> — a fleet manager, scheduler, multi-harness runner, memory store and governance UI that happens to put each agent in a container — <strong>E2B</strong>, <strong>Daytona</strong> and <strong>Modal</strong> sell the layer beneath it: a <strong>sandbox primitive</strong>, an SDK plus an isolated runtime that a <code>create()</code> / <code>exec()</code> / snapshot API drives. With a primitive, the orchestration, the fleet view, the cross-agent memory and the harness integration are code the adopter writes. The trade is control and isolation strength for build effort.</p>
+<ul>
+<li>
+<p><strong>E2B</strong> (“Environment to Business”) is an open-source (Apache-2.0) runtime that boots one <strong>Firecracker micro-VM per sandbox</strong>, each with its own kernel — a hardware-virtualization boundary (<a href="https://github.com/e2b-dev/infra">e2b-dev/infra</a>). Python and JavaScript SDKs, plus dedicated Code Interpreter and Desktop (Xfce + VNC, for computer-use agents) SDKs. Both the SDK and the infrastructure repos are Apache-2.0, and the infra repo is a real Terraform/Packer/Nomad deployment: <strong>self-hosting is documented</strong> but substantial — GCP is fully supported, AWS is in beta, Firecracker needs bare-metal or nested-virtualization hosts, and a Cloudflare account is required for DNS (<a href="https://github.com/e2b-dev/infra/blob/main/self-host.md">infra/self-host.md</a>). E2B markets sandbox start at roughly 150 ms. Pricing is a monthly plan plus per-second compute; Perplexity and Manus are named users (<a href="https://docs.e2b.dev/">E2B docs</a>).</p>
+</li>
+<li>
+<p><strong>Daytona</strong> repositioned from an open-source self-hosted dev-environment manager into “secure and elastic infrastructure for running AI-generated code” (<a href="https://www.daytona.io/">daytona.io</a>). Its headline claim is sub-90 ms sandbox creation. It offers stateful snapshots and a declarative image builder, with Python and TypeScript SDKs. The core repo is dual-licensed AGPL-3.0 / Apache-2.0, but <strong>as of mid-2026 it is maintenance-only</strong> — “core development has moved to a private codebase” (<a href="https://github.com/daytonaio/daytona">daytonaio/daytona</a>) — so the open-source Daytona is now a frozen artifact and the live product is the hosted service. Self-hosting the agent runtime (“Bring Your Own Compute”) is an undocumented Enterprise arrangement, unlike E2B’s public path. Pricing is a signup credit plus per-second CPU/memory/GPU billing.</p>
+<p>Research Note: Daytona’s sub-90 ms figure is a vendor claim; one independent benchmark measured roughly 197 ms end-to-end (create, exec, cleanup) and characterised 90 ms as a best case with the image already cached. A reported $24M Series A in early 2026 is single-source and unconfirmed against a primary announcement.</p>
+</li>
+<li>
+<p><strong>Modal</strong> is a general-purpose serverless compute platform (Python functions, cron jobs, GPU batch jobs); <strong>Sandboxes are one primitive within it</strong>, “secure containers for executing untrusted user or agent code.” Modal Sandboxes are isolated with <strong>gVisor</strong>, a user-space kernel — weaker than a micro-VM, stronger than a plain container. The API is <code>Sandbox.create()</code> / <code>sandbox.exec()</code> with a default 5-minute lifetime configurable to 24 hours; sandboxes take Modal’s code-defined Images, Volumes and Secrets, support inbound tunnels and egress filtering, and can request GPUs. <strong>Filesystem snapshots</strong> (stored as a diff, 30-day default TTL) and <strong>experimental memory snapshots</strong> (a full RAM + filesystem clone with running processes, 7-day TTL) support save-and-restore of agent state (<a href="https://modal.com/docs/guide/sandboxes">Modal Sandboxes guide</a>). Modal is <strong>cloud-only — there is no self-hosted or on-premise option</strong> — and the Sandbox CPU and memory rates are roughly 3× Modal’s base compute rate (<a href="https://modal.com/pricing">Modal pricing</a>).</p>
+</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Dimension</th><th><strong>Warp Oz</strong></th><th><strong>E2B</strong></th><th><strong>Daytona</strong></th><th><strong>Modal Sandboxes</strong></th></tr>
+</thead>
+<tbody>
+<tr><td>Category</td><td>Orchestration platform</td><td>Sandbox primitive</td><td>Sandbox primitive</td><td>Serverless platform; Sandbox is one primitive</td></tr>
+<tr><td>Per-agent isolation</td><td>Docker container</td><td>Firecracker micro-VM</td><td>Container (Kata micro-VM opt-in)</td><td>gVisor</td></tr>
+<tr><td>Isolation strength</td><td>Weakest here</td><td>Strongest</td><td>Weak default / strong opt-in</td><td>Middle</td></tr>
+<tr><td>You build the orchestration?</td><td>No — provided</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Native multi-harness</td><td>Yes (+ cross-harness memory)</td><td>Harness-agnostic</td><td>Harness-agnostic</td><td>Harness-agnostic</td></tr>
+<tr><td>Self-hostable</td><td>Enterprise (K8s / Docker / direct exec)</td><td>Yes, DIY (Apache-2.0 infra)</td><td>Enterprise only, undocumented</td><td>No</td></tr>
+<tr><td>Bring your own model</td><td>Business tier (key); Enterprise (BYOLLM)</td><td>Model-agnostic</td><td>Model-agnostic</td><td>Model-agnostic (can also host the model on GPU)</td></tr>
+<tr><td>Open source</td><td>No</td><td>Yes (SDK + infra)</td><td>Partial, now maintenance-only</td><td>No</td></tr>
+<tr><td>Target user</td><td>Enterprise running an agent fleet</td><td>Platform builders embedding code execution</td><td>Agent builders wanting fast cold start</td><td>Teams already on Modal</td></tr>
+</tbody>
+</table>
+</div>
+<p>The isolation column is worth reading against the capability column: Oz’s per-agent <strong>Docker container is the weakest boundary of the four</strong>, weaker than E2B’s micro-VM or Modal’s gVisor. Oz’s value is the orchestration layer above the sandbox, not the sandbox itself — a security-conscious team can run Oz on a self-hosted cluster with a stronger runtime underneath.</p>
+<h3 id="the-wider-field"><a class="header" href="#the-wider-field">The wider field</a></h3>
+<p>Beyond the three primitives, the hosted-sandbox market includes <strong>Vercel Sandbox</strong> (a Firecracker-micro-VM primitive priced on active CPU, hosted-only), <strong>Cloudflare Sandboxes</strong> (an SDK over Cloudflare Containers driven from a Worker, GA April 2026, hosted-only), <strong>Fly.io Sprites</strong> (Firecracker VMs shaped specifically to isolate coding agents, scale-to-zero, hosted-only), <strong>Runloop</strong> and <strong>Blaxel</strong> (agent-tuned managed sandboxes), and <strong>AWS Bedrock AgentCore</strong>, <strong>Koyeb</strong> and <strong>Deno Deploy</strong> sandboxes. Two products stand out for genuine customer-infrastructure deployment: <strong><a href="https://northflank.com/">Northflank</a></strong> offers self-serve bring-your-own-cloud down to bare-metal and on-premise, with per-workload choice of Kata, Firecracker or gVisor isolation, and <strong><a href="https://coder.com/">Coder</a></strong> is a fully self-hosted (AGPL-3.0), Terraform-templated platform whose Coder Tasks feature runs each agent (Claude Code, Aider, Goose and others) in its own governed workspace on infrastructure the customer controls, including air-gapped. For a single machine or a lab, the open-source <strong>microsandbox</strong> (libkrun micro-VMs, boots in ~200 ms) and <strong>Arrakis</strong> (Cloud-Hypervisor micro-VMs with snapshot-based “backtracking”) are self-hostable by design.</p>
+<p>Research Note: Cloudflare Sandboxes’ isolation technology could not be corroborated — public sources split between a shared-kernel container and a Firecracker-like micro-VM, and Cloudflare has published no definitive statement. <strong>hopx.ai</strong> advertises Firecracker-grade sandboxes with a bring-your-own-cloud and on-premise option, which would make it unusual in the field, but the claim rests on the vendor’s own site and one secondary round-up.</p>
+<h3 id="ghostty-alacritty-wezterm"><a class="header" href="#ghostty-alacritty-wezterm">Ghostty, Alacritty, WezTerm</a></h3>
+<p>The three open-source terminals below are pure terminals — the agent CLI runs inside them; they do not participate in it. Terminal choice matters for a terminal-first agent because agents stream large volumes of output (diffs, test logs, file dumps): a slow renderer becomes the bottleneck and can stall the PTY, long autonomous runs generate huge scrollback, and running several agents at once needs many PTYs side by side.</p>
+<ul>
+<li><strong>Ghostty</strong> — Mitchell Hashimoto’s terminal, released as 1.0 in December 2024 under MIT, written in Zig with native platform UI (Swift/AppKit on macOS, GTK4 on Linux) and GPU rendering. Explicitly a fast, standards-compliant, zero-config terminal with <strong>no built-in AI, no account and no telemetry</strong> — positioned against Warp on exactly that basis. Multiplexing is via panes/splits or an external tmux.</li>
+<li><strong>Alacritty</strong> — a minimal, OpenGL-accelerated, cross-platform terminal in Rust, configured only through a TOML file, with <strong>no tabs or splits by design</strong>; multiplexing is delegated to tmux. The goal is the fastest possible bare rendering surface.</li>
+<li><strong>WezTerm</strong> — GPU-accelerated, cross-platform, Rust, configured in Lua. Its distinguishing feature is a <strong>built-in multiplexer</strong>: tabs, splits, workspaces and persistent remote “domains” over SSH — enough to replace tmux, which makes one WezTerm window a natural host for many parallel agent sessions.</li>
+</ul>
+<h3 id="agent-sandboxing"><a class="header" href="#agent-sandboxing">Agent sandboxing</a></h3>
+<p>“Sandbox” here means running the agent — shell, network, file write — inside an isolated boundary so a bad tool call or a prompt-injected instruction (see <a href="#security-and-key-management">Security</a>) cannot reach the host. The options form a spectrum from weakest to strongest isolation:</p>
+<pre class="mermaid">flowchart LR
+    A["In-process&lt;br/&gt;syscall restriction&lt;br/&gt;&lt;i&gt;seccomp · Landlock · Seatbelt&lt;/i&gt;"] --&gt; B["Shared-kernel&lt;br/&gt;container&lt;br/&gt;&lt;i&gt;devcontainer · Docker&lt;/i&gt;"]
+    B --&gt; C["User-space kernel&lt;br/&gt;&lt;i&gt;gVisor / runsc&lt;/i&gt;"]
+    C --&gt; D["Micro-VM&lt;br/&gt;per agent&lt;br/&gt;&lt;i&gt;Firecracker · Kata · Cloud Hypervisor&lt;/i&gt;"]
+
+    A -.-&gt; A1["Claude Code default"]
+    B -.-&gt; B1["Warp Oz · Daytona default"]
+    C -.-&gt; C1["Modal · Cloud Run"]
+    D -.-&gt; D1["E2B · Vercel Sandbox · Fly.io"]
+
+    E["weaker isolation · faster start · higher density"] ~~~ F["stronger isolation · slower start · own guest kernel"]
+</pre>
+
+<ul>
+<li><strong>In-process command restriction</strong> — a lighter local mode (seccomp on Linux, Landlock, macOS Seatbelt) that restricts what commands the agent may run, as shipped in Claude Code and similar tools. No process or kernel isolation, just a smaller syscall menu.</li>
+<li><strong>Devcontainers / plain Docker</strong> — a shared-kernel container; the common baseline (and what Daytona uses by default, and what Warp Oz gives each agent), but a kernel exploit escapes it.</li>
+<li><strong>gVisor</strong> — a user-space “application kernel” that intercepts the sandboxed workload’s syscalls and services most of them itself, so only a small allow-listed set reaches the host kernel (<a href="https://gvisor.dev/docs/architecture_guide/performance/">gVisor performance guide</a>). It imposes no cost on CPU-bound work but adds a structural per-syscall overhead (~10× for small syscalls) and slows I/O-heavy workloads. Used by <strong>Modal Sandboxes</strong> and Google Cloud Run. In a self-hosted Kubernetes cluster it is the common middle rung: <code>runsc</code> plus a <code>RuntimeClass</code> is stronger than a container and cheaper than a VM.</li>
+<li><strong>Kata Containers</strong> — an OCI-compatible runtime that boots a lightweight KVM VM (with its own guest kernel) per pod, at roughly 50–100 ms boot and 100–200 MiB overhead. Daytona’s opt-in stronger-isolation mode; also selectable on Northflank.</li>
+<li><strong>Firecracker / KVM micro-VMs</strong> — a real VM boundary per agent, the strongest option. AWS’s Firecracker boots to application code in under 125 ms with under 5 MiB of overhead per micro-VM (<a href="https://www.usenix.org/conference/nsdi20/presentation/agache">USENIX NSDI ’20</a>) and powers AWS Lambda; it is used by <strong>E2B</strong>, <strong>Vercel Sandbox</strong> and <strong>Fly.io</strong> (Machines and Sprites). Cloud Hypervisor is a similar Rust VMM with a richer device model.</li>
+</ul>
+<p>For a self-hosted setup where a human reviews the agent’s actions, the practical baseline is a rootless devcontainer or Docker sandbox — non-root user, read-only mounts where possible — with an egress allow-list; at that trust level the dominant risk is credential or data exfiltration rather than kernel escape, so the egress control matters more than the isolation rung. When agents run fully unattended against a non-moderated local model, move up to a gVisor or micro-VM boundary per agent (via <code>e2b-dev/infra</code>, Fly Machines, Kata on Kubernetes, microsandbox or Arrakis), keep the egress allow-list, and keep ambient cloud credentials out of the sandbox environment.</p>
+<h2 id="security-and-key-management"><a class="header" href="#security-and-key-management">Security and key management</a></h2>
+<p>Self-hosting a model removes the provider from the trust boundary but adds three concerns the cloud handled for you: the inference server has no built-in authentication, API keys for any remaining cloud services spread across more config files, and an autonomous agent now runs against a model with no external safety filter. This section is specific to local-model setups; workspace isolation and RBAC are covered in <a href="./security.html">Security</a>.</p>
+<h3 id="inference-servers-have-no-authentication-by-default"><a class="header" href="#inference-servers-have-no-authentication-by-default">Inference servers have no authentication by default</a></h3>
+<p><strong>Ollama, <code>llama-server</code> and vLLM all ship with no authentication.</strong> llama.cpp and vLLM added an optional <code>--api-key</code> flag, but it is off unless set, and all three bind to a port that is trivially reachable if the host is exposed. Internet scans through 2025–2026 found on the order of 100,000–300,000 Ollama servers on public IPs (most on port 11434), and <strong>CVE-2025-63389</strong> (Ollama ≤ v0.12.3) let a remote attacker with no credentials pull, push and delete models and run inference on the victim’s hardware. Ollama’s own position is that it “was designed as a tool to run on a local machine … it doesn’t include authentication.”</p>
+<p>The correct posture is to treat the inference server like an unauthenticated database: bind it to <code>127.0.0.1</code> or a private interface (WireGuard), never <code>0.0.0.0</code> on a routable host; put a reverse proxy with authentication (bearer token, mTLS or OIDC) in front if remote access is needed; and firewall the raw port. A <a href="#litellm--langfuse">LiteLLM or gateway</a> layer in front also supplies the authentication the engine lacks.</p>
+<h3 id="api-key-hygiene"><a class="header" href="#api-key-hygiene">API key hygiene</a></h3>
+<p>Every tool in this chapter reads keys from environment variables. Those leak easily — into shell history (<code>export KEY=sk-…</code>), into <code>.env</code> files committed to git, into MCP and agent config files (<code>mcp.json</code>, <code>~/.aider.conf.yml</code>) that are then committed or synced, and into CI logs. Mitigations, in rough order of adoption: <code>.gitignore</code> the <code>.env</code>; inject keys at runtime from a secret manager (1Password’s <code>op run</code>, HashiCorp Vault, a cloud secret manager, or <code>sops</code> with <code>age</code>/KMS); enable push protection and secret scanning (GitHub push protection, <code>gitleaks</code>, <code>trufflehog</code>); and use short-lived, per-project keys so a leak is contained. Because git history is permanent, a key committed once is compromised even after the commit is removed — the only correct response is to <strong>revoke and rotate</strong>, then scrub history.</p>
+<p>Gateways reduce the blast radius directly: <a href="#litellm--langfuse">LiteLLM virtual keys</a> and OpenRouter provisioning keys keep the real provider keys in one place, so a developer’s leaked token is revocable, budgeted and useless outside the gateway.</p>
+<h3 id="the-local-model-privacy-argument-and-its-caveats"><a class="header" href="#the-local-model-privacy-argument-and-its-caveats">The local-model privacy argument and its caveats</a></h3>
+<p>The reason regulated and offline teams want a local model is straightforward: no prompt, no code and no completion leaves the machine. The caveats are concrete:</p>
+<ul>
+<li><strong>Routers with cloud fallback.</strong> OpenRouter, LiteLLM fallback chains, claude-code-router and Warp Oz can all be configured to fall back to a cloud provider when the local model fails — silently sending code off-box unless fallbacks are disabled or restricted (<code>allow_fallbacks: false</code>, <code>zdr: true</code>, an allow-list).</li>
+<li><strong>Telemetry.</strong> Some frontends and agents send usage analytics by default; the three terminals above send none, Warp historically drew criticism for requiring an account.</li>
+<li><strong>Observability stores.</strong> A self-hosted <a href="#litellm--langfuse">Langfuse or LiteLLM</a> trace database persists prompts and completions unless message logging is turned off — it is still a copy of all your code and secrets.</li>
+</ul>
+<h3 id="prompt-injection-and-excessive-agency"><a class="header" href="#prompt-injection-and-excessive-agency">Prompt injection and excessive agency</a></h3>
+<p>The <a href="https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/">OWASP Top 10 for LLM Applications</a> ranks <strong>prompt injection as LLM01</strong> — an LLM processes instructions and data in the same channel, so untrusted content (a fetched web page, a file, a dependency’s README, an issue comment) can carry instructions the model obeys — and <strong>excessive agency as LLM06</strong> — an agent with more permissions, autonomy or tools than the task needs.</p>
+<p>A local model makes this sharper, not softer: an autonomous agent with shell, network and file-write access, driven by a local model, has <strong>no provider-side safety filter</strong> between a prompt-injected instruction and <code>rm -rf</code>, an exfiltration <code>curl</code>, or a <code>git push</code> of secrets. The mitigations are architectural rather than model-based:</p>
+<pre class="mermaid">flowchart TD
+    U["Untrusted input&lt;br/&gt;web page · file · issue · dependency README"] --&gt; M{"Local model&lt;br/&gt;(no provider safety filter)"}
+    M --&gt;|injected instruction obeyed| T["Agent tools"]
+    T --&gt; S["shell"]
+    T --&gt; N["network"]
+    T --&gt; F["file write / git push"]
+    S -. contained by .-&gt; B1["Sandbox: container / micro-VM"]
+    N -. contained by .-&gt; B4["Egress allow-list"]
+    F -. gated by .-&gt; B3["Human approval on write / exec"]
+    T -. limited by .-&gt; B2["Least-privilege tools"]
+    M -. isolated from .-&gt; B5["Secrets excluded from the agent's environment"]
+</pre>
+
+<p>Run the agent in a <a href="#agent-sandboxing">sandbox</a>; give it least-privilege tools (no shell, or a constrained one); require human approval on write and execute operations (LM Studio’s tool-confirmation dialog, Claude Code’s permission prompts); control network egress; and keep secrets out of the agent’s environment, injecting only what a given task needs.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="agentic-coding-harnesses.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="hybrid-setups.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="agentic-coding-harnesses.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="hybrid-setups.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="additional-js/mermaid-eefea253.min.js"></script>
+        <script src="additional-js/mermaid-init-ccf746f1.js"></script>
+        <script src="additional-js/footer-a2886c2f.js"></script>
+        <script src="additional-js/right-sidebar-7ee5643a.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
