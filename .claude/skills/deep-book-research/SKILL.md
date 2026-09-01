@@ -1,0 +1,67 @@
+---
+name: Deep Book Research
+description: Runs a deep-research pass for an agentic-coding book topic, optionally seeded from a podcast/article URL and/or an existing book chapter's section structure, and saves the results as a "Claude Deep Research export"-style note under notes/YYYY-MM-DD-<inc-num>-<chapter>-<topic-slug>/, named after the run's chapter and a short topic label (a raw-<subtopics-slug>.md with full unabridged findings plus a distilled summary-<subtopics-slug>.md, subtopics-slug joining up to five of the researched subtopics in hierarchical order), per the notes convention in CLAUDE.md.
+when_to_use: Use when the user asks to "deep research", "deep dive", or "research" a topic for this book — especially when they hand you an external source (a podcast episode, newsletter post, talk, article) whose main topics/sections should become the subtopic structure for the research, or when they want research organized around an existing chapter's own section headers.
+argument-hint: [topic] [source-url] [chapter-file]
+arguments: topic, source_url, chapter_file
+---
+
+# Deep Book Research
+
+Produces a thorough, citation-backed research note for a book topic, structured around subtopics, and files it under `notes/YYYY-MM-DD-<inc-num>-<chapter>-<topic-slug>/` following the two-file "Claude Deep Research export" convention documented in `CLAUDE.md` (a complete `raw-<subtopics-slug>.md` plus a distilled `summary-<subtopics-slug>.md`). The folder's `<topic-slug>` is a short label for the run; the files' `<subtopics-slug>` is built from the actual subtopics this pass researches (see step 3) — longer and more specific, so that multiple research passes on the same chapter over time get distinct, self-identifying files instead of colliding.
+
+`$ARGUMENTS` (or `$0` / `$1` / `$2`) gives the topic and, optionally, a source URL (a podcast newsletter page, article, talk transcript, etc.) and/or a chapter-file (a path to a markdown file in `src/`, e.g. `sw-factories.md`) to seed the subtopic breakdown. If none of "source URL", "chapter-file", or an explicit subtopic list is given, ask the user for one before proceeding — don't invent a subtopic structure from nothing.
+
+If `topic` wasn't given explicitly but `chapter_file` was (e.g. the request was just "research the sw-factories chapter"), derive the topic from that file's `# H1` title instead of asking — don't treat a missing `topic` as a reason to stop when the chapter-file already implies one.
+
+## Steps
+
+1. **Establish the topic and subtopics.** Gather subtopics from whichever of the following were given, then move on — don't ask the user to also pick one if they already gave you enough to proceed:
+   - **Chapter-file given** — `Read` that file under `src/`. Extract every section header (`##`, `###`, …) as a subtopic, in document order, using only the header text — discard the prose/body content beneath each header entirely; it's not needed to build the subtopic list. This is the way to point the research at an existing chapter's own (possibly stub) outline, like `sw-factories.md`'s bare `## LangChain` / `## Loop Engineering` headers. Document order in a well-formed markdown file is already hierarchical order (a header's subsections immediately follow it before the next sibling header), so no separate re-ordering step is needed.
+   - **Source URL given** — `WebFetch` it with a prompt asking for the main topics, section headings, and key concepts (plus any named tools/products/companies mentioned) — this becomes (or extends) the subtopic list, in the order those topics appear in the source.
+   - **Explicit subtopics given directly by the user** — use those as-is, in the order given.
+   - If more than one of the above was given, merge the resulting lists into one deduplicated subtopic list (same topic mentioned two different ways counts once) rather than picking only one source.
+   - Confirm the resulting subtopic list with the user only if it seems ambiguous or too broad (e.g. more than ~15 items) to research well in one pass; otherwise proceed.
+   - **Keep this list in order** — step 3 reuses this exact ordering to name the output files, so getting the order right here is what makes the naming meaningful, not just cosmetic.
+
+2. **Check prior art.** Search `notes/` broadly (including `notes/initial-notes/` and any existing dated subfolders that look related by name or content) for prior research overlapping this pass's subtopics or the chapter's broader topic — don't rely on a fixed folder-name pattern to find them, since folder names are per-run rather than subtopic-derived and a chapter can accumulate several differently-named research folders over time. The new research should extend what's already known, not repeat it — this gets passed to the research agent as context in step 5.
+
+3. **Establish this run's identity — chapter, inc-num, topic-slug, and subtopics-slug — then set up the folder/file names and the history entry together.** These four values are shared between the `notes/` folder and the `history/` entry for this same run, so compute them once, here, rather than separately in two places:
+   - **`chapter`** — the slug of `chapter_file` (its filename without extension), if one was given. If no `chapter_file` was given (research seeded only from a source URL or explicit subtopics, with no known destination chapter yet), use the literal placeholder `no-chapter`.
+   - **`inc-num`** — a daily run counter, scoped per `chapter` (or per `no-chapter`, treated as its own bucket). Look at both `notes/` (folders already starting with today's date and this chapter) and `history/<chapter>/` (files already starting with today's date) to find the highest counter used so far today for this chapter, and use one past it (or `1` if none exist yet). Skip the `history/`-side lookup entirely when `chapter` is `no-chapter`, since no history entry will be written for this run (see step 4).
+   - **`topic-slug`** — a short (2–5 word) dash-case label summarizing what this run is about (e.g. `dex-horthy-deep-research`, `langchain-loop-engineering-deep-research`). This is deliberately shorter than the subtopic list itself — it's a label for the *run*, not an enumeration of everything researched.
+   - **`subtopics-slug`** — take the first **five** subtopics from the step-1 list, in that same hierarchical (document) order, and slugify each (lowercase, kebab-case, non-alphanumeric characters collapsed to hyphens). Join the slugified subtopics with a double hyphen (`--`) so individual subtopic boundaries stay legible even though each slug itself uses single hyphens internally. Do **not** derive this from the bare chapter/topic title alone (e.g. `software-factories`) — a topic-derived slug is identical across every research pass on the same chapter and won't distinguish one pass's files from another's.
+   - Create `notes/YYYY-MM-DD-<inc-num>-<chapter>-<topic-slug>/` (today's date). Because `inc-num` already disambiguates same-day, same-chapter runs, this folder name should never collide — if it somehow does, treat that as a bug in the `inc-num` lookup above, not a reason to append a further suffix.
+   - Name the two output files inside it `raw-<subtopics-slug>.md` and `summary-<subtopics-slug>.md`.
+   - **Example**: a pass on 2026-08-18, the 2nd run that day against the `sw-factories` chapter, researching `Full Human Review`, `Dark Factory`, `Leverage-Point Model`, `Model Training Limitations`, and `Make it run` (five consecutive stub headers, in document order), with `topic-slug` `software-factory-models-corroboration`, produces:
+     `notes/2026-08-18-2-sw-factories-software-factory-models-corroboration/raw-full-human-review--dark-factory--leverage-point-model--model-training-limitations--make-it-run.md`
+     (plus the matching `summary-*.md`). A sixth subtopic researched in the same pass (e.g. `Make it right`) is still fully covered inside these files — the five-subtopic cap applies only to the `subtopics-slug`'s naming, not to what gets researched.
+
+4. **Write the chapter-history entry, if `chapter` is not `no-chapter`.** Per `CLAUDE.md`'s `history` convention: create `history/<chapter>/` if it doesn't exist yet, and write `history/<chapter>/YYYY-MM-DD-<inc-num>-<topic-slug>.md` — reusing the exact same `inc-num` and `topic-slug` computed in step 3 — recording this run's **inputs only**: the triggering request, the seed (source URL / chapter headers / explicit subtopics), and the subtopic list from step 1. Do not record findings or outcomes here; those belong in the raw/summary files this step is about to produce. Skip this step entirely when `chapter` is `no-chapter` (there's no chapter to log the research against).
+
+5. **Delegate the research.** Spawn a `general-purpose` Agent (background is fine — this typically takes several minutes and many tool calls) with a self-contained brief that includes:
+   - The book's framing for this topic (pull the relevant `src/*.md` chapter content and any prior notes found in step 2 into the prompt, don't just gesture at file paths).
+   - The full subtopic list from step 1, one research pass per subtopic.
+   - Instructions to prioritize primary sources (the original author's own writing/repo/talk) over secondary summaries, and to explicitly flag, per subtopic, whether findings are primary-sourced, corroborated-secondary, or sourced only to the seed URL itself — do not blur this distinction.
+   - An explicit no-fabrication rule: don't invent quotes, numbers, or claims; say plainly when a subtopic has weak corroboration rather than padding it out.
+   - The exact output path: `notes/YYYY-MM-DD-<inc-num>-<chapter>-<topic-slug>/raw-<subtopics-slug>.md` (using the values fixed in step 3).
+   - The output format: one `##` section per subtopic with findings in prose/bullets, inline markdown citation links as claims are made, and a deduplicated numbered source list at the end — matching the style already used in `notes/initial-notes/`.
+   - A request to end with a short verbal report on which subtopics were strongly vs. weakly corroborated, for use while writing the summary.
+
+6. **Write the summary yourself — do not delegate this step.** Once the raw file is ready, read it fully and write `notes/YYYY-MM-DD-<inc-num>-<chapter>-<topic-slug>/summary-<subtopics-slug>.md`:
+   - Open with a one-line pointer back to the raw file and an explicit statement that the summary is a navigation aid, not a substitute — exact figures/quotes/citations must be pulled from the raw file, not copied from the summary.
+   - One compressed entry per subtopic, tagged by sourcing confidence (e.g. 🟢 primary / 🟡 secondary / 🟠 single-source) so a future reader instantly knows how much to trust each claim.
+   - A section for any named-entity corrections or misattributions the research agent flagged.
+   - A closing "what this means for the book" section connecting findings back to the relevant `src/*.md` chapter — proposing a structure or additions, but explicitly framed as a suggestion for the user to confirm, not a decision already made.
+   - Keeping detail here is secondary to keeping it *correct*: when in doubt, point to the raw file rather than compressing a claim to the point of losing its nuance. Losing detail through over-compaction is the specific failure mode this file must avoid.
+
+7. **Report back to the user** with the folder path and a few of the most notable/surprising findings.
+
+8. **If `chapter_file` was given, offer to draft now — don't defer it.** Ask the user, in the same report as step 7, whether to go ahead and draft the corresponding section(s) of `chapter_file` from this research right away. This is a deliberate efficiency choice, not just a courtesy: the raw file is already fully loaded in context from writing the summary, so drafting immediately reuses it instead of forcing a cold re-read (and re-tokenization) of the notes files in some later session, and it avoids the small risk of this session's prompt cache lapsing on the research content the longer drafting is put off. If the user confirms, draft the section(s) in this same turn/session rather than ending the task and waiting for a separate future request. Still keep the confirmation itself — chapter prose bakes in editorial choices (which findings to lead with, how to frame an unresolved tension) that are worth a quick check-in before they're written to `src/`, especially when the research surfaced a live complication or contradiction (e.g. two sources disagreeing) rather than a clean, settled answer.
+   - If `chapter_file` was **not** given (research seeded only from a source URL or explicit subtopics, with no known chapter to write into), skip this step entirely and keep the original behavior: report findings and stop — there's no known destination to draft into.
+
+## Notes
+
+- This skill is the tooling-driven counterpart to a manually pasted Claude Deep Research export (see `CLAUDE.md`) — same folder/file convention, but the research is performed live via web search/fetch inside this session rather than pasted in from an external Deep Research chat.
+- Keep the raw file unabridged. Compaction happens only in the summary file, and only as an index, never as the sole record of a fact.
+- The `history/<chapter>/` entry from step 4 is a separate, lightweight thing from the `notes/` raw+summary pair: it records what went *into* this run, not what came *out* of it. Don't let the two blur together — they share an `inc-num`/`topic-slug` identity, not their content.

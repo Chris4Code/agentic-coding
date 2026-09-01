@@ -1,0 +1,23 @@
+[book]
+title = "Agentic Coding Background Knowledge"
+description = "AI rewrite of study notes on deep diving into agentic coding"
+authors = ["Christof Gerritsma"]
+language = "en"
+src = "src"
+
+[preprocessor]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[output]
+
+[output.html]
+additional-js = [
+    "additional-js/mermaid.min.js",
+    "additional-js/mermaid-init.js",
+    "additional-js/footer.js",
+    "additional-js/right-sidebar.js"
+]
+
+[output.linkcheck2]

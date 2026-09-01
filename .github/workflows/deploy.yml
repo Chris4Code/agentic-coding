@@ -1,0 +1,59 @@
+name: Deploy mdBook to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["src/**"]
+  pull_request:
+    branches: [main]
+    paths: ["src/**"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    env:
+      MDBOOK_VERSION: "0.5.4"
+      MDBOOK_MERMAID_VERSION: "0.17.0"
+      MDBOOK_LINKCHECK2_VERSION: "0.13.0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install mdBook toolchain
+        uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: ${{ env.MDBOOK_VERSION }}
+
+      - name: Cache cargo-installed preprocessors
+        id: cache-bin
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin
+          key: mdbook-preprocessors-${{ runner.os }}-mermaid${{ env.MDBOOK_MERMAID_VERSION }}-linkcheck2${{ env.MDBOOK_LINKCHECK2_VERSION }}
+
+      - name: Install mdbook-mermaid and mdbook-linkcheck2
+        if: steps.cache-bin.outputs.cache-hit != 'true'
+        run: |
+          cargo install mdbook-mermaid --version "${MDBOOK_MERMAID_VERSION}" --locked
+          cargo install mdbook-linkcheck2 --version "${MDBOOK_LINKCHECK2_VERSION}" --locked
+
+      - name: Build book
+        run: mdbook build
+
+      # The linkcheck2 renderer makes mdBook emit HTML into book/html rather than book/.
+      - name: Deploy to gh-pages
+        if: github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./book/html
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"

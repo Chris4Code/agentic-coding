@@ -1,0 +1,18 @@
+# Summary
+
+* [Introduction](./README.md)
+* [Basics](./basics.md)
+* [Agentic coding harnesses](./agentic-coding-harnesses.md)
+* [Local Models and Hybrid Cloud usage](./local-models.md)
+* [Hybrid Setups](./hybrid-setups.md)
+// [OpenCode](opencode.md) 
+// [Claude Code](claude_code.md) 
+// [Hermes](hermes.md) 
+* [SW Factories](sw-factories.md)
+* [RAGs](./rags.md)
+* [Quality](./quality.md)
+* [Security](./security.md)
+* [Cost Control](./cost-control.md)
+// [Spec Driven Development (SDD)](./spec-driven-development.md)
+* [AI driven codebase rewrites](./ai-driven-codebase-rewrites.md)
+* [Glossary](./glossary.md)
