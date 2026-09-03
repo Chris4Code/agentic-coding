@@ -1,5 +1,8 @@
 # Glossary
 
+#### Accessibility tree (a11y tree)
+the semantic tree of a UI (element roles, names, states — ARIA on the web) that a browser exposes for assistive technology; browser-automation agents drive and assert against it instead of screenshots or CSS selectors because it is deterministic, cheap (~200–400 tokens per snapshot), and survives visual refactors. Contrast pixel-based [computer use](#computer-use--browser-use). See [Quality § Integration and end-to-end testing with a browser in the loop](./quality.md#integration-and-end-to-end-testing-with-a-browser-in-the-loop).
+
 #### Accumulative linear caching
 how agentic harnesses extend their prompt cache: since conversation history is append-only, the server simply grows the existing KV cache with each new turn instead of recomputing it. See [Basics § Prompt caching](./basics.md#prompt-caching---efficient-cloud-model-integration).
 
@@ -75,6 +78,9 @@ the single explicit place (typically `main` or a factory function) where an appl
 #### Comprehension debt
 the growing gap between how much code a system contains and how much of it any human genuinely understands, widened when agents generate diffs faster than anyone can audit them; per Addy Osmani, more dangerous than technical debt because it "breeds false confidence" rather than announcing itself through friction. See [Quality § More code, less understanding](./quality.md#more-code-less-understanding).
 
+#### Computer use / browser use
+two styles of GUI automation for agents. *Computer use* (Anthropic, OpenAI) is pixel-based — the model sees a screenshot and issues mouse/keyboard actions; general but token-heavy and imprecise on coordinates. *Browser use* (a separate Anthropic tool) drives a browser through its [accessibility tree](#accessibility-tree-a11y-tree) plus a rendered view, targeting elements semantically. See [Basics § Multi Modal Models](./basics.md#relevance-in-agentic-coding) and [Quality § Multi Modal Models](./quality.md#multi-modal-models).
+
 #### Consumer-driven contract testing
 an integration-testing style (canonically Pact) where the consumer of a service declares what it needs and that contract is verified against the provider independently, so services need not be deployed together to check compatibility; in agentic workflows the contract artifacts are increasingly agent-authored (PactFlow AI). See [Quality § Automated contract testing](./quality.md#automated-contract-testing).
 
@@ -111,6 +117,9 @@ passing a component its collaborators (via constructor parameters or a compositi
 #### Design by Contract (DbC)
 specifying a function's pre-conditions, post-conditions, and invariants as machine-checkable assertions (Bertrand Meyer, for Eiffel; native in Eiffel/Ada/D/Clojure, a library elsewhere — `icontract`, `deal`, JML/OpenJML, Metalama); for an agent this supplies explicit intent it cannot silently drift from and an oracle stronger than tests it wrote itself, and — unlike a spec-driven-development spec — it does not drift, because it *is* code checked on every call. See [Quality § Design by Contract](./quality.md#design-by-contract).
 
+#### Design-to-code
+generating frontend code from a visual design. Handing the agent structured design context (the Figma Dev Mode MCP server's component tree, design tokens, and code-component mapping) is materially more reliable than a bare screenshot, which drifts on spacing, colour, and component reuse. See [Basics § Multi Modal Models](./basics.md#relevance-in-agentic-coding).
+
 #### Dual-Embedding / Hybrid-Embedding architectures
 indexing a knowledge base cheaply up front with a local embedding model, then progressively adding higher-fidelity cloud embeddings over time as content is actually used, keeping the two in separate vector-database partitions and routing each query to the right one. Not an established, industry-recognized term (see the chapter's own Research Note) — "hybrid embedding" more commonly refers to fusing sparse and dense retrieval instead. See [RAGs § Dual-Embedding / Hybrid-Embedding architectures](./rags.md#dual-embedding--hybrid-embedding-architectures).
 
@@ -119,6 +128,9 @@ a harness component that abstracts a successfully completed task's trajectory in
 
 #### E2B ("Environment to Business")
 an open-source (Apache-2.0) agent-sandbox runtime that boots one Firecracker micro-VM per sandbox, with Python/JavaScript SDKs (plus Code Interpreter and Desktop variants) and a documented — if substantial — self-hosting path via the `e2b-dev/infra` repo. See [Local Models § Sandbox primitives: E2B, Daytona, Modal](./local-models.md#sandbox-primitives-e2b-daytona-modal).
+
+#### Early fusion / cross-attention fusion
+the two dominant ways a [vision encoder](#vision-encoder-vit)'s output is combined with a language model. *Early fusion* splices the projected image vectors into the same token sequence as the text, as [visual tokens](#visual-token) handled by ordinary self-attention (LLaVA, Qwen-VL, Llama 4 — the mainstream 2026 design); *cross-attention fusion* keeps image features outside the sequence and interleaves gated cross-attention layers into an otherwise frozen text model (Flamingo, Llama 3.2 Vision). See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models).
 
 #### Embedding
 a fixed-length, learned vector representation of a token (or a chunk of text) that positions it in a high-dimensional space so that semantically similar items end up with similar vectors. See [Basics § Key-Value store](./basics.md#key-value-store).
@@ -167,6 +179,12 @@ a transformer that mixes cheap linear-attention layers (a fixed-size recurrent s
 
 #### Hybrid setup
 an agentic-coding configuration that uses a local model for the high-volume, latency-sensitive, or confidential work and a cloud frontier model for the work that genuinely needs it, with a routing layer deciding which requests go where and a governance layer deciding which are allowed to leave the machine. See [Hybrid Setups](./hybrid-setups.md).
+
+#### Image tiling (AnyRes / pan-and-scan)
+feeding a high-resolution image to a fixed-input [vision encoder](#vision-encoder-vit) by splitting it into a grid of native-resolution tiles (plus a downscaled overview), or adaptively cropping it into windows. Each tile adds [visual tokens](#visual-token), so resolution trades directly against context cost. See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models).
+
+#### Image-based prompt injection
+[prompt injection](#prompt-injection) carried through the visual channel — instructions hidden in a screenshot, rendered web page, or PDF that the model's vision pathway recovers and then treats as prompt text. Harder to sanitize than text because what the model will read is not easily previewed. See [Basics § Capabilities and limitations](./basics.md#capabilities-and-limitations).
 
 #### Inference engine
 the software that loads model weights, manages the KV cache and runs the token-generation loop, exposing an API (usually OpenAI-compatible) for a harness to call; llama.cpp, Ollama and vLLM are the main choices for local use. See [Local Models § Local inference engines](./local-models.md#local-inference-engines).
@@ -261,6 +279,9 @@ sending each agent call to the cheapest model capable of handling it, escalating
 #### Multi-Token Prediction (MTP)
 a model architecture with extra lightweight heads that predict several future tokens per forward pass, used both as a training signal (densifies the loss) and, at inference, as self-speculative decoding with no separate draft model to load. Only models pre-trained with MTP heads (DeepSeek-V3/V4, Qwen3-Next+, GLM-4.5-Air) benefit. See [Local Models § Multi Token Prediction](./local-models.md#multi-token-prediction).
 
+#### Multimodal model (MLLM)
+a transformer-based model that accepts input in more than one modality (usually text plus images) and/or produces more than one; the [vision-language model](#vision-language-model-vlm) is the dominant sub-type, and "omni" / "any-to-any" models additionally take audio and video and can emit images or speech. See [Basics § Multi Modal Models](./basics.md#multi-modal-models).
+
 #### Mutation testing
 introducing small deliberate faults ("mutants") into source code; a test suite that stays green under a mutant is not actually verifying that behaviour. Tools: Stryker (JS/TS), PIT (Java), `mutmut` (Python), `cargo-mutants` (Rust). The historical bottleneck — interpreting the report — is work an agent can now do, making it the practical defense against high-coverage/weak-assertion agent-written tests. See [Quality § Mutation testing and property-based testing as defenses](./quality.md#mutation-testing-and-property-based-testing-as-defenses).
 
@@ -293,6 +314,9 @@ writing a CI/CD pipeline as a real program (a typed SDK such as Dagger, or a sta
 
 #### Prefix matching
 the requirement that a cloud provider's prompt cache only hits if the request text is 100% identical, character-for-character, from the very start. See [Basics § Prompt caching](./basics.md#prompt-caching---efficient-cloud-model-integration).
+
+#### Projector (multimodal connector)
+the small trained module — a linear layer, a two-layer MLP, or a cross-attention resampler — that maps a [vision encoder](#vision-encoder-vit)'s output vectors into the language model's embedding space. In llama.cpp the `mmproj` file is the vision encoder plus this projector. See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models).
 
 #### Property-based testing
 stating invariants a function must satisfy (e.g. in Hypothesis, fast-check, jqwik, proptest) and letting the framework generate adversarial inputs, rather than writing example-based cases; gives an agent an oracle it cannot overfit to one implementation because the property is defined independently of the code. See [Quality § Mutation testing and property-based testing as defenses](./quality.md#mutation-testing-and-property-based-testing-as-defenses).
@@ -408,8 +432,29 @@ a database specialized for storing embeddings and performing similarity search o
 #### Virtual key
 a revocable, budgeted, model-scoped API token issued by a gateway (LiteLLM, OpenRouter) that clients use instead of a real provider key; the real upstream keys stay server-side, so a leaked virtual key is contained and cheaply rotated. See [Local Models § API key hygiene](./local-models.md#api-key-hygiene).
 
+#### Vision encoder (ViT)
+the separate network — almost always a Vision Transformer, often CLIP- or SigLIP-pretrained — that splits an image into fixed patches and turns each into a feature vector, before a [projector](#projector-multimodal-connector) maps it into the language model's embedding space. Quantization-sensitive, so kept at FP16/8-bit when run locally. See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models) and [Local Models § Multi Modal Modells](./local-models.md#multi-modal-modells).
+
+#### Vision-language model (VLM)
+the common [multimodal](#multimodal-model-mllm) sub-type — one or more images plus text in, text out; what "this coding model is multimodal" usually means in practice. See [Basics § Multi Modal Models](./basics.md#multi-modal-models).
+
+#### Visual grounding (pointing)
+a VLM capability: returning pixel coordinates or a bounding box for a described element rather than only describing it — what makes screenshot-driven GUI agents possible (Molmo, the Qwen-VL line). Outputs are approximate. See [Basics § Capabilities and limitations](./basics.md#capabilities-and-limitations).
+
+#### Visual instruction tuning
+the VLM training stage that fine-tunes on (image, instruction, response) triples; LLaVA's contribution was to synthesize that data with a text-only model instead of human annotators, now standard practice. See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models).
+
+#### Visual regression testing
+detecting unintended UI changes by comparing a screenshot against a committed baseline image within a pixel tolerance (Playwright's screenshot comparison, hosted services). Kept deterministic because agents change layout without noticing; contrast [VLM-as-judge](#vlm-as-judge). See [Quality § Multi Modal Models](./quality.md#multi-modal-models).
+
+#### Visual token
+one entry in the model's token sequence produced from an image patch (after any pooling or tiling). In an early-fusion model it occupies a [KV-cache](./basics.md#key-value-store) slot exactly like a text token, which is why a single screenshot costs hundreds to thousands of tokens (Claude bills one token per 28×28 px patch). See [Basics § The context-token cost of an image](./basics.md#the-context-token-cost-of-an-image).
+
 #### vLLM
 an open-source LLM serving library whose core contribution, PagedAttention, minimizes KV cache memory waste and increases serving throughput; the production-serving choice when many concurrent requests hit a model that fits entirely in datacenter- or workstation-class VRAM. See [Basics § PagedAttention (vLLM)](./basics.md#pagedattention-vllm) and [Local Models § vLLM](./local-models.md#vllm).
+
+#### VLM-as-judge
+using a vision-language model to grade a rendered result ("does this look right?"). Useful as a triage signal inside the agent's loop, but non-deterministic, hallucination-prone, and blind to sub-pixel error — so not a merge gate; deterministic [visual regression testing](#visual-regression-testing) stays the gate. The visual analogue of LLM-as-judge and of the [test oracle problem](#test-oracle-problem). See [Quality § Multi Modal Models](./quality.md#multi-modal-models).
 
 #### Vulkan backend
 llama.cpp's vendor-neutral GPU compute backend, running on any GPU with a conformant Vulkan driver and no vendor SDK; slower than CUDA on NVIDIA but now close to ROCm/SYCL and far easier to set up, especially for AMD on Windows or Intel integrated graphics. See [Local Models § Vulkan](./local-models.md#vulkan).

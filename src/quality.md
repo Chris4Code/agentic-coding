@@ -221,6 +221,38 @@ The risk is the same test-weakening pattern moved up a layer: an over-eager Heal
 
 Research Note: the tools, versions, and Planner/Generator/Healer mechanics are primary-sourced from Playwright's documentation and Microsoft's and Google's own material, and the "agent self-verifies in a browser" pattern is corroborated across multiple vendors. There is **no primary study** quantifying whether browser self-verification measurably reduces UI regressions; the benefit is asserted at the practitioner level and hedged even by the vendors.
 
+## Multi Modal Models
+
+Every frontier coding model is now a [vision-language model](./basics.md#multi-modal-models), so an agent can take a screenshot of the UI it just built and reason about it. That makes a VLM tempting as a *test oracle* — show it the rendered page and ask "does this look right?" — and the temptation is exactly where the [oracle problem](#the-oracle-problem) reappears, because a model's visual judgement is non-deterministic, non-reproducible, and weak at precisely the things a UI test needs to be sure about.
+
+### Where a VLM helps, and where it must not be the gate
+
+The reliable use is as a *triage signal inside the inner loop*, not a merge gate. After the agent changes a component it can screenshot the running app and ask the model whether the layout is broken, an element is missing, text is overflowing, or the result matches an attached design reference — catching the gross regressions a text-only agent would ship blind. This is worth doing. What it is not is a pass/fail check you can put in CI, for three reasons drawn straight from the [documented VLM limitations](./basics.md#capabilities-and-limitations):
+
+* **It is not pixel-accurate.** VLMs read approximate positions, miss small text, and lose fine detail once the screenshot is downscaled to the model's token budget. A 3-pixel misalignment, a slightly wrong shade, or a truncated label is inside its noise floor.
+* **It hallucinates.** The model fills gaps with priors — it will "see" an expected button or a plausible chart value that is not actually rendered — so a green verdict is not evidence the thing is correct.
+* **It is not reproducible.** Even at temperature 0 with a pinned model version, the same screenshot can get different verdicts across runs and will drift when the provider updates the model. A gate has to give the same answer twice.
+
+| | Deterministic visual check | VLM-as-judge |
+|---|---|---|
+| Mechanism | Pixel/DOM diff against a committed baseline, or an assertion on the [accessibility tree](#integration-and-end-to-end-testing-with-a-browser-in-the-loop) | Model looks at a screenshot and returns a verdict |
+| Reproducible | Yes — same input, same result | No — varies per run and per model version |
+| Catches | Any change above the diff threshold, exactly located | Gross layout breakage, missing sections, "wrong vibe" |
+| Fails on | Intentional changes too (needs baseline update) | Subtle regressions inside its noise floor; hallucinated passes |
+| Role | The merge gate | Advisory signal in the agent's loop; triage of diff failures |
+
+So visual regression stays a **deterministic** check — Playwright's built-in screenshot comparison or a hosted service, diffing against committed baseline images with an explicit pixel tolerance — and agents change layout without noticing, so it belongs in the suite whenever the agent touches UI. The VLM's role is to *explain* a diff failure ("the sidebar is now full-width") and to spot the regressions that never tripped a threshold because no test covered that view. Where the assertion can be made against the accessibility tree or the DOM instead of a picture, that is both cheaper and more precise.
+
+### Testing agents that are themselves multimodal
+
+If the code under test calls a VLM — a design-to-code step, a screenshot-classification feature, a document extractor — the [testability rules](#designing-for-testability) apply with an extra wrinkle: the model client must be an injected [seam](glossary.md#seam-testable-seam) so tests can supply scripted responses, and the fixture images or PDFs must be committed alongside the tests. Assert on the code's *handling* of the model output (routing, parsing, error paths, refusals), not on the live model's content, which is non-deterministic and priced per run. A small set of end-to-end checks against the real model can run out-of-band to catch prompt or model drift, on the same footing as the browser self-verification above.
+
+### Token cost and the injection surface
+
+A screenshot is a large, variable block of context tokens ([hundreds to thousands per image](./basics.md#the-context-token-cost-of-an-image)), and a screenshot-driven E2E loop resends them every step — which is why accessibility-tree automation is the cheaper default and why a visual self-check in [CI multiplies token spend](#cost) fast. Two further cautions: screenshots of untrusted rendered content (a third-party page, user-supplied HTML, an uploaded PDF) carry [image-channel prompt injection](./security.md) into the agent's context during a test run; and visual acceptance criteria written in prose are as prone to [spec-code drift](#specification-drift-the-daily-use-problem) as any other spec — the reference image or a Gherkin scenario is the checkable artifact, not the description.
+
+Research Note: the VLM limitations this section builds on (approximate localisation, hallucination, small-text and downscaling loss) are primary-sourced from vendor documentation and covered in the [Basics](./basics.md#capabilities-and-limitations) chapter. That teams should keep visual regression deterministic and use VLM judgement only as an advisory in-loop signal is convergent practitioner guidance and a direct application of this chapter's oracle-problem argument, not the finding of a controlled study. No primary source quantifies the escaped-regression rate of VLM-as-judge versus a deterministic baseline.
+
 ## Acceptance testing and feature flags
 
 ### Executable acceptance specs
@@ -460,3 +492,4 @@ Pulling the threads together, the recurring failure modes and the gate that catc
 | Duplication and coupling instead of reuse and refactoring | Accrues over months | Structural-health metrics gated on the per-change delta |
 | Silent scope creep — touching more than asked | The diff | Human review focused on intent and scope, not style |
 | Comprehension debt — code no human understands | The whole codebase | Smaller diffs, agent-authored explanations, humans kept in planning |
+| Treating a VLM's "looks right" verdict as a gate | Visual / UI verification | Deterministic visual-regression diff as the gate; VLM judgement advisory only |

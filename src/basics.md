@@ -1,6 +1,6 @@
 # Basics
 
-This chapter lays the mechanical groundwork the rest of the book builds on: what actually happens inside and around an LLM when it serves a request, before any agentic behavior is layered on top. It starts underneath the model, with the [KV cache](#key-value-store) that inference engines use to avoid recomputing attention for every token, then moves outward — to the [harness](#harnesses) that wraps a raw model into an agent, to [prompt caching](#prompt-caching---efficient-cloud-model-integration) as the cloud-side technique that exploits the same KV cache without ever transmitting it over the network, and finally to [context engineering](#context-engineering), the discipline of deliberately managing what occupies that context window turn after turn. Later chapters — on [harnesses](./agentic-coding-harnesses.md), [cost control](./cost-control.md), and [RAGs](./rags.md) — assume the vocabulary and mechanics introduced here.
+This chapter lays the mechanical groundwork the rest of the book builds on: what actually happens inside and around an LLM when it serves a request, before any agentic behavior is layered on top. It starts underneath the model, with the [KV cache](#key-value-store) that inference engines use to avoid recomputing attention for every token, then moves outward — to the [harness](#harnesses) that wraps a raw model into an agent, to [prompt caching](#prompt-caching---efficient-cloud-model-integration) as the cloud-side technique that exploits the same KV cache without ever transmitting it over the network, and then to [context engineering](#context-engineering), the discipline of deliberately managing what occupies that context window turn after turn. A closing section on [multimodal models](#multi-modal-models) covers what changes when images, not just text, enter that context window. Later chapters — on [harnesses](./agentic-coding-harnesses.md), [cost control](./cost-control.md), and [RAGs](./rags.md) — assume the vocabulary and mechanics introduced here.
 
 ## Key-Value store
 
@@ -185,3 +185,68 @@ Four strategies do most of the work:
 | Subagent delegation | Agent-to-agent communication | Not independently quantified | Each subagent returns only a condensed ~1,000–2,000-token summary instead of its full working context, keeping the orchestrator's own context slim |
 
 Research Note: the 60–90% and 50–70% ranges each have at least one genuine, if single-source, supporting data point (Anthropic's own documented cache-read discount for the former; a matched case study for the latter), so they're kept as originally drafted. The original "state compaction" row claimed 40–60% savings, which could not be corroborated — independently found figures for compaction/summarization cluster lower, around 20–30%, so the table above uses that better-supported range instead. The original "subagent splitting" row claimed "up to 15x" savings, but this figure traces back to Anthropic's own reporting that multi-agent systems use *roughly 15x more tokens* than a single agent — a cost of running multiple agents, not a savings figure from delegating work to subagents. That specific number has been dropped from the row above rather than repeated with the wrong meaning; the underlying benefit (subagents keeping the orchestrator's context slim by reporting back condensed summaries) is real and separately documented, just not quantified as a percentage or multiplier by any primary source found.
+
+## Multi Modal Models
+
+A **multimodal model** (in the LLM context, a **multimodal large language model**, MLLM) accepts input in more than one modality — most often text plus images — and sometimes produces output in more than one. The dominant sub-type, and what "this coding model is multimodal" almost always means in practice, is the **vision-language model (VLM)**: one or more images plus text go in, text comes out. Some models go further — audio in and speech out, or "any-to-any" / "omni" models that also take video and can emit images — but for a coding-agent audience the practical question is narrow: *can I put a screenshot, a diagram, or a PDF page in the context window and have the model reason about it, and what does that cost?* A separate lineage of models *generates* images (DALL·E, `gpt-image`, Google's "Nano Banana" line, Stable Diffusion, FLUX); frontier chat models increasingly expose native image generation too, though [Anthropic's Claude is an image-understanding model only and does not generate images](https://platform.claude.com/docs/en/build-with-claude/vision).
+
+### How they differ from text-only models
+
+A text-only transformer is a stack of self-attention and feed-forward blocks over a sequence of token embeddings — the machinery the [Key-Value store](#key-value-store) section describes. Making it multimodal adds three parts:
+
+1. **A modality encoder.** A separate network turns raw pixels into feature vectors, almost always a **Vision Transformer (ViT)**, frequently one pretrained with image-text contrastive learning ([CLIP](https://arxiv.org/abs/2103.00020), or the sigmoid-loss variant **SigLIP** used by Gemma 3). The ViT splits the image into fixed patches (e.g. 14×14 px), embeds each, and outputs one vector per patch.
+2. **A projector (connector).** The encoder's vectors do not live in the language model's embedding space, so a small trained module maps them across — a single linear layer in the original [LLaVA](https://arxiv.org/abs/2304.08485), a two-layer MLP in most models since, or a cross-attention "resampler" that compresses many patch vectors into a fixed smaller number ([Flamingo](https://arxiv.org/abs/2204.14198), BLIP-2's Q-Former).
+3. **A fusion strategy**, of which two dominate:
+   * **Early fusion** ("image patches become tokens") — the projected image vectors are spliced directly into the same token sequence as the text, and ordinary self-attention handles both. This is the mainstream design in 2026 (LLaVA, the Qwen-VL line, Pixtral, [Llama 4](https://ai.meta.com/blog/llama-4-multimodal-intelligence/)).
+   * **Cross-attention fusion** — image features stay outside the main sequence, and new gated cross-attention layers are interleaved into an otherwise frozen text model (Flamingo; Llama 3.2 Vision). This keeps the text sequence short at the cost of architectural surgery and extra parameters.
+
+```mermaid
+flowchart LR
+    IMG["Image"] --> ENC["Vision encoder<br/>(ViT / CLIP / SigLIP)"]
+    ENC --> PROJ["Projector<br/>(linear / MLP / resampler)"]
+    subgraph LM["Language model (transformer decoder)"]
+        direction TB
+        SEQ["Token sequence<br/>(text tokens + visual tokens)"]
+    end
+    TXT["Text tokens"] --> SEQ
+    PROJ -->|"early fusion:<br/>visual tokens spliced<br/>into the sequence"| SEQ
+    PROJ -.->|"cross-attention fusion:<br/>gated x-attn layers<br/>(Flamingo, Llama 3.2 Vision)"| LM
+```
+
+The detail that earns this section its place in *Basics*: in an early-fusion model **each surviving image patch is a token in the sequence and occupies a KV-cache slot exactly like a text token**. A single high-resolution screenshot is therefore not "one attachment" but a block of hundreds to a few thousand tokens that competes with source code for the context window and the [KV cache](#key-value-store). Because fixed 224–896 px ViT inputs are too small for dense screenshots and documents, models add resolution handling — splitting the image into a grid of native-resolution tiles plus a downscaled overview ("AnyRes", dynamic tiling), adaptive cropping ("pan-and-scan"), or a native-resolution encoder that processes the image at its true size and emits a variable token count (Qwen2-VL, Pixtral) — and every one of these trades more visual detail for more tokens.
+
+Training adds stages on top of the text recipe: contrastive encoder pretraining, an alignment stage on large noisy web image-text and interleaved image-text corpora, and **visual instruction tuning** on smaller high-quality (image, instruction, response) sets — LLaVA's contribution was to synthesize that data with a text-only model rather than human annotators. Adding vision can slightly regress pure-text benchmarks if the training mix is not managed, which is why some vendors freeze the text model during vision training (Llama 3.2 Vision does this so its text scores are unchanged) or replay text data alongside the multimodal data.
+
+Research Note: the encoder/projector/fusion structure and the training stages are well corroborated across first-party papers and model cards. The "vision slightly regresses text ability" point is directional — it is a data-mix and freezing decision rather than an inherent cost, and several labs report their vision training is roughly text-neutral.
+
+### The context-token cost of an image
+
+Every image in the prompt sits in the context window and the KV cache for the rest of the turn — and, if the harness resends conversation history, every subsequent turn. The cost is per-model and published:
+
+* **Anthropic Claude** tiles an image into **28×28 px patches**, one visual token per patch: `tokens = ⌈width / 28⌉ × ⌈height / 28⌉`. A standard tier caps this at ~1,568 tokens (larger images are downscaled first); a high-resolution tier introduced with Claude 4.7 caps it at 4,784. A 1,000×1,000 px image costs ~1,296 tokens; a 1,920×1,080 screenshot costs ~2,691 on the high-resolution tier. The [current docs](https://platform.claude.com/docs/en/build-with-claude/vision) note this patch formula supersedes the older `tokens ≈ (width × height) / 750` estimate.
+* **Google Gemini** charges a flat **258 tokens** for images with both sides ≤ 384 px, and 258 tokens per 768×768 tile for larger ones (a 960×540 image → six tiles → 1,548 tokens).
+* **OpenAI GPT** uses either a tile scheme (`detail: low` costs a fixed base; `detail: high` adds 512 px tiles) on the GPT-4o/4.1 generation, or a 32×32 px patch formula with a per-model multiplier on newer models.
+
+The takeaway for agent design: a screenshot-heavy loop burns context fast, resending image history across turns multiplies it, and images placed in the stable prefix are cached like text (see [Prompt caching](#prompt-caching---efficient-cloud-model-integration)) while a fresh screenshot appended at the bottom of an append-only history is a cache-friendly extension. Referencing an uploaded image by id (a provider Files API) keeps the request *payload* small but not the *token* cost.
+
+Research Note: the per-image token formulas above are from current vendor documentation. The specific 2026 model names, context windows, and prices in this area move quickly and were not all verifiable against first-party sources at the time of writing — treat any exact figure as needing a fresh check.
+
+### Capabilities and limitations
+
+Current VLMs are strong at reading text from images (OCR, increasingly multilingual), interpreting charts and plots, understanding document and PDF layout, reading diagrams and UI screenshots, and — in models trained for it (Molmo, the Qwen-VL line) — **grounding**: returning pixel coordinates or bounding boxes for a described element, which is what makes screenshot-driven GUI agents possible.
+
+The documented failure modes matter for anyone wiring a VLM into an agent loop. [Anthropic's own vision docs](https://platform.claude.com/docs/en/build-with-claude/vision) enumerate most of them, and they generalize: precise spatial reasoning and coordinates are approximate; counting degrades with many small objects; dense or small text is unreliable, especially after the image is downscaled to the token budget; fine high-resolution detail is lost the same way; the model will **hallucinate plausible content that is not in the image** (an expected control, a likely chart value); heavy JPEG/WebP compression hurts accuracy, particularly OCR; and rotated or skewed images degrade results.
+
+There is also a security dimension. Text embedded in an image — a screenshot of a web page, a PDF page, a photo — is recovered by the model's vision pathway and then treated **exactly like any other text in the prompt**. An attacker can hide instructions in faint low-contrast text or in a page the agent screenshots, and the model may follow them. This is indirect prompt injection through a channel that is harder to sanitize than plain text, because you cannot easily preview what the model's OCR will read; see the [Security](./security.md) chapter.
+
+### Relevance in agentic coding
+
+Multimodal input closes feedback loops a text-only agent cannot:
+
+* **Screenshots and UI understanding** — screenshot a running app, a broken layout, or a rendered test result and reason about the visual output ("does the button actually render", "what does the error dialog say").
+* **Design-to-code** — implement a frontend against a mockup. Structured design context (the [Figma Dev Mode MCP server](https://www.figma.com/blog/introducing-figma-mcp-server/) exposing a frame's component tree, design tokens, and a code-component mapping) is materially more reliable than handing the agent a bare screenshot, which drifts on spacing, exact colors, and component reuse.
+* **Visual debugging** — compare rendered output to a reference, read a DevTools screenshot, check a generated chart against its expected shape. VLM weaknesses bite here, so pair it with a real image-diff tool for anything pixel-precise.
+* **Browser and computer-use agents** — perceiving a GUI is inherently visual. These split into pixel/screenshot-based control (Anthropic's and OpenAI's *computer use* tools) and accessibility-tree-based control (Anthropic's separate *browser use* tool, Playwright MCP); the trade-off between them is a token-cost and reliability question covered in the [Quality](./quality.md#multi-modal-models) chapter.
+* **PDF and document understanding** — feed spec PDFs, API docs, and RFCs into the agent. Claude's native PDF support processes both the extracted text and a per-page visual rendering; the alternative is a PDF-to-markdown preprocessor (`docling`, `marker`, MinerU) that converts the document to plain text first, far cheaper in tokens and greppable but lossy on complex layouts and figures.
+
+The trade-off is straightforward. Vision costs context tokens on every image and, for [local models](./local-models.md#multi-modal-modells), also costs VRAM for the vision encoder and shrinks the usable context ceiling. For pure code generation, refactoring, review, and terminal work, a strong text-only coding model is cheaper per turn and usually the right pick. Multimodal capability matters specifically for frontend work, closing a visual feedback loop, consuming visual specs, and browser/computer-use agents. For most users this is not actually a choice: every frontier proprietary coding model is already a VLM, so the capability comes for free. The decision only really arises in local / open-weight setups, where a text-only coder (Qwen3-Coder, Devstral, GLM) has no vision path at all and adding one means running a VLM backbone or a separate perception model — see the [Local Models](./local-models.md#multi-modal-modells) chapter for those mechanics.

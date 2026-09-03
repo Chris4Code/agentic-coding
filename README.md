@@ -2,7 +2,7 @@
 
 Study notes on **agentic coding** — using AI agents to write, review, and maintain software — synthesized from the research in the `notes` folder into a structured [mdBook](https://rust-lang.github.io/mdBook/). 99% of the prose is written by Claude Code from those research findings.
 
-**Start reading:** [`src/README.md`](src/README.md) is the book's introduction — it lists every chapter and explains how the book is researched and written. The rendered book is produced by `mdbook build` into `book/` (git-ignored).
+**Start reading:** [`src/README.md`](src/README.md) is the book's introduction — it lists every chapter and explains how the book is researched and written. The rendered book is produced by `mdbook build` into `book/` (git-ignored). A live version of this book can be found [here](https://chris4code.github.io/agentic-coding/).
 
 ## Repository layout
 
