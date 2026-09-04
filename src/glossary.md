@@ -171,6 +171,9 @@ a code-completion prompt format that gives the model the text before *and* after
 #### Firecracker
 AWS's minimalist Rust KVM virtual-machine monitor (NSDI '20), which boots a micro-VM to application code in under 125 ms with under 5 MiB of overhead by emulating only ~5 devices and skipping the BIOS/firmware handshake. Powers AWS Lambda and Fargate; the isolation boundary behind E2B, Vercel Sandbox and Fly.io. See [Local Models § Agent sandboxing](./local-models.md#agent-sandboxing).
 
+#### Frequent intentional compaction
+Dex Horthy's umbrella term for deliberately structuring what enters an agent's context window at every step of a task — distilling the state so far into a clean artifact, then resuming from that artifact in a fresh session — rather than letting one conversation accumulate until it degrades. The [RPI](#rpi-research-plan-implement) workflow is one concrete instantiation. See [SW Factories § Research, Plan, Implement](./sw-factories.md#research-plan-implement-rpi).
+
 #### Full Human Review
 a software factory model where an AI agent replaces the human builder but every line of generated code is still read by a human before merge; a bounded productivity gain because review remains the bottleneck. See [SW Factories § Full Human Review](./sw-factories.md#full-human-review).
 
@@ -387,11 +390,17 @@ reusing a cloud provider's already-computed KV cache for a repeated text prefix 
 #### Prompt injection
 OWASP LLM01: because an LLM processes instructions and data in the same channel, untrusted content (a web page, a file, an issue comment, a dependency README) can carry instructions the model obeys. Sharper with a local model, which has no provider-side safety filter between the injected instruction and the agent's shell. See [Local Models § Prompt injection and excessive agency](./local-models.md#prompt-injection-and-excessive-agency).
 
+#### QRSPI
+Dex Horthy's early-2026 revision of [RPI](#rpi-research-plan-implement) into a longer pipeline — Questions, Research, Design discussion, Structure outline, Plan, Implement — after the three-phase version hit an instruction-budget ceiling (an 85-plus-instruction planning prompt, past the ~150–200 a frontier model follows reliably), needed "magic words" to behave, and let over-detailed plans pass review without the agent having understood the codebase. Community re-implementations rename it phonetically to *CRISPY*. See [SW Factories § Research, Plan, Implement](./sw-factories.md#research-plan-implement-rpi).
+
 #### Quality gate
 a pass/fail set of conditions applied to a change (no new vulnerabilities, coverage on new code above a threshold, duplication below one); SonarQube's "AI Code Assurance" adds a stricter gate ("Sonar way for AI Code") applied specifically to PRs labelled as containing AI-generated code. See [Quality § Quality gates for AI code](./quality.md#quality-gates-for-ai-code).
 
 #### Quantization (weight quantization)
 storing each model parameter in fewer bits than its trained precision (BF16 = 16 bits), dequantizing per-block on the fly; roughly linear memory savings that also speed up generation. At ≥4 bits quality loss is near-negligible for most tasks; below 3 bits dense models degrade fast. Formats include GGUF K-quants, AWQ, GPTQ, NF4, FP8 and MXFP4. See [Local Models § Quantization](./local-models.md#quantization).
+
+#### Ralph loop
+Geoff Huntley's minimalist agent loop (mid-2025): a bare shell loop (`while :; do cat PROMPT.md | agent; done`) that runs one task per iteration against a fixed stack of instruction files, with a hard `git reset` when an iteration corrupts the tree — deliberately unsophisticated, on the argument that simpler loops fail in simpler, more diagnosable ways. [RPI](#rpi-research-plan-implement) is a more structured refinement of the same idea. See [SW Factories § Research, Plan, Implement](./sw-factories.md#research-plan-implement-rpi).
 
 #### ReAct loop (Reason, Act, Observe)
 the iterative pattern a harness's control loop drives: the agent reasons about its current state and plans, acts by invoking a tool, then observes the result and updates its strategy before repeating. See [Agentic Coding Harnesses § Main Components of a Harness](./agentic-coding-harnesses.md#main-components-of-a-harness).
@@ -413,6 +422,9 @@ AMD's GPU-compute stack, the CUDA equivalent; Linux-first, with an officially su
 
 #### Router (Mixture-of-Experts)
 the small gating network in a Mixture-of-Experts layer that, per token, selects which top-k experts to run and how to weight their outputs. See [Local Models § Mixture of Experts Modells](./local-models.md#mixture-of-experts-modells).
+
+#### RPI (Research, Plan, Implement)
+Dex Horthy's (HumanLayer) three-phase agent workflow for brownfield codebases, and one instantiation of [frequent intentional compaction](#frequent-intentional-compaction). Each phase runs as its own session and emits a durable markdown artifact that seeds the next: **Research** documents how the code works today (files, data flow, `file:line` refs) and describes only — no proposals; **Plan** turns that into exact steps plus per-phase automated and manual verification, with no open questions left; **Implement** works through the plan phase by phase, checking items off in the plan file, with a human review gate after research and after the plan. Phase boundaries are deliberate context resets aimed at keeping window utilization in the 40–60% range. The name is Horthy's later retronym; the written "research, plan, implement" workflow predates it. For greenfield work Horthy points to spec-first workflows instead ([spec-driven development](#spec-driven-development-sdd)). Revised into [QRSPI](#qrspi) in early 2026. Same thesis as the [Leverage-Point Model](#leverage-point-model), one altitude down; layered on top of the bare [Ralph loop](#ralph-loop). See [SW Factories § Research, Plan, Implement](./sw-factories.md#research-plan-implement-rpi).
 
 #### Sanitizer (ASan / UBSan / TSan / MSan)
 compiler instrumentation that turns latent undefined behaviour in C/C++ into an immediate, located crash when a test exercises it: AddressSanitizer (buffer overflow, use-after-free, leaks), UndefinedBehaviorSanitizer (signed overflow, bad shifts, null deref), ThreadSanitizer (data races), MemorySanitizer (uninitialised reads). The agentic pattern is to run the test suite under `-fsanitize=address,undefined` as a gate before the agent yields, since a plain compile and green tests certify little in a language with no memory-safety net. See [Quality § C and C++](./quality.md#c-and-c-why-the-row-isnt-the-whole-story).

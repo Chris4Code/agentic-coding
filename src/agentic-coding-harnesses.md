@@ -449,3 +449,12 @@ and the output pipes natively into ordinary shell scripts, e.g. `mcpli call-tool
 | Building a new service from scratch | Build the MCP server first as the interface layer, then generate the human-facing CLI from it (Strategy B) |
 
 ## Context Window Quality Factors
+
+Everything above — the control loop, the token manager, LSP over grep, MCP tool design — exists to control one thing: what occupies the model's context window on each turn. A stateless model's output quality is a function of that window and nothing else, so it is worth being explicit about what "good context" means. Dex Horthy's essay [`ace-fca.md`](https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md) names four properties to optimize, in priority order:
+
+1. **Correctness** — the most important by a wide margin; wrong information in the window is worse than missing information, because the model builds on it confidently.
+2. **Completeness** — a gap forces the model to guess, and it will.
+3. **Size** — raw token count. Past a point, more context makes output *worse*, not better (the [memory and long-context limits](./basics.md#memory-the-practical-limit-on-context-length) from Basics). Horthy's own summary of the failure order: "Incorrect Information, then Missing Information, then Too much Noise."
+4. **Trajectory** — the accumulated history of the session steers what comes next; a few bad turns condition every turn after them.
+
+The practical pollutant is an agent's own tool output — file-search results, code-flow exploration, applied-edit diffs, test and build logs, large raw JSON blobs — which accumulates as noise and, once it pushes window utilization past roughly 40–60%, drags the other three factors down with it. Two harness-level responses recur: the [Context & Token Manager](#context--token-manager) compacting that history mid-session, and sub-agents (see [LSP](#language-server-protocol-lsp) and the MCP sections) absorbing the noisy exploration in a separate window and returning only a summary. At the workflow level, the same principle drives the [Research, Plan, Implement loop](./sw-factories.md#research-plan-implement-rpi) in the Software Factories chapter: split a task at deliberate points, distill each part into a clean artifact, and start the next step from that artifact rather than the raw transcript.
