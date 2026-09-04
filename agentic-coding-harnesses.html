@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-de48d743.js";
+            window.path_to_searchindex_js = "searchindex-a22d619e.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-1e950b5d.js"></script>
@@ -574,6 +574,14 @@ The <code>--help</code> output, type casting, required-parameter validation, and
 </table>
 </div>
 <h2 id="context-window-quality-factors"><a class="header" href="#context-window-quality-factors">Context Window Quality Factors</a></h2>
+<p>Everything above — the control loop, the token manager, LSP over grep, MCP tool design — exists to control one thing: what occupies the model’s context window on each turn. A stateless model’s output quality is a function of that window and nothing else, so it is worth being explicit about what “good context” means. Dex Horthy’s essay <a href="https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md"><code>ace-fca.md</code></a> names four properties to optimize, in priority order:</p>
+<ol>
+<li><strong>Correctness</strong> — the most important by a wide margin; wrong information in the window is worse than missing information, because the model builds on it confidently.</li>
+<li><strong>Completeness</strong> — a gap forces the model to guess, and it will.</li>
+<li><strong>Size</strong> — raw token count. Past a point, more context makes output <em>worse</em>, not better (the <a href="./basics.html#memory-the-practical-limit-on-context-length">memory and long-context limits</a> from Basics). Horthy’s own summary of the failure order: “Incorrect Information, then Missing Information, then Too much Noise.”</li>
+<li><strong>Trajectory</strong> — the accumulated history of the session steers what comes next; a few bad turns condition every turn after them.</li>
+</ol>
+<p>The practical pollutant is an agent’s own tool output — file-search results, code-flow exploration, applied-edit diffs, test and build logs, large raw JSON blobs — which accumulates as noise and, once it pushes window utilization past roughly 40–60%, drags the other three factors down with it. Two harness-level responses recur: the <a href="#context--token-manager">Context &amp; Token Manager</a> compacting that history mid-session, and sub-agents (see <a href="#language-server-protocol-lsp">LSP</a> and the MCP sections) absorbing the noisy exploration in a separate window and returning only a summary. At the workflow level, the same principle drives the <a href="./sw-factories.html#research-plan-implement-rpi">Research, Plan, Implement loop</a> in the Software Factories chapter: split a task at deliberate points, distill each part into a clean artifact, and start the next step from that artifact rather than the raw transcript.</p>
 
                     </main>
 
