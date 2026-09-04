@@ -255,6 +255,9 @@ a protocol (originally for editor autocomplete/navigation) that a harness's tool
 #### Lethal trifecta
 Simon Willison's name for the three capabilities that together make an agent exploitable for data theft: access to private data, exposure to untrusted content, and a way to communicate outward. Removing any one leg breaks the exfiltration path; coding agents routinely hold all three at once. See [Security § Why it cannot simply be prevented](./security.md#why-it-cannot-simply-be-prevented).
 
+#### Levels of agentic coding
+a family of overlapping numbered taxonomies (Dan Shapiro's five, Steve Yegge's eight, Addy Osmani's two-axis six, and others) that cast AI-assisted development as a staircase from in-the-loop assistance, through bounded task delegation and parallel multi-agent work, to orchestration-by-exception and a fully autonomous [dark factory](#dark-factory-lights-off-factory). The endpoints and rough middle are well corroborated; the exact rung count, boundaries, and defining axis are not standardized. See [SW Factories § The Levels of Agentic Coding](./sw-factories.md#the-levels-of-agentic-coding).
+
 #### Leverage-Point Model
 a software factory model that retains full human review but compresses and front-loads it via a staged pre-planning process (e.g. product → architecture → program design → vertical slices, each gated by explicit human sign-off), so review becomes fast confirmation of already-agreed decisions rather than open-ended discovery. See [SW Factories § Leverage-Point Model](./sw-factories.md#leverage-point-model).
 
