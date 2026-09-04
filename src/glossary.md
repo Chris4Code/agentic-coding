@@ -63,6 +63,9 @@ placing an entire static reference document permanently at the top of the prompt
 #### Cache thrashing / cache miss
 the loss of a prompt cache hit caused by a single changed character anywhere in the cached prefix, forcing the provider to recompute the KV cache from scratch. See [Basics § Prompt caching](./basics.md#prompt-caching---efficient-cloud-model-integration).
 
+#### CaMeL (Capabilities for Machine Learning)
+a design-level prompt-injection defence (Google DeepMind and ETH Zürich, 2025) that extends the [Dual-LLM pattern](#dual-llm-pattern): a privileged LLM emits code in a restricted interpreter, a quarantined LLM only parses untrusted data into typed values, every value carries a provenance *capability*, and a policy engine checks each data flow before a side-effecting call. Claims security *guarantees* rather than a detection score, at the cost of hand-maintained policies. See [Security § The Dual-LLM Pattern and CaMeL](./security.md#the-dual-llm-pattern-and-camel).
+
 #### Capability cascade
 a hybrid routing pattern that sends a request to the local model first and escalates it to a cloud frontier model only on a failure signal (repeated failing tests, a low-confidence response, a stuck tool loop, or an explicit escalate). See [Hybrid Setups § Capability cascade](./hybrid-setups.md#capability-cascade).
 
@@ -71,6 +74,9 @@ a test that fails whenever the implementation changes rather than whenever the b
 
 #### Communication tax
 the token cost of agents passing large code blocks back and forth (e.g. during review or testing), which can account for up to ~60% of an unoptimized agentic run's total token spend if left unmanaged. See [Basics § multi-turn loops and Loop engineering](./basics.md#multi-turn-loops-and-loop-engineering).
+
+#### Confused deputy
+a privilege-escalation pattern where a trusted intermediary is tricked into misusing its authority on behalf of a less-privileged caller. For agents it appears twice: an agent acting with more authority than the human who invoked it (mitigated by authorising the *intersection* of the two), and MCP proxy flows that obtain authorization codes without proper user consent. See [Security § The agent and its principal are two subjects](./security.md#the-agent-and-its-principal-are-two-subjects).
 
 #### Composition root
 the single explicit place (typically `main` or a factory function) where an application's object graph is wired: real adapters are constructed and passed into the components that need them, while tests pass fakes into the same parameters. Preferred over a DI container's annotation-driven wiring in agentic work, because it keeps the whole dependency graph greppable in one function instead of resolved somewhere the agent cannot see. See [Quality § Designing for testability](./quality.md#designing-for-testability).
@@ -96,6 +102,9 @@ requests sharing an identical prompt prefix (e.g. the same system prompt) point 
 #### Coverage-guided fuzzing
 automated testing that feeds mutated inputs to a target and keeps the ones that reach new code paths, driving toward maximum coverage (libFuzzer, AFL++; OSS-Fuzz runs it continuously for open source). In an agentic workflow the agent can draft the fuzz harness for a parser or untrusted-input boundary, and the run finds the edge-case and untested-path bugs a hand-written suite misses. See [Quality § Fuzzing](./quality.md#fuzzing) and [§ C and C++](./quality.md#c-and-c-why-the-row-isnt-the-whole-story).
 
+#### Cross-App Access (ID-JAG)
+an OAuth extension (Okta, 2025; formally the *Identity Assertion Authorization Grant*) for the case where an agent in one application calls a second application on a user's behalf: the client swaps a user-identity assertion at the identity provider for an intermediate **ID-JAG** token that the target app validates before issuing a short-lived, scoped access token, keeping every hop visible to the central IdP. See [Security § Identity Provisioning and Standards](./security.md#identity-provisioning-and-standards).
+
 #### Cross-encoder / reranker
 a local model that re-scores a broad, cheaply-retrieved pool of candidate chunks against the query so only the most relevant few are kept before sending them onward. See [RAGs § Dual-Embedding / Hybrid-Embedding architectures](./rags.md#dual-embedding--hybrid-embedding-architectures).
 
@@ -107,6 +116,9 @@ a hybrid routing rule that maps each request to a sensitivity tier from the file
 
 #### Daytona
 a hosted agent-sandbox runtime ("infrastructure for running AI-generated code"), marketed on sub-90 ms sandbox creation, with stateful snapshots and a declarative image builder; container isolation by default, Kata micro-VMs opt-in. Began as an open-source self-hosted dev-environment manager; that repo is now maintenance-only. See [Local Models § Sandbox primitives: E2B, Daytona, Modal](./local-models.md#sandbox-primitives-e2b-daytona-modal).
+
+#### Decentralized identifier (DID)
+a W3C identifier scheme (paired with Verifiable Credentials) proposed as a substrate for agent-to-agent trust across organisations where no shared identity provider spans both parties; each agent controls its own DID and presents third-party credentials. Active research, no production adoption as of late 2026, and — despite the "distributed ledger" association — the common methods (`did:web`, `did:key`) need no blockchain. See [Security § Identity Provisioning and Standards](./security.md#identity-provisioning-and-standards).
 
 #### DeepAgents
 LangChain's third-generation, more autonomous agent layer, built on top of LangGraph's explicit graph substrate rather than reverting to chain-style implicit control flow. See [SW Factories § LangChain](./sw-factories.md#from-chains-to-graphs-to-deepagents).
@@ -120,8 +132,14 @@ specifying a function's pre-conditions, post-conditions, and invariants as machi
 #### Design-to-code
 generating frontend code from a visual design. Handing the agent structured design context (the Figma Dev Mode MCP server's component tree, design tokens, and code-component mapping) is materially more reliable than a bare screenshot, which drifts on spacing, colour, and component reuse. See [Basics § Multi Modal Models](./basics.md#relevance-in-agentic-coding).
 
+#### Deterministic tokenization
+a data-masking scheme (e.g. Skyflow's LLM Privacy Vault) where each sensitive value is replaced by a format-preserving token with no mathematical relation to the original; the same input always yields the same token, so relationships in the data survive, but the plaintext lives only in the vault and detokenization is access-controlled. Contrast irreversible masking, which cannot be undone at all. See [Security § Privacy Gateways](./security.md#privacy-gateways).
+
 #### Dual-Embedding / Hybrid-Embedding architectures
 indexing a knowledge base cheaply up front with a local embedding model, then progressively adding higher-fidelity cloud embeddings over time as content is actually used, keeping the two in separate vector-database partitions and routing each query to the right one. Not an established, industry-recognized term (see the chapter's own Research Note) — "hybrid embedding" more commonly refers to fusing sparse and dense retrieval instead. See [RAGs § Dual-Embedding / Hybrid-Embedding architectures](./rags.md#dual-embedding--hybrid-embedding-architectures).
+
+#### Dual-LLM pattern
+a prompt-injection defence (Simon Willison, 2023): a *privileged* LLM that sees only trusted input and holds all tools, a *quarantined* LLM that processes untrusted content and has none, and plain controller code that passes data between them by opaque reference so the privileged model never sees the untrusted text. Constrained and awkward by its author's own account; [CaMeL](#camel-capabilities-for-machine-learning) is its refinement. See [Security § The Dual-LLM Pattern and CaMeL](./security.md#the-dual-llm-pattern-and-camel).
 
 #### Dynamic memory (skills)
 a harness component that abstracts a successfully completed task's trajectory into a reusable "skill" file, then retrieves and injects relevant past skills into the system prompt on later runs instead of re-solving the same problem from scratch. See [Agentic Coding Harnesses § Main Components of a Harness](./agentic-coding-harnesses.md#main-components-of-a-harness).
@@ -131,6 +149,9 @@ an open-source (Apache-2.0) agent-sandbox runtime that boots one Firecracker mic
 
 #### Early fusion / cross-attention fusion
 the two dominant ways a [vision encoder](#vision-encoder-vit)'s output is combined with a language model. *Early fusion* splices the projected image vectors into the same token sequence as the text, as [visual tokens](#visual-token) handled by ordinary self-attention (LLaVA, Qwen-VL, Llama 4 — the mainstream 2026 design); *cross-attention fusion* keeps image features outside the sequence and interleaves gated cross-attention layers into an otherwise frozen text model (Flamingo, Llama 3.2 Vision). See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models).
+
+#### Egress allow-list
+a default-deny network policy on an agent's workspace that permits outbound connections only to a short list of hosts (the model API, the package registries the build needs, the Git host). The highest-value workspace control because credential and data exfiltration, not kernel escape, is the dominant risk — though a subverted agent can still exfiltrate through the allowed hosts themselves. See [Security § Workspace Containers](./security.md#workspace-containers).
 
 #### Embedding
 a fixed-length, learned vector representation of a token (or a chunk of text) that positions it in a high-dimensional space so that semantically similar items end up with similar vectors. See [Basics § Key-Value store](./basics.md#key-value-store).
@@ -174,6 +195,9 @@ the orchestration layer around an LLM (system prompt, tool definitions, and the 
 #### Hugging Face
 the dominant hosting platform for open-weight models ("GitHub for models"): each model is a versioned repository with a model card (license, architecture, benchmarks, chat template), and a community ecosystem re-publishes quantized conversions of each release. Local inference engines download weights from it directly or through a wrapper. See [Local Models § Local inference engines](./local-models.md#local-inference-engines) and [§ Models](./local-models.md#models).
 
+#### Human-in-the-loop approval gate
+a required human decision inserted before an agent action that is irreversible or leaves the perimeter — merge, deploy, publish, send, spend. Complements role-based limits: the agent may propose such an action but cannot commit it alone. See [Security § Zero-Trust for AI Agents](./security.md#zero-trust-for-ai-agents).
+
 #### Hybrid attention
 a transformer that mixes cheap linear-attention layers (a fixed-size recurrent state, e.g. Gated DeltaNet) with a minority of full-attention layers, so only that minority grows a [KV cache](./basics.md#key-value-store) with context. Cuts KV-cache growth several-fold, which makes long-context local agent loops affordable on a consumer GPU. Used by Qwen3-Next and the Qwen3.5/3.8 series. See [Local Models § Models](./local-models.md#models).
 
@@ -186,6 +210,9 @@ feeding a high-resolution image to a fixed-input [vision encoder](#vision-encode
 #### Image-based prompt injection
 [prompt injection](#prompt-injection) carried through the visual channel — instructions hidden in a screenshot, rendered web page, or PDF that the model's vision pathway recovers and then treats as prompt text. Harder to sanitize than text because what the model will read is not easily previewed. See [Basics § Capabilities and limitations](./basics.md#capabilities-and-limitations).
 
+#### Indirect prompt injection
+[prompt injection](#prompt-injection) where the malicious instruction is not typed by the user but arrives inside content the agent ingests while working — a dependency README, a GitHub issue or PR comment, a docstring, CI logs, a fetched web page, a rules file in a cloned repo, or an MCP tool's description. The dominant attack surface for autonomous coding agents. See [Security § Handling Prompt Injection](./security.md#handling-prompt-injection).
+
 #### Inference engine
 the software that loads model weights, manages the KV cache and runs the token-generation loop, exposing an API (usually OpenAI-compatible) for a harness to call; llama.cpp, Ollama and vLLM are the main choices for local use. See [Local Models § Local inference engines](./local-models.md#local-inference-engines).
 
@@ -195,8 +222,14 @@ the core runtime loop built directly into an agent tool and shipped by its AI ve
 #### Intent Thinking
 the human competency BCG Platinion pairs with harness engineering in an agentic software factory: translating business needs into precise, testable descriptions of desired outcomes, since humans no longer write or review the code itself. See [SW Factories § Agentic SW Factories](./sw-factories.md#agentic-sw-factories).
 
+#### Jailbreaking
+getting a model to violate its own safety training. Distinct from [prompt injection](#prompt-injection), which is getting a model to disregard the *developer's* instructions in favour of instructions in untrusted data — a coding agent can be perfectly aligned and still be prompt-injected. See [Security § Handling Prompt Injection](./security.md#handling-prompt-injection).
+
 #### Just-in-time (JIT) context sourcing
 keeping only lightweight references (file paths, symbol structures) in context and reading or greping specific files/lines only when a step actually needs them, instead of loading an entire codebase up front. See [Basics § multi-turn loops and Loop engineering](./basics.md#multi-turn-loops-and-loop-engineering).
+
+#### Just-in-time (JIT) privilege elevation
+running an agent on a minimal standing permission set and granting a scoped, time-boxed elevation only when a specific task needs it, approved by a human or a policy; keeps the baseline blast radius small without blocking legitimate work. See [Security § Role Management and Access Control](./security.md#role-management-and-access-control).
 
 #### Kata Containers
 an OCI-compatible container runtime that transparently boots a lightweight KVM virtual machine (with its own guest kernel) per pod, at roughly 50–100 ms boot and 100–200 MiB overhead; VMM backends include QEMU, Firecracker and Cloud Hypervisor. Daytona's opt-in stronger-isolation mode. See [Local Models § Agent sandboxing](./local-models.md#agent-sandboxing).
@@ -219,6 +252,9 @@ LangChain's lower-level orchestration library that models an agent's control flo
 #### Language Server Protocol (LSP)
 a protocol (originally for editor autocomplete/navigation) that a harness's tool registry can query for deterministic, semantic code intelligence — exact symbol definitions, references, safe renames, and diagnostics — instead of guessing from grepped text. See [Agentic Coding Harnesses § Main Components of a Harness](./agentic-coding-harnesses.md#main-components-of-a-harness).
 
+#### Lethal trifecta
+Simon Willison's name for the three capabilities that together make an agent exploitable for data theft: access to private data, exposure to untrusted content, and a way to communicate outward. Removing any one leg breaks the exfiltration path; coding agents routinely hold all three at once. See [Security § Why it cannot simply be prevented](./security.md#why-it-cannot-simply-be-prevented).
+
 #### Leverage-Point Model
 a software factory model that retains full human review but compresses and front-loads it via a staged pre-planning process (e.g. product → architecture → program design → vertical slices, each gated by explicit human sign-off), so review becomes fast confirmation of already-agreed decisions rather than open-ended discovery. See [SW Factories § Leverage-Point Model](./sw-factories.md#leverage-point-model).
 
@@ -227,6 +263,9 @@ an open-source LLM gateway that sits between agents and model providers, issuing
 
 #### llama.cpp
 a C/C++ inference engine built on the `ggml` tensor library; the reference engine for local, resource-constrained inference, using the GGUF format, wide hardware backend support, and CPU+GPU hybrid layer offload. See [Local Models § llama.cpp](./local-models.md#llamacpp).
+
+#### LLM firewall (AI gateway / semantic firewall)
+a layer that inspects model inputs and outputs for prompt injection, jailbreaks, PII, and unsafe content — inline and blocking, or alongside and monitoring. Detection is deterministic (regex/signatures, fast but evadable) or a small classifier model (catches novel phrasings, but has a false-positive rate and can be out-computed by the target model). Defense-in-depth, not a solution. Examples: NeMo Guardrails, LLM Guard, LlamaFirewall, Cloudflare Firewall for AI. See [Security § LLM Firewalls](./security.md#llm-firewalls).
 
 #### LLM pipeline
 a structured, repeatable sequence of operations (input processing, retrieval, model calls, validation, etc.) that turns raw input into a production-ready output, as opposed to a single isolated prompt. See [RAGs § LLM pipelines](./rags.md#llm-pipelines).
@@ -285,17 +324,26 @@ a transformer-based model that accepts input in more than one modality (usually 
 #### Mutation testing
 introducing small deliberate faults ("mutants") into source code; a test suite that stays green under a mutant is not actually verifying that behaviour. Tools: Stryker (JS/TS), PIT (Java), `mutmut` (Python), `cargo-mutants` (Rust). The historical bottleneck — interpreting the report — is work an agent can now do, making it the practical defense against high-coverage/weak-assertion agent-written tests. See [Quality § Mutation testing and property-based testing as defenses](./quality.md#mutation-testing-and-property-based-testing-as-defenses).
 
+#### Non-human identity (NHI)
+the category term for a login that is not a person — service accounts, CI runners, workload identities, bots, and AI agents. NHIs outnumber human identities in most organisations (vendor estimates vary from ~45:1 to >80:1), and an agent given its own NHI gets attributable actions, independently scoped permissions, independent revocation, and a managed lifecycle. See [Security § Agent Identity](./security.md#agent-identity).
+
 #### NVLink / NVSwitch
 NVIDIA's GPU-to-GPU interconnect (900 GB/s on Hopper, 1.8 TB/s per GPU on Blackwell, far above PCIe) and the switch fabric that connects many GPUs all-to-all; what makes tensor-parallel serving of a model too large for one GPU practical. See [Local Models § Datacenter GPU Stacks](./local-models.md#datacenter-gpu-stacks).
 
 #### Ollama
 an MIT-licensed local-model runner wrapping a `ggml`-based engine behind a Docker-like CLI, a container-style model registry, an OpenAI-compatible API, and automatic GPU/CPU split and idle-model unloading. See [Local Models § Ollama](./local-models.md#ollama).
 
+#### On-behalf-of token (delegated authority)
+a request credential that names both the agent (a stable non-human identity) and the human principal who invoked it, so the resource server can authorise the action as the **intersection** of the two parties' permissions rather than their union — closing the confused-deputy path where an agent acts with more authority than its user. See [Security § Agent Identity](./security.md#agent-identity).
+
 #### Open WebUI
 a self-hosted, ChatGPT-style web frontend that ships no models of its own and connects to Ollama or any OpenAI-compatible backend; a chat and admin surface, not a coding agent. Licensed BSD-3-Clause plus a branding-protection clause (removable only for deployments of ≤50 users). See [Local Models § Open-WebUI](./local-models.md#open-webui).
 
 #### OpenRouter
 a cloud aggregation API exposing 500+ models behind one OpenAI-compatible (and Anthropic-compatible) endpoint with automatic provider routing and failover; no markup on inference, a percentage fee on credit purchases, and per-request privacy controls including `zdr: true`. See [Local Models § Open Router](./local-models.md#open-router).
+
+#### OpenTelemetry GenAI semantic conventions
+the OpenTelemetry standard for agent/LLM telemetry: typed spans for agent invocations, model generations, tool calls, and guardrail checks, with prompt and response **content capture as a separate opt-in mechanism** (structured log events correlated to the span) so it can be filtered or dropped at the collector without changing application code. See [Security § Audit Logs](./security.md#audit-logs).
 
 #### Oracle (test oracle)
 the mechanism that decides whether a test's observed result is correct: a hard-coded expected value, a stated invariant (property-based testing), an implicit "must not crash" (fuzzing), a machine-checkable contract, or a reference implementation (differential testing). In agentic coding a strong oracle is one the agent cannot make pass by editing it to match the code (contrast the *test oracle problem* entry below). See [Quality § The oracle problem](./quality.md#the-oracle-problem).
@@ -309,11 +357,20 @@ vLLM's technique for storing a request's KV cache in small, non-contiguous, fixe
 #### pass@1 / resolved rate
 benchmark scoring where the model gets one attempt per task and the score is the fraction that pass (for code-completion benchmarks: the generated code passes the tests; for SWE-bench-style benchmarks: the patch makes the failing tests pass without regressing the others). See [Local Models § Benchmarks](./local-models.md#benchmarks).
 
+#### PII redaction (data masking)
+detecting personal data, secrets, and internal identifiers in a prompt and replacing them with placeholders before the prompt reaches a cloud model — reversibly (keep a placeholder-to-value map for rehydration) or irreversibly. Tools: Microsoft Presidio, LLM Guard's Anonymize scanner. The detector's sub-100% recall and the reasoning damage from over-redaction are the main limits. See [Security § Privacy Gateways](./security.md#privacy-gateways).
+
 #### Pipeline as code
 writing a CI/CD pipeline as a real program (a typed SDK such as Dagger, or a statically-typed DSL such as TeamCity's Kotlin DSL) instead of YAML. For an agent this means the pipeline runs identically in its local sandbox and in CI (so a CI failure can be reproduced and fixed without a push), and pipeline edits get compile-time type feedback in the same inner loop as application code. See [Quality § Pipelines as code, not YAML](./quality.md#pipelines-as-code-not-yaml).
 
+#### Policy Decision Point / Policy Enforcement Point (PDP/PEP)
+the split that keeps authorization out of agent-written code: the runtime (PEP) intercepts every proposed tool call and asks a separate policy engine (PDP — Cedar, OPA, or OpenFGA) for an allow/deny, passing the agent, the action, and the resource. See [Security § Role Management and Access Control](./security.md#role-management-and-access-control).
+
 #### Prefix matching
 the requirement that a cloud provider's prompt cache only hits if the request text is 100% identical, character-for-character, from the very start. See [Basics § Prompt caching](./basics.md#prompt-caching---efficient-cloud-model-integration).
+
+#### Privacy gateway
+a proxy between an agent (or developer) and a cloud model that detects and strips sensitive data from a request before it leaves the perimeter — via [PII redaction](#pii-redaction-data-masking), [deterministic tokenization](#deterministic-tokenization), or secret scanning — and optionally rehydrates the response. Its complement is the contractual control, [Zero Data Retention](#zero-data-retention-zdr). See [Security § Privacy Gateways](./security.md#privacy-gateways).
 
 #### Projector (multimodal connector)
 the small trained module — a linear layer, a two-layer MLP, or a cross-attention resampler — that maps a [vision encoder](#vision-encoder-vit)'s output vectors into the language model's embedding space. In llama.cpp the `mmproj` file is the vision encoder plus this projector. See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models).
@@ -339,6 +396,9 @@ the iterative pattern a harness's control loop drives: the agent reasons about i
 #### Reciprocal Rank Fusion (RRF)
 an algorithm that merges two separately ranked retrieval result lists (e.g. from a local and a cloud embedding search) into one combined ranking based on rank position rather than raw similarity scores. See [RAGs § Dual-Embedding / Hybrid-Embedding architectures](./rags.md#dual-embedding--hybrid-embedding-architectures).
 
+#### Relationship-based access control (ReBAC)
+the Google Zanzibar authorization model (implemented by OpenFGA) in which access is derived from a graph of relationships — `user → agent`, `agent → repo`, `agent → tool` — rather than from static roles; used for agents to constrain, for example, a retrieval agent to exactly the documents authorised for the current session. See [Security § Role Management and Access Control](./security.md#role-management-and-access-control).
+
 #### Retrieval-Augmented Generation (RAG)
 fetching relevant text chunks from an external knowledge base and injecting them into the prompt as context, instead of relying only on what the model learned during training. See [RAGs § Context management](./rags.md#context-management).
 
@@ -356,6 +416,9 @@ compiler instrumentation that turns latent undefined behaviour in C/C++ into an 
 
 #### SAST / DAST / SCA
 the three automated security-testing families: static analysis of source (SAST, e.g. Semgrep, CodeQL), dynamic testing of the running app (DAST, e.g. OWASP ZAP), and software-composition analysis of dependencies (SCA, e.g. Snyk, `pip-audit`, `cargo audit`). In agentic workflows these move from periodic scans to in-loop gates, because agents pull in more dependencies and re-introduce known vulnerability patterns. See [Quality § Non-functional testing](./quality.md#non-functional-testing).
+
+#### SCIM (System for Cross-domain Identity Management)
+the REST protocol (RFC 7643/7644) an identity provider uses to create, update, and delete accounts in downstream applications automatically as people join, move, and leave. An IETF Internet-Draft (`draft-abbey-scim-agent-extension`, 2025) would add `Agent` and `AgenticApplication` resource types — under working-group consolidation, not yet a standard. See [Security § Identity Provisioning and Standards](./security.md#identity-provisioning-and-standards).
 
 #### SDLC (Software Development Life Cycle)
 the sequence of stages a piece of software moves through from conception to retirement — typically planning, coding, testing, review, deployment, and monitoring; the axis this chapter's "agentic" vs. "pre-agentic" distinction turns on (whether agents or humans execute these stages). See [SW Factories § Agentic SW Factories](./sw-factories.md#agentic-sw-factories).
@@ -384,6 +447,12 @@ the silent divergence of a written spec from the code generated against it, as b
 #### Speculative decoding
 generating tokens faster by having a cheap drafter (a small separate model, or built-in MTP/Medusa/EAGLE heads) propose several next tokens that the full model then verifies in one batched forward pass, emitting the accepted ones for free. See [Local Models § llama.cpp](./local-models.md#llamacpp) and [§ Multi Token Prediction](./local-models.md#multi-token-prediction).
 
+#### SPIFFE / SPIRE
+a CNCF-graduated standard (SPIFFE) and reference implementation (SPIRE) that give each workload a short-lived cryptographic identity (an **SVID**, X.509 or JWT) issued only after *attestation* of properties like the Kubernetes namespace, service account, and container image — binding identity to what the workload is and where it runs instead of to a shared secret. Proposed as a foundation for secret-less agent-to-agent authentication. See [Security § Identity Provisioning and Standards](./security.md#identity-provisioning-and-standards).
+
+#### Spotlighting (delimiting / datamarking / encoding)
+Microsoft's family of prompt-level techniques (2024) for keeping a model aware of which span of a prompt is untrusted data: wrapping it in a randomised marker, interleaving a marker token between every word, or encoding it (Base64/ROT13). Strong reported numbers, but only on 2023-era models, and encoding is self-undermining. A cheap speed bump, not a boundary. See [Security § Spotlighting and Content Delimiters](./security.md#spotlighting-and-content-delimiters).
+
 #### Standardized Retrieval Plugin Architecture
 a pattern (pioneered by OpenAI's now-deprecated ChatGPT Retrieval Plugin) that wraps a local vector database in fixed `/query`, `/upsert`, and `/delete` HTTP endpoints, letting any cloud LLM treat it as a native memory bank without custom per-project integration code. See [RAGs § Standardized Retrieval Plugin Architecture](./rags.md#standardized-retrieval-plugin-architecture).
 
@@ -401,6 +470,9 @@ Intel's open, Khronos-standard GPU-compute programming model (SYCL) and its surr
 
 #### Task-tier routing
 a hybrid routing pattern that splits requests by *kind* rather than difficulty: high-volume, low-stakes calls (inline completion, commit messages, chat titles, one-line edits, the `ANTHROPIC_SMALL_FAST_MODEL` calls) go to a small local model, while planning, cross-file reasoning, and hard debugging go to a cloud frontier model. See [Hybrid Setups § Task-tier routing](./hybrid-setups.md#task-tier-routing).
+
+#### Tamper-evident audit log
+an agent action log engineered so modification is detectable and hard: append-only / WORM storage against casual overwriting, hash-chaining (each entry commits to the previous one's hash) against a privileged insider, and real-time shipping off-host so a copy exists beyond the agent's reach. Distinct from observability tracing, which is sampled, mutable, and short-retention. See [Security § Audit Logs](./security.md#audit-logs).
 
 #### Terminal-Bench
 a benchmark (Stanford / Laude Institute; version 2.x co-authored with Snorkel) where an agent is given a shell in a Docker container and must complete an end-to-end task (fix a build, set up a server, recover data), graded pass/fail on the outcome. Hand-authored rather than scraped, so the solution is not in a public git history. See [Local Models § Benchmarks](./local-models.md#benchmarks).
@@ -422,6 +494,9 @@ the difficulty of deciding what a test's correct expected output should be. It s
 
 #### Three-Tier Multi-Agent Software Factory
 a multi-tenant software factory architecture that runs many customers' projects in parallel via isolated LangGraph threads, extending the single-project Agentic Business Workflows pattern with per-tenant state isolation and per-thread cost tracking. See [SW Factories § Three-Tier Multi-Agent Software Factory](./sw-factories.md#three-tier-multi-agent-software-factory).
+
+#### Tool poisoning
+an [indirect prompt injection](#indirect-prompt-injection) carried in the *description* of a tool an agent loads (most often an MCP tool), so attacker instructions reach the model before the tool is ever called. Related: *rug-pull*, where a tool's definition changes after the user approved it. See [Security § Zero-Trust for AI Agents](./security.md#zero-trust-for-ai-agents).
 
 #### Unified memory
 a single pool of RAM shared by CPU and GPU with no PCIe copy and no separate VRAM to size, as on Apple Silicon and AMD "Strix Halo" / NVIDIA DGX Spark machines; trades a large model capacity for memory bandwidth well below a discrete GPU's. See [Local Models § AI-Workstations](./local-models.md#ai-workstations).
@@ -461,6 +536,12 @@ llama.cpp's vendor-neutral GPU compute backend, running on any GPU with a confor
 
 #### Warp Oz
 Warp's cloud agent-orchestration platform (launched February 2026): runs many coding agents in parallel, each in its own container, across multiple harnesses (Claude Code, Codex, Warp Agent), cloud-hosted or self-hosted for enterprise. See [Local Models § Warp and Oz](./local-models.md#warp-and-oz).
+
+#### Workload identity federation
+exchanging a platform-native identity token (a GitHub Actions OIDC token, a Kubernetes service-account token, a cloud instance identity document) for a cloud credential with no long-lived secret stored anywhere; standard practice for CI and directly applicable to agents running in those environments. See [Security § Agent Identity](./security.md#agent-identity).
+
+#### Workspace container
+the isolation boundary an agent's shell, file writes, and network run inside, scoped in a coding-agent setting against credential/data exfiltration and unwanted outward actions rather than kernel escape: writes limited to the working tree, a default-deny [egress allow-list](#egress-allow-list), and secrets kept out of the environment. The isolation-technology spectrum (container → gVisor → micro-VM) is in [Local Models § Agent sandboxing](./local-models.md#agent-sandboxing). See [Security § Workspace Containers](./security.md#workspace-containers).
 
 #### Zero Data Retention (ZDR)
 a provider guarantee that prompts and completions are not stored after a request completes; exposed by OpenRouter as a per-request `zdr: true` routing constraint and offered as an enforced contract term by Warp and others. See [Local Models § Open Router](./local-models.md#open-router).
