@@ -1,0 +1,379 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Public DLT leveraged SW Factories - Agentic Coding Background Knowledge</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="AI rewrite of study notes on deep diving into agentic coding">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../css/chrome-d279d366.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../additional-e52f40c1.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-f30cc814.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-6c7cfb32.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Agentic Coding Background Knowledge</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="public-dlt-leveraged-sw-factories"><a class="header" href="#public-dlt-leveraged-sw-factories">Public DLT leveraged SW Factories</a></h1>
+<p>This chapter looks at a specific, still-experimental corner of agentic software development: software factories whose actors — human and AI agent alike — transact, authenticate, and record their work via a public, permissionless distributed ledger (DLT) instead of conventional Web2 infrastructure. It assumes familiarity with the agentic software factory concepts introduced in <a href="../sw-factories.html">SW Factories</a>; the ingredient added here is a different trust and settlement substrate underneath those same agent loops, not a different way of running agents.</p>
+<h2 id="public-dlts"><a class="header" href="#public-dlts">Public DLTs</a></h2>
+<h3 id="what-it-is"><a class="header" href="#what-it-is">What it is</a></h3>
+<p>A <strong>distributed ledger</strong> is a data store replicated, synchronized, and agreed upon across a network of independently operated nodes, with no single administrator holding the canonical write copy (<a href="https://www.law.cornell.edu/wex/distributed_ledger_technology_(dlt)">Cornell LII: distributed ledger technology</a>). “Blockchain” and “DLT” are not synonyms: a blockchain is one specific data structure — an append-only, cryptographically hash-linked chain of batched transactions — used to implement a distributed ledger; DLT is the broader category, which also covers non-chain topologies such as directed acyclic graphs (DAGs).</p>
+<p>Two properties decide whether a given network is relevant to this chapter:</p>
+<ul>
+<li><strong>Write access.</strong> A DLT is <em>permissionless</em> when anyone can run a node and submit or validate transactions with no vetting, or <em>permissioned</em> when only pre-approved participants may write (<a href="https://www.techtarget.com/searchcio/tip/Permissioned-vs-permissionless-blockchains-Key-differences">TechTarget: permissioned vs. permissionless blockchains</a>). “Public DLT” in this chapter always means <em>permissionless</em> — Ethereum, Solana, Sui, Aptos, IOTA — as distinct from a private, single-organization chain or a consortium chain run by a fixed set of vetted institutions.</li>
+<li><strong>Programmability.</strong> Most networks relevant here run a general-purpose virtual machine (the EVM, MoveVM, or SVM) that executes user-deployed smart-contract code deterministically across every node, not merely a value-transfer ledger.</li>
+</ul>
+<p>Three chain families recur through the rest of this chapter:</p>
+<ul>
+<li><strong>Account-based EVM chains</strong> (Ethereum, Base, Gnosis Chain) — state is a set of externally-owned or contract accounts with balances and storage.</li>
+<li><strong>Object-centric Move chains</strong> (Sui, and IOTA since its May 2025 “Rebased” upgrade) — assets are first-class <em>objects</em> with explicit ownership, so transactions touching disjoint objects have no data dependency and can validate and execute in parallel without global sequencing.</li>
+<li><strong>Account-based Move chains</strong> (Aptos) — also written in Move, but keeps an account-centric global-storage model close to Move’s Diem/Libra ancestry, relying on Block-STM optimistic parallel execution (speculative execution with conflict detection and re-execution) rather than Sui’s object-ownership parallelism.</li>
+</ul>
+<p>IOTA’s pre-2025 architecture used a DAG (“the Tangle”) rather than a blockchain; its current smart-contract layer is Move-VM-based (see <a href="#suitable-existing-networks">Suitable existing Networks</a>), so the DAG framing no longer describes IOTA’s execution environment accurately.</p>
+<h3 id="when-to-use-in-general"><a class="header" href="#when-to-use-in-general">When to use in general</a></h3>
+<p>A public DLT is architecturally justified when three conditions hold together: <strong>mutually distrusting parties</strong> need to agree on shared state without a common trusted intermediary, <strong>censorship-resistance and neutrality</strong> matter (no single operator can unilaterally revoke or alter access), and the execution needs to be <strong>publicly, independently verifiable</strong>. A conventional centralized system remains the better engineering choice whenever a trusted operator already exists, when throughput, latency, or cost matter more than decentralization, or when the data is sensitive and doesn’t need public verifiability (<a href="https://www.techtarget.com/searchcio/tip/Blockchain-vs-database-Similarities-differences-explained">TechTarget: blockchain vs. traditional database</a>; <a href="https://chain.link/article/blockchain-vs-database">Chainlink: blockchain vs. database</a>).</p>
+<p><strong>Research Note:</strong> the critical literature on this question is substantial and should temper any pro-DLT default. Industry press, a peer-reviewed <em>Journal of Operations Management</em> study, and practitioner retrospectives converge on “a solution in search of a problem” as a fair characterization of most enterprise blockchain pilots from the 2017–2022 wave, including high-profile failures such as Maersk/IBM’s TradeLens (<a href="https://www.cio.com/article/3838169/rip-finally-to-the-blockchain-hype.html">CIO.com</a>; <a href="https://onlinelibrary.wiley.com/doi/10.1002/joom.1364">Wiley: success and failure of blockchain technology providers</a>; <a href="https://www.forbes.com/sites/dantedisparte/2019/05/20/why-enterprise-blockchain-projects-fail/">Forbes</a>; <a href="https://www.frontiersin.org/journals/blockchain/articles/10.3389/fbloc.2025.1503595/full">Frontiers in Blockchain: the TradeLens case study</a>). Most of these pilots failed for a structural reason rather than a technical one: they used a DLT to solve a <em>coordination</em> problem among organizations that had never solved the prior, more basic problem of agreeing to adopt a shared system at all. For a consortium that has already reached that agreement, a permissioned DLT frequently doesn’t differ substantially from a normal database with standard access control and audit logging — the specific value a DLT adds (no single administrator, permissionless entry, trustless verification) is exactly the part a consortium with a signed agreement in place doesn’t need to pay for.</p>
+<p>This is the pivot the next section turns on: the calculus changes once the participants are not an enterprise consortium with a signed agreement, but autonomous AI agents — potentially belonging to different, unaffiliated organizations — that have no such agreement and no shared trusted intermediary by default.</p>
+<h2 id="public-dlts-for-agentic-fabrics"><a class="header" href="#public-dlts-for-agentic-fabrics">Public DLTs for Agentic Fabrics</a></h2>
+<h3 id="why"><a class="header" href="#why">Why</a></h3>
+<p>Traditional financial and identity infrastructure assumes a human principal. Bank accounts, card processors, and OAuth logins are built around KYC’d human or corporate identity, business hours, and manual approval — none of which fit an autonomous, always-on software process that needs to hold and spend value, or prove who it is, without a human in the loop. A public, permissionless DLT does not distinguish a human actor from a machine one: an AI agent <em>is</em> a cryptographic keypair, and that keypair can receive, hold, escrow, and spend value autonomously via a smart contract, independent of any platform’s willingness to onboard a non-human account holder.</p>
+<p>This argument is backed by a growing, verifiably real set of infrastructure, not just speculation:</p>
+<ul>
+<li><strong>Skyfire</strong> is a payment network purpose-built for agent-to-agent transactions — programmatic wallets, a “know-your-agent” (KYA) verifiable-identity layer, and funding via cards, ACH, wire, or USDC — which exited beta in March 2025 (<a href="https://skyfire.xyz/product/">Skyfire product page</a>; <a href="https://www.businesswire.com/news/home/20250306938250/en/Skyfire-Exits-Beta-with-Enterprise-Ready-Payment-Network-for-AI-Agents">Businesswire</a>). <strong>Network:</strong> settles on <strong>Base</strong> (Coinbase’s Ethereum L2) — Skyfire’s own documentation describes the payment flow without naming a chain, but its funding announcement and subsequent press describe direct Base integration for sub-cent-fee agent payments (<a href="https://www.businesswire.com/news/home/20241024532897/en/AI-Agents-Race-to-Join-Skyfire-Payments-Network">Businesswire: AI agents race to join Skyfire</a>).</li>
+<li><strong>Coinbase Developer Platform (CDP) “Agentic Wallets”</strong> ships MPC-secured (Multi-Party Computation — private-key material split across parties, with no single point holding the full key) non-custodial wallets with <a href="#eip-7702-and-erc-7715-session-keys">programmable session caps</a> and per-transaction spend limits, gasless settlement on Base, native <a href="#x402"><code>x402</code></a> support, and an <a href="#model-context-protocol-mcp">MCP</a>-server interface usable directly from Claude, Codex, or Gemini; the underlying toolkit is open-source (<a href="https://www.coinbase.com/developer-platform/discover/launches/empower-ai-agents">Coinbase: empowering AI agents with programmable MPC wallets</a>; <a href="https://github.com/coinbase/agentkit">GitHub: coinbase/agentkit</a>). <strong>Network:</strong> <strong>Base</strong> natively (gasless trading, <code>x402</code> default settlement), with broader wallet operations extending across other EVM-compatible chains and <strong>Solana</strong>.</li>
+<li><strong>Fireblocks’</strong> Policy Engine enforces spend limits, counterparty allowlists, time windows, and asset restrictions at the custody-infrastructure layer — so a fully compromised agent still cannot exceed its authorized scope, because the policy sits below the agent’s own code, not inside it (<a href="https://www.fireblocks.com/glossary/agentic-payments">Fireblocks: agentic payments glossary</a>). <strong>Network:</strong> deliberately chain-agnostic rather than tied to one network — Fireblocks markets its Agentic Payments Suite as working with “any stablecoin, on any blockchain,” and its underlying custody platform supports around 150 public blockchains spanning EVM chains, Bitcoin, Solana, Sui, and TON (<a href="https://www.fireblocks.com/blog/leader-in-public-blockchain-support-coverage">Fireblocks: leader in public blockchain support coverage</a>).</li>
+<li><strong>Fortanix “Armet AI”</strong>, paired with NVIDIA confidential-computing GPUs, runs agentic workloads inside hardware trusted-execution environments with cryptographic attestation of runtime state before keys or sensitive data are released (<a href="https://www.fortanix.com/blog/agentic-ai-with-verifiable-trust-security-sovereignty-for-ai-factories-and-enterprises">Fortanix: agentic AI with verifiable trust</a>). This is a confidential-computing layer, not itself a DLT — its role here is as a complementary off-chain trust source whose attestations can be anchored on-chain. <strong>Network:</strong> not applicable — Fortanix’s own materials describe no native blockchain component; “which chain” is a question for whatever DLT a factory chooses to anchor its attestations to, not for Fortanix itself.</li>
+<li><strong>Autonolas (Olas)</strong> is a network for co-owned, composable autonomous agent services (“Mechs”) that transact via crypto-native micropayments, predominantly on Gnosis Chain. As of an August 2026 tracker, cumulative Olas agent transactions exceeded 18.7 million across 8 chains, with roughly 96% concentrated on Gnosis Chain (<a href="https://olas.network/">Olas network</a>; <a href="https://agenteconomy.to/olas">agenteconomy.to: Olas tracker</a>) — real, substantial on-chain economic activity, not a proof of concept. <strong>Network:</strong> predominantly <strong>Gnosis Chain</strong>, with the remaining tracked volume spread across Ethereum, Base, Optimism, Polygon, Celo, Solana, and Arbitrum.</li>
+<li><strong>Fetch.ai</strong>, now part of the <strong>Artificial Superintelligence (ASI) Alliance</strong> (merged with SingularityNET and Ocean Protocol in 2024), runs a Layer-1 chain built around “Autonomous Economic Agents.” By 2026 the Alliance ships a broader stack (ASI:One agent platform, ASI-1 models, ASI:Cloud, and a planned ASI:Chain L1 targeting mainnet late 2026/early 2027), with a proposed FET→ASI token rebrand still in progress (<a href="https://invezz.com/news/2026/05/20/fetch-ai-launches-platform-that-gives-ai-agents-their-own-economy/">invezz</a>). <strong>Network:</strong> its own <strong>Cosmos-SDK-based Layer-1</strong> (the “Fetchhub” mainnet), using CometBFT/Tendermint consensus with IBC interoperability to other Cosmos chains and a Gravity-based bridge to Ethereum for the ERC-20-originated FET token — not an EVM or Move-based chain, despite FET’s ERC-20 origins (<a href="https://network.fetch.ai/docs/introduction/ledger/ledger-intro">Fetch.ai: Fetch Ledger introduction</a>).</li>
+</ul>
+<p><strong>Research Note:</strong> funding mechanisms for individual agents (bonding-curve/AMM launchpads that fund and activate an agent as it gains adoption) are a real pattern in this ecosystem, but “The Grid” (<code>thegrid.id</code>), sometimes cited as an example, is itself a Web3 project <em>directory</em> — a curated catalog of blockchain projects, including an “AI agent platform” category — not a bonding-curve funding platform in its own right. Treat bonding-curve agent funding as a real, separate pattern discoverable <em>through</em> directories like The Grid, not as something The Grid itself implements.</p>
+<h3 id="why-specifically-for-software-fabrics"><a class="header" href="#why-specifically-for-software-fabrics">Why, specifically for Software Fabrics</a></h3>
+<p>Narrowed to software-development factories specifically, the strongest and most concretely evidenced argument is <strong>paying agents for discrete SDLC contributions and building a tamper-evident provenance trail</strong> for what they produced: an agent should be payable per lint pass, per test run, per code review, per security audit, and the record of who did what — and whose review or test verdict gated a payout — should be independently auditable rather than living only in a mutable application database. The strongest real building blocks for this are the identity and payment protocols covered in <a href="#relevant-protocols-and-standards">Relevant protocols and standards</a> below (notably <a href="#erc-8004-trustless-agents">ERC-8004</a> and <code>x402</code>/<a href="#mpp-machine-payment-protocol">MPP</a>). No named, real “decentralized software factory” product combining the full stack was found during this research; the composition is coherent but currently hypothetical rather than an observed practice.</p>
+<p><strong>Research Note:</strong> two further ideas from early exploratory research on this topic deserve explicit hedging rather than presentation as established fact:</p>
+<ul>
+<li><strong>Tokenizing build artifacts.</strong> ERC-721 and ERC-1155 (the standard non-fungible and multi-token formats — see <a href="#relevant-protocols-and-standards">Relevant protocols and standards</a>) are real, mature, and heavily used for NFT-style provenance tracking. Applying them specifically to mint a compiled build or a pull request as a token referencing an immutable hash of its full creation history is a <em>plausible extrapolation</em> of that mechanic onto a new domain — no evidence was found of this being practiced or concretely proposed outside informal discussion. Present it as a design idea worth considering, not a documented pattern.</li>
+<li><strong>On-chain vs. off-chain orchestration.</strong> A recurring architectural question is whether the <em>cognitive</em> orchestration of a software factory (task decomposition, LLM routing, code generation — via a framework like <a href="../sw-factories.html#langchain">LangChain or LangGraph</a>) should run off-chain, with only the final settlement step anchored on a DLT. No independent source documents this as a named industry pattern; it did not surface in this research beyond informal discussion. The underlying engineering logic is nonetheless sound and consistent with how production Web3 systems generally treat a blockchain: as a trust-minimized settlement/coordination layer for the one sub-problem it’s uniquely good at (atomic, trustless state commitment across mutually distrusting parties), not as a general compute layer for expensive, non-deterministic work like LLM inference. The diagram below illustrates that shape as <em>reasoned architectural inference</em>, not as a documented practice with its own citation trail:</li>
+</ul>
+<pre class="mermaid">sequenceDiagram
+    participant M as Manager Agent (off-chain)
+    participant D as Developer Agent (off-chain)
+    participant A as Auditor Agent (off-chain)
+    participant G as Tamper-evident Log (off-chain, hash-chained)
+    participant L as DLT Smart Contract (on-chain)
+
+    rect rgba(128,128,128,0.08)
+    Note over M,G: orchestration events append to the off-chain log continuously
+    M-&gt;&gt;D: assign coding task
+    M-&gt;&gt;G: append: task assigned
+    D-&gt;&gt;D: generate code, run local tests
+    D-&gt;&gt;G: append: code generated, tests run
+    D-&gt;&gt;A: submit code + test results for review
+    A-&gt;&gt;A: verify tests, run independent checks
+    A-&gt;&gt;G: append: verification complete
+    A-&gt;&gt;M: signed pass/fail verdict
+    end
+
+    G-&gt;&gt;L: periodic checkpoint:&lt;br/&gt;anchor hash of log entries since last checkpoint
+    Note right of L: cheap, frequent, no payout attached —&lt;br/&gt;only proves the log wasn't altered after the fact
+
+    M-&gt;&gt;L: one atomic transaction:&lt;br/&gt;code hash + verdict + payout instructions
+    L-&gt;&gt;L: apply all-or-nothing:&lt;br/&gt;register hash, verify signature, transfer funds
+    L--&gt;&gt;D: payment released only if the whole block succeeds
+    L--&gt;&gt;A: payment released only if the whole block succeeds
+</pre>
+
+<p>The off-chain agents (Manager, Developer, Auditor) handle the expensive, non-deterministic cognitive work; the DLT is invoked exactly once <em>per unit of work</em> for the payout-bearing transaction, to bind “verified” and “paid” into a single transaction that either fully succeeds or fully rolls back — closing the failure mode where a payment goes out but the corresponding deliverable never arrives, or vice versa.</p>
+<p>It’s tempting to extend the “put it on the DLT” instinct to every orchestration event in that diagram — an agent starting, a human-interaction request, an intermediate tool call — rather than just the final settlement. Most of those events are operational telemetry, not facts a mutually distrusting counterparty needs a trustless, publicly-verifiable record of (see <a href="#when-to-use-in-general">When to use in general</a>); a plain tamper-evident, hash-chained off-chain log gets the same “was this altered after the fact?” guarantee for that telemetry at a fraction of the cost, without growing global ledger state for every event a busy factory produces. The pattern that captures both concerns is <strong>checkpoint anchoring</strong>, shown above: the off-chain log accumulates orchestration events continuously, and only a periodic hash (or Merkle root) of the log since the last checkpoint is committed on-chain — one small, payout-free transaction covering many off-chain events, distinct from the atomic settlement transaction that actually moves funds. A fast, cheap network (sub-2-second finality, sub-cent fees — see <a href="#suitable-existing-networks">Suitable existing Networks</a>) mainly changes how <em>often</em> that checkpoint can be written economically; it doesn’t change the underlying argument for keeping the bulk of orchestration events off-chain in the first place.</p>
+<h3 id="which-dlt-network-to-use"><a class="header" href="#which-dlt-network-to-use">Which DLT network to use</a></h3>
+<p>Once a factory decides a public DLT is warranted, the choice of network is driven by four largely independent axes: how fast the network reaches finality, how much a transaction costs, whether it supports atomic multi-step transactions, and what identity/authorization primitives it offers natively. The next two sections cover requirements and concrete networks against those axes; <a href="#relevant-protocols-and-standards">Relevant protocols and standards</a> covers the identity/authorization axis in depth.</p>
+<h4 id="requirements"><a class="header" href="#requirements">Requirements</a></h4>
+<ol>
+<li><strong>Transaction throughput and finality speed.</strong> An agent-paced interaction loop operates on sub-second to few-second timescales, not human-paced approval flows — a network with multi-minute finality is a poor fit for a tight agent-to-agent payment loop, though it may still be acceptable for a slower, higher-value settlement step.</li>
+<li><strong>Cost per transaction.</strong> This is decisive specifically for micropayments and sub-cent “nanopayments” for granular contributions (a single unit test, a single reviewed line) — a fee larger than the payment itself makes the model uneconomical.</li>
+<li><strong>Atomic multi-step transaction support.</strong> A factory needs to bind “work verified” and “payment released” into one all-or-nothing state transition. <strong>Programmable Transaction Blocks (PTBs)</strong> are the concrete mechanism for this on Sui and, since its 2025 Move-VM upgrade, IOTA: a PTB is a heterogeneous, composable sequence of up to 1,024 Move-function-call commands executed in order within a single transaction, with results able to flow between commands, and the whole block’s effects applied atomically at the end — if any command fails, the entire block rolls back (<a href="https://docs.sui.io/concepts/transactions/prog-txn-blocks">Sui docs: Programmable Transaction Blocks</a>; <a href="https://docs.iota.org/developer/iota-101/transactions/ptb/programmable-transaction-blocks">IOTA docs: PTBs</a>). PTBs are Sui/IOTA-specific terminology and mechanism — Aptos, despite also being Move-based, uses a different account-based execution model (Block-STM) with no equivalent PTB construct, so a PTB-style atomic multi-step workflow does not carry over to Aptos.</li>
+<li><strong>Identity and authorization primitives.</strong> An agent needs <em>bounded</em> signing authority — a scoped, time-limited, revocable key — rather than unrestricted access to a master treasury key. This is covered by <a href="#eip-7702-and-erc-7715-session-keys">EIP-7702, ERC-4337, and ERC-7715</a> below.</li>
+</ol>
+<p><strong>IOTA Rebased</strong>, referenced above, is current, accurate terminology: IOTA’s largest-ever mainnet upgrade (approved by a December 2024 token-holder vote, live May 5, 2025) moved its Layer-1 to full decentralization, native staking, and Move-VM-based smart contracts — making IOTA the third network, after Aptos and Sui, to run the MoveVM at L1 — with throughput benchmarked above 50,000 TPS (<a href="https://blog.iota.org/rebased-mainnet-upgrade/">IOTA Foundation: the IOTA Rebased mainnet upgrade</a>). This is a substantive architecture change from IOTA’s historical identity as a pure DAG ledger; its current smart-contract layer is not DAG-based.</p>
+<h4 id="suitable-existing-networks"><a class="header" href="#suitable-existing-networks">Suitable existing Networks</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Network</th><th>Model</th><th>Finality / cost (illustrative)</th><th>Notable for this use case</th></tr>
+</thead>
+<tbody>
+<tr><td>Ethereum (L1)</td><td>Account-based EVM</td><td>~13 min finality; $0.50–$5+ typical fees</td><td>Highest security/decentralization and richest agent-tooling ecosystem; carries EIP-7702 and ERC-4337 natively</td></tr>
+<tr><td>Base (Ethereum L2)</td><td>Account-based EVM</td><td>~2s blocks, ~7 min L1-anchored finality; $0.01–$0.30</td><td>Where Coinbase’s Agentic Wallets and <code>x402</code> default to settling — the most mature agent-payment tooling of any EVM chain found in this research</td></tr>
+<tr><td>Solana</td><td>SVM (a distinct runtime)</td><td>~400ms blocks, ~2.5s finality; ~$0.0001–$0.01</td><td>Fastest/cheapest mainstream option found; a genuinely different smart-contract runtime, relevant to tooling portability</td></tr>
+<tr><td>Gnosis Chain</td><td>Account-based EVM</td><td>No specific 2026 figures found</td><td>Dominant settlement chain for the Olas/Autonolas agent-swarm ecosystem — its suitability is evidenced by existing agent-economy usage, not by published throughput numbers</td></tr>
+<tr><td>Sui</td><td>Object-centric MoveVM</td><td>~400ms finality</td><td>PTBs atomically bundle the <em>on-chain</em> steps of a workflow (hash registration, signature checks, multi-party payout) into one transaction — not the off-chain cognitive/orchestration steps upstream of it (see <a href="#why-specifically-for-software-fabrics">Why, specifically for Software Fabrics</a>); the strongest technical fit found for atomic multi-agent settlement specifically</td></tr>
+<tr><td>Aptos</td><td>Account-based MoveVM (Block-STM)</td><td>—</td><td>Closer to Ethereum’s developer mental model than Sui, per secondary sourcing; no PTB equivalent</td></tr>
+<tr><td>IOTA (post-Rebased)</td><td>Object-centric MoveVM, plus a parallel IOTA EVM sidechain (chain ID 8822)</td><td>&gt;50,000 TPS benchmarked (Rebased L1); sub-cent gas, ~2s blocks on IOTA EVM</td><td>Dual-path architecture: Move-VM PTB support on the native chain, standard Ethereum JSON-RPC compatibility on the EVM sidechain for existing EVM tooling</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Research Note:</strong> none of the throughput/cost/finality figures above should be read as stable reference points — public-network performance shifts with protocol upgrades and load, and the figures found here reflect a fast-moving 2026 competitive landscape rather than settled facts. Treat the table as illustrative of relative trade-offs, not as a basis for precise cost projections.</p>
+<h4 id="relevant-protocols-and-standards"><a class="header" href="#relevant-protocols-and-standards">Relevant protocols and standards</a></h4>
+<p>The table below maps each protocol or standard to its role, its current maturity, and which networks it’s actually available on — collapsing “widely used” and “official/finalized” into one column would overstate several of these, so they’re kept separate deliberately.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Protocol / standard</th><th>Layer</th><th>Status (2026)</th><th>Availability</th><th>Mandatory / optional</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#x402"><code>x402</code></a></td><td>HTTP payments</td><td>Final; Linux Foundation-governed</td><td>Chain-agnostic (commonly USDC on Base/Solana)</td><td>Mandatory for per-request agent-to-service payment</td></tr>
+<tr><td><a href="#eip-7702-and-erc-7715-session-keys">EIP-7702</a></td><td>EVM account delegation</td><td>Final (shipped in Pectra, May 2025)</td><td>Ethereum/EVM only</td><td>Mandatory for scoped agent signing on EVM chains</td></tr>
+<tr><td>ERC-4337</td><td>EVM account abstraction</td><td>Established, pre-dates EIP-7702</td><td>Ethereum/EVM only</td><td>Mandatory for custom wallet-level validation logic</td></tr>
+<tr><td><a href="#eip-7702-and-erc-7715-session-keys">ERC-7715</a></td><td>EVM permission requests</td><td>Draft</td><td>Ethereum/EVM only</td><td>Optional but high-value — delivers the actual “session key” behavior</td></tr>
+<tr><td><a href="#erc-8004-trustless-agents">ERC-8004</a></td><td>On-chain agent identity/reputation</td><td><strong>Draft</strong>, not finalized</td><td>Ethereum/EVM (cross-chain testnet reference deployments)</td><td>Important/emerging, not yet a settled foundation</td></tr>
+<tr><td><a href="#mpp-machine-payment-protocol">MPP</a></td><td>Session-based payments</td><td>Live (launched March 2026)</td><td>Tempo chain natively; multi-rail by design</td><td>Optional/emerging</td></tr>
+<tr><td><a href="#ap2-agent-payments-protocol">AP2</a></td><td>Agent payment authorization</td><td>Live (announced September 2025); governance transferring to FIDO Alliance</td><td>Payment-method-agnostic</td><td>Optional but strategically significant</td></tr>
+<tr><td><a href="#w3c-did-and-verifiable-credentials">W3C DID / VC</a></td><td>Identity</td><td>Mature, actively revised specs</td><td>Chain-agnostic</td><td>Optional/emerging for <em>agent</em> identity specifically</td></tr>
+<tr><td><a href="../agentic-coding-harnesses.html#what-is-mcp">MCP</a></td><td>Tool/data connection</td><td>Industry-standard adoption</td><td>Not chain-specific</td><td>Relevant here only as the layer whose logs a DLT anchor would checkpoint</td></tr>
+<tr><td>ERC-721 / ERC-1155</td><td>Tokenization</td><td>Mature, established</td><td>Ethereum/EVM (and equivalents elsewhere)</td><td>Speculative for build-artifact tokenization specifically (see <a href="#why-specifically-for-software-fabrics">above</a>)</td></tr>
+<tr><td><a href="#reclaim-protocol-and-tlsnotary">Reclaim Protocol / TLSNotary</a></td><td>zkTLS proof-of-off-chain-work</td><td>Live, active</td><td>TLS/web-based; on-chain verification exists on multiple chains including Solana</td><td>Optional — best fit for “prove without disclosing” audit use cases</td></tr>
+</tbody>
+</table>
+</div>
+<h5 id="x402"><a class="header" href="#x402"><code>x402</code></a></h5>
+<p>Originally contributed by Coinbase, <code>x402</code> revives the long-dormant HTTP <code>402 Payment Required</code> status code for machine-native, per-request payments: a server responds <code>402</code> with price details, the client (agent) attaches a signed on-chain stablecoin payment payload, and retries the request — no subscription, API key, or human approval needed. Its governance now checks out as vendor-neutral: Coinbase and Cloudflare announced intent in September 2025, the Linux Foundation formalized the <code>x402</code> Foundation in April 2026, and announced full operational launch on July 14, 2026 with 40 member organizations — including Visa, Mastercard, AWS, Google, Stripe, American Express, and Coinbase itself — under open governance; Coinbase contributed the protocol but does not control its evolution (<a href="https://www.linuxfoundation.org/press/linux-foundation-announces-operational-launch-of-x402-foundation-to-standardize-internet-native-payments-for-ai-agents-and-applications">Linux Foundation press release</a>).</p>
+<h5 id="eip-7702-and-erc-7715-session-keys"><a class="header" href="#eip-7702-and-erc-7715-session-keys">EIP-7702 and ERC-7715 (session keys)</a></h5>
+<p><a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702</a> (“Set Code for EOAs”) shipped as a <em>Final</em> standard in Ethereum’s Pectra hard fork on May 7, 2025. It lets a standard Externally Owned Account (EOA) — the account type behind an ordinary private-key wallet — attach an authorization tuple that makes the account’s code point at (delegate to) a smart contract, in place, without migrating funds to a new address. This enables batched calls (approve a code change and transfer a payment in one transaction, for example) and gas sponsorship via a paymaster.</p>
+<p>One nuance worth being precise about: EIP-7702 itself specifies a <em>persistent</em> delegation — the EOA’s code stays set until explicitly changed again — not an inherently time-limited “session.” The scoped, self-expiring, spend-capped behavior commonly described as a <strong>session key</strong> is an application-layer pattern built <em>on top of</em> EIP-7702, delivered concretely by <a href="https://eips.ethereum.org/EIPS/eip-7715">ERC-7715</a> (“Grant Permissions from Wallets,” a draft ERC adding a <code>wallet_grantPermissions</code> JSON-RPC method). ERC-7715 introduces a “session account” — a temporary identity that requests and redeems scoped permissions (by token, amount, target contract, function selector, and time window), enforced at the smart account’s permission-validator module.</p>
+<p>In practice, a factory treasury account upgraded via EIP-7702 issues an ERC-7715 permission to an agent’s ephemeral local key, which then transacts autonomously within those bounds — for example, a spending cap of a few hundred dollars, restricted to a specific set of contracts, valid for a fixed window of a few hours. If the agent’s ephemeral key is ever compromised — via prompt injection, a leaked credential, or a compromised dependency — the blast radius is bounded by that scope; only compromise of the treasury’s own master key bypasses the guardrails entirely, which is why that key is typically secured separately (hardware modules, multisig, institutional custody) rather than left anywhere near agent-accessible infrastructure.</p>
+<p>ERC-4337 (Account Abstraction) is the older, complementary framework this typically composes with — most production wallet stacks (Safe, Biconomy, Alchemy) support both, and a 7702-delegated EOA can itself sign ERC-4337 UserOperations. All three (EIP-7702, ERC-4337, ERC-7715) are Ethereum/EVM-only.</p>
+<h5 id="erc-8004-trustless-agents"><a class="header" href="#erc-8004-trustless-agents">ERC-8004 (Trustless Agents)</a></h5>
+<p><a href="https://eips.ethereum.org/EIPS/eip-8004">ERC-8004</a> defines three on-chain registries — Identity (portable, ERC-721-based agent identifiers resolving to off-chain capability/endpoint descriptions), Reputation (recording and querying feedback signals), and Validation (requesting and recording independent work verification, via re-execution staking, zero-knowledge proofs, or trusted-execution-environment attestation) — explicitly designed to be payment-mechanism-agnostic and interoperable with MCP and the Agent2Agent (A2A) protocol. It was proposed August 13, 2025 by contributors from MetaMask, the Ethereum Foundation, Google, and Coinbase, with reference deployments live on Base Sepolia, Linea Sepolia, and Hedera Testnet by Q2 2026 — real, active development with real deployment activity, but its formal status remains <strong>Draft</strong>, not a finalized standard, and it should be treated accordingly rather than as a settled foundation to build on unconditionally.</p>
+<h5 id="mpp-machine-payment-protocol"><a class="header" href="#mpp-machine-payment-protocol">MPP (Machine Payment Protocol)</a></h5>
+<p>MPP is co-authored by Tempo and Stripe, launched March 18, 2026 alongside the Tempo mainnet (a payments-focused chain co-developed with Paradigm). It is explicitly <strong>not</strong> built on the Bitcoin Lightning Network — a description that circulated in early, informal research on this topic and should be discarded — but is “network agnostic and multi-rail,” supporting bank rails, cards, and stablecoins through a layered architecture (<a href="https://github.com/tempoxyz/mpp-specs">GitHub: tempoxyz/mpp-specs</a>). It reuses <code>x402</code>’s <code>402</code> status code but targets session-based spending allowances rather than <code>x402</code>’s strict per-request model — an agent secures a programmatic “allowance” up front and draws against it over a period, rather than paying per call.</p>
+<h5 id="ap2-agent-payments-protocol"><a class="header" href="#ap2-agent-payments-protocol">AP2 (Agent Payments Protocol)</a></h5>
+<p>Announced by Google on September 16, 2025 with 60+ payments and technology partners (PayPal, Mastercard, American Express, Adyen, Coinbase, and others), AP2 is an open, payment-method-agnostic protocol that gives an agent a verifiable, cryptographically signed “permission slip” from a human before it spends on that human’s behalf — covering cards, bank transfers, and cryptocurrencies alike. As of the most recent source found, Google is donating AP2 to the FIDO Alliance to make its governance platform-agnostic and community-led going forward.</p>
+<h5 id="w3c-did-and-verifiable-credentials"><a class="header" href="#w3c-did-and-verifiable-credentials">W3C DID and Verifiable Credentials</a></h5>
+<p>Both are mature, actively-revised W3C specifications (a DID v1.1 Candidate Recommendation Snapshot was published in March 2026) already discussed in this book as a proposed substrate for cross-organization agent identity — see <a href="../security.html#identity-provisioning-and-standards">Security § Identity Provisioning and Standards</a>, which notes the same “active research, no production adoption as of late 2026” status found here. Their application specifically to <em>AI-agent</em> identity, as opposed to the human/organizational identity they were originally designed for, remains early-stage — this research found only a single named example of AI-agent-specific use. Contrast with ERC-8004 above, which was purpose-built for agent identity rather than repurposed.</p>
+<h5 id="model-context-protocol-mcp"><a class="header" href="#model-context-protocol-mcp">Model Context Protocol (MCP)</a></h5>
+<p>Covered in depth in <a href="../agentic-coding-harnesses.html#what-is-mcp">Agentic Coding Harnesses § What is MCP</a>; kept brief here. MCP standardizes the tool-connection layer through which an agent’s actions — repository access, compiler and test invocations — pass, which makes it a natural point to <em>log</em> those actions before a hash or checkpoint of that log is anchored to a DLT. MCP itself has no built-in DLT-anchoring behavior; that integration sits on top. ERC-8004 explicitly lists MCP as one of the protocols it’s designed to interoperate with — the most concrete tie found between MCP and the on-chain agent-identity stack.</p>
+<h5 id="reclaim-protocol-and-tlsnotary"><a class="header" href="#reclaim-protocol-and-tlsnotary">Reclaim Protocol and TLSNotary</a></h5>
+<p>Both are active zkTLS (“Web Proofs”) projects that let a party generate a cryptographic proof that specific data came from a specific TLS-secured web source, without revealing the underlying data itself. TLSNotary pioneered the MPC-based approach; Reclaim Protocol uses a proxy-witness model with fast (2–4 second) proofs across hundreds of data sources, layering zero-knowledge proofs on top of TLS session verification (<a href="https://blog.reclaimprotocol.org/posts/zk-in-zktls">Reclaim Protocol: the zk in zkTLS</a>). Documented real-world uses include income verification for undercollateralized lending and Sybil-resistant airdrop qualification — structurally identical in shape to “prove a CI test suite passed without uploading the logs,” a fair characterization of what this technology class does, even though a CI-specific example was not directly documented in this research.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../special-use-cases/ai-driven-codebase-rewrites.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../special-use-cases/ai-driven-codebase-rewrites.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-09f2665d.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../additional-js/mermaid-eefea253.min.js"></script>
+        <script src="../additional-js/mermaid-init-ccf746f1.js"></script>
+        <script src="../additional-js/footer-a2886c2f.js"></script>
+        <script src="../additional-js/right-sidebar-7ee5643a.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
