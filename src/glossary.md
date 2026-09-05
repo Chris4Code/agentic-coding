@@ -156,6 +156,9 @@ a default-deny network policy on an agent's workspace that permits outbound conn
 #### Embedding
 a fixed-length, learned vector representation of a token (or a chunk of text) that positions it in a high-dimensional space so that semantically similar items end up with similar vectors. See [Basics § Key-Value store](./basics.md#key-value-store).
 
+#### ERC-8004 (Trustless Agents)
+a draft Ethereum standard defining three on-chain registries — Identity, Reputation, and Validation — for autonomous agents to establish portable identity, query each other's track record, and request independent verification of completed work; payment-mechanism-agnostic and designed to interoperate with MCP and the Agent2Agent (A2A) protocol. Proposed August 2025; real reference deployments exist but the spec remains Draft, not finalized. See [Public DLT leveraged SW Factories § Relevant protocols and standards](./special-use-cases/dlt-sw-factories.md#erc-8004-trustless-agents).
+
 #### Excessive agency
 OWASP LLM06: giving an agent more permissions, autonomy, or tools than its task needs, widening the damage a prompt injection or model error can cause. See [Local Models § Prompt injection and excessive agency](./local-models.md#prompt-injection-and-excessive-agency).
 
@@ -321,6 +324,9 @@ an open standard, client-server protocol (JSON-RPC 2.0) for connecting an LLM ho
 #### Model routing / model cascades
 sending each agent call to the cheapest model capable of handling it, escalating to a frontier model only when a cheaper one fails or the task demands it, rather than routing every call to the same model regardless of difficulty. See [SW Factories § Make it fast/cheap](./sw-factories.md#make-it-fastcheap) and [Hybrid Setups § Routing patterns](./hybrid-setups.md#routing-patterns).
 
+#### MPC wallet (Multi-Party Computation wallet)
+a crypto wallet whose private-key material is split across multiple parties via Multi-Party Computation, so no single party ever holds the complete key; the dominant custody pattern for AI-agent wallets (Skyfire, Coinbase Agentic Wallets), letting a factory issue an agent spending authority without exposing one recoverable master secret. See [Public DLT leveraged SW Factories § Why](./special-use-cases/dlt-sw-factories.md#why).
+
 #### Multi-Token Prediction (MTP)
 a model architecture with extra lightweight heads that predict several future tokens per forward pass, used both as a training signal (densifies the loss) and, at inference, as self-speculative decoding with no separate draft model to load. Only models pre-trained with MTP heads (DeepSeek-V3/V4, Qwen3-Next+, GLM-4.5-Air) benefit. See [Local Models § Multi Token Prediction](./local-models.md#multi-token-prediction).
 
@@ -377,6 +383,9 @@ the requirement that a cloud provider's prompt cache only hits if the request te
 
 #### Privacy gateway
 a proxy between an agent (or developer) and a cloud model that detects and strips sensitive data from a request before it leaves the perimeter — via [PII redaction](#pii-redaction-data-masking), [deterministic tokenization](#deterministic-tokenization), or secret scanning — and optionally rehydrates the response. Its complement is the contractual control, [Zero Data Retention](#zero-data-retention-zdr). See [Security § Privacy Gateways](./security.md#privacy-gateways).
+
+#### Programmable Transaction Block (PTB)
+a Sui (and, since its 2025 Move-VM upgrade, IOTA) mechanism bundling up to 1,024 chained Move-function-call commands into one transaction, with results flowing between commands and the whole block's effects applied atomically — if any command fails, the entire block rolls back. Not an Aptos feature, despite Aptos also using Move: Aptos relies on a different, account-based execution model (Block-STM) with no PTB equivalent. See [Public DLT leveraged SW Factories § Requirements](./special-use-cases/dlt-sw-factories.md#requirements).
 
 #### Projector (multimodal connector)
 the small trained module — a linear layer, a two-layer MLP, or a cross-attention resampler — that maps a [vision encoder](#vision-encoder-vit)'s output vectors into the language model's embedding space. In llama.cpp the `mmproj` file is the vision encoder plus this projector. See [Basics § How they differ from text-only models](./basics.md#how-they-differ-from-text-only-models).
@@ -446,6 +455,9 @@ the mechanism by which a model computes, for each token, how strongly it relates
 
 #### Self-healing tests
 end-to-end tests that, on failure, have an agent replay the failing steps, inspect the current UI for equivalent elements, and propose locator or timing patches, re-running until green (e.g. Playwright's Healer agent). Reduces flaky-locator maintenance, but an over-eager healer can "heal" a test into passing against a genuine regression, so its edits belong under human review. See [Quality § Integration and end-to-end testing with a browser in the loop](./quality.md#integration-and-end-to-end-testing-with-a-browser-in-the-loop).
+
+#### Session key (EIP-7702 / ERC-7715)
+a scoped, self-expiring, spend-capped signing credential an agent uses instead of a master treasury key — an application-layer pattern built on Ethereum's EIP-7702 (which itself grants only *persistent* smart-account delegation) combined with ERC-7715's permission-request standard, which supplies the actual time-boxing, spending caps, and contract/function allowlisting. Bounds the blast radius of a compromised agent key without exposing the treasury's master key. See [Public DLT leveraged SW Factories § Relevant protocols and standards](./special-use-cases/dlt-sw-factories.md#eip-7702-and-erc-7715-session-keys).
 
 #### Silent leakage
 the defining risk of a hybrid setup: a fallback rule, a misconfigured router, or an unexamined default that sends confidential code to a cloud provider without anyone intending it. Countered with cloud-eligibility allow-lists, disabled blind fallbacks on sensitive routes, enforced ZDR/in-region routing, network egress filtering, and per-call audit. See [Hybrid Setups § Governance in hybrid setups](./hybrid-setups.md#governance-in-hybrid-setups).
@@ -557,6 +569,9 @@ exchanging a platform-native identity token (a GitHub Actions OIDC token, a Kube
 
 #### Workspace container
 the isolation boundary an agent's shell, file writes, and network run inside, scoped in a coding-agent setting against credential/data exfiltration and unwanted outward actions rather than kernel escape: writes limited to the working tree, a default-deny [egress allow-list](#egress-allow-list), and secrets kept out of the environment. The isolation-technology spectrum (container → gVisor → micro-VM) is in [Local Models § Agent sandboxing](./local-models.md#agent-sandboxing). See [Security § Workspace Containers](./security.md#workspace-containers).
+
+#### `x402`
+an open, chain-agnostic HTTP-native micropayment standard that revives the `402 Payment Required` status code: a server responds `402` with a price, the client (agent) attaches a signed on-chain stablecoin payment payload, and retries the request — no subscription, API key, or human approval needed. Originally contributed by Coinbase; governed since 2026 by the vendor-neutral `x402` Foundation under the Linux Foundation. See [Public DLT leveraged SW Factories § Relevant protocols and standards](./special-use-cases/dlt-sw-factories.md#x402).
 
 #### Zero Data Retention (ZDR)
 a provider guarantee that prompts and completions are not stored after a request completes; exposed by OpenRouter as a per-request `zdr: true` routing constraint and offered as an enforced contract term by Warp and others. See [Local Models § Open Router](./local-models.md#open-router).

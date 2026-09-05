@@ -14,5 +14,8 @@
 * [Security](./security.md)
 * [Cost Control](./cost-control.md)
 // [Spec Driven Development (SDD)](./spec-driven-development.md)
-* [AI driven codebase rewrites](./ai-driven-codebase-rewrites.md)
+* [Special Use Cases](./special-use-cases/README.md)
+  * [AI driven codebase rewrites](./special-use-cases/ai-driven-codebase-rewrites.md)
+  * [Public DLT leveraged SW Factories](./special-use-cases/dlt-sw-factories.md)
+
 * [Glossary](./glossary.md)

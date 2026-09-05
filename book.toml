@@ -19,5 +19,6 @@ additional-js = [
     "additional-js/footer.js",
     "additional-js/right-sidebar.js"
 ]
+additional-css = ["additional.css"]
 
 [output.linkcheck2]

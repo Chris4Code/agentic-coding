@@ -1,0 +1,5 @@
+
+/*Hide layer 2 listed markdown files in the TOC. Currently only needed to hide the "Niche Topics" entries*/
+.chapter-item>.section {
+    display: none;
+}

@@ -13,7 +13,7 @@ This book is a collection of study notes on **agentic coding** which means using
 * [Quality](./quality.md) – aspects and methods of long term software quality assurance.
 * [Security](./security.md) – isolating and governing what agents are allowed to do.
 * [Cost Control](./cost-control.md) – tracking and managing the cost of agentic AI usage.
-* [AI driven codebase rewrites](./ai-driven-codebase-rewrites.md) – using agents to assess and transform existing codebases.
+* [AI driven codebase rewrites](./special-use-cases/ai-driven-codebase-rewrites.md) – using agents to assess and transform existing codebases.
 
 A [Glossary](./glossary.md) at the end collects every term introduced across chapters, each with a short definition and a link back to where it's explained in detail.
 
