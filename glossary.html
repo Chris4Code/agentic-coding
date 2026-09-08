@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-f30cc814.js";
+            window.path_to_searchindex_js = "searchindex-ef18183a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6c7cfb32.js"></script>
@@ -374,6 +374,8 @@
 <p>a proxy that discovers an existing service’s own interface definition (a <code>.proto</code> file, a GraphQL schema, an OpenAPI spec) and dynamically exposes it as MCP tools, so the backend doesn’t need to be rewritten to become agent-accessible; often served over both stdio (local) and HTTP/SSE (cloud) from the same code. See <a href="./agentic-coding-harnesses.html#mcp-translation-layers-for-webservices">Agentic Coding Harnesses § MCP Translation Layers for Webservices</a>.</p>
 <h4 id="memory-bandwidth-bound"><a class="header" href="#memory-bandwidth-bound">Memory-bandwidth bound</a></h4>
 <p>the property that makes LLM token generation limited by how fast weights can be streamed from memory rather than by processor speed; token throughput ≈ (usable memory bandwidth) ÷ (active-weight bytes per token). Explains why VRAM bandwidth beats FLOPS, why CPU inference is slow, and why quantization speeds generation up. See <a href="./local-models.html#hardware">Local Models § Hardware</a>.</p>
+<h4 id="memory-injection"><a class="header" href="#memory-injection">Memory injection</a></h4>
+<p>an attack that plants false entries in an autonomous agent’s persistent memory store — for example via a coordinated set of fake social-media posts — which the agent later trusts as historical context, bypassing ordinary prompt-injection defenses since the exploited trust boundary is the memory layer rather than the immediate prompt; demonstrated against ElizaOS agents, capable of hijacking privileged actions such as a token transfer. See <a href="./special-use-cases/dlt-sw-factories.html#elizaos">Public DLT leveraged SW Factories § ElizaOS</a>.</p>
 <h4 id="merge-queue"><a class="header" href="#merge-queue">Merge queue</a></h4>
 <p>a CI mechanism (GitHub’s built-in one, Graphite, Mergify, Trunk) that serializes merges and tests each change against an up-to-date base before fast-forwarding; matters more under agents because many agent PRs on the same base produce semantic conflicts that each pass in isolation. See <a href="./quality.html#cicd-as-the-enforcement-layer">Quality § CI/CD as the enforcement layer</a>.</p>
 <h4 id="micro-vm"><a class="header" href="#micro-vm">micro-VM</a></h4>
