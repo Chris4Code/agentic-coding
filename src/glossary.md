@@ -297,6 +297,9 @@ a proxy that discovers an existing service's own interface definition (a `.proto
 #### Memory-bandwidth bound
 the property that makes LLM token generation limited by how fast weights can be streamed from memory rather than by processor speed; token throughput ≈ (usable memory bandwidth) ÷ (active-weight bytes per token). Explains why VRAM bandwidth beats FLOPS, why CPU inference is slow, and why quantization speeds generation up. See [Local Models § Hardware](./local-models.md#hardware).
 
+#### Memory injection
+an attack that plants false entries in an autonomous agent's persistent memory store — for example via a coordinated set of fake social-media posts — which the agent later trusts as historical context, bypassing ordinary prompt-injection defenses since the exploited trust boundary is the memory layer rather than the immediate prompt; demonstrated against ElizaOS agents, capable of hijacking privileged actions such as a token transfer. See [Public DLT leveraged SW Factories § ElizaOS](./special-use-cases/dlt-sw-factories.md#elizaos).
+
 #### Merge queue
 a CI mechanism (GitHub's built-in one, Graphite, Mergify, Trunk) that serializes merges and tests each change against an up-to-date base before fast-forwarding; matters more under agents because many agent PRs on the same base produce semantic conflicts that each pass in isolation. See [Quality § CI/CD as the enforcement layer](./quality.md#cicd-as-the-enforcement-layer).
 

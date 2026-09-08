@@ -1,0 +1,7 @@
+# 2026-09-08 — Integrate open-source DLT agent framework research into chapter
+
+**Triggering request:** Immediately following the `deep-book-research` pass (`2026-09-08-1-open-source-dlt-agent-frameworks`), the user's original request already asked to integrate the findings into the chapter "however you see fit." Invoked `edit-chapter` to plan and write the integration in the same session.
+
+**Source:** `notes/2026-09-08-1-dlt-sw-factories-open-source-dlt-agent-frameworks/raw-elizaos-itself--other-comparable-open-source-frameworks--common-architectural-pattern--evidence-quality.md` and its accompanying summary — the deep-research pass run immediately prior in this same session.
+
+**Scope:** `src/special-use-cases/dlt-sw-factories.md` had no existing markers for this material (a brand-new subsection, not a pre-annotated stub), so this run goes through the full planning pass (steps 1–5: read, triage, recommend placement, annotate, preview) before resolving markers into prose (step 6). Direction confirmed with the user before annotating: a new `### Open-source agent frameworks` subsection under `## Public DLTs for Agentic Fabrics`, placed after the existing `### Which DLT network to use` subsection (so the framework layer is introduced after the networks/protocols it's built on top of), covering ElizaOS in depth (including the 2026 ai16z lawsuit/wind-down and the Princeton memory-injection finding as separate Research Notes) plus a comparison of GAME, Rig/riglr, and open-autonomy, and a closing subsection on the common architectural pattern across them.
