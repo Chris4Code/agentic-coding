@@ -13,7 +13,10 @@ This book is a collection of study notes on **agentic coding** which means using
 * [Quality](./quality.md) – aspects and methods of long term software quality assurance.
 * [Security](./security.md) – isolating and governing what agents are allowed to do.
 * [Cost Control](./cost-control.md) – tracking and managing the cost of agentic AI usage.
-* [AI driven codebase rewrites](./special-use-cases/ai-driven-codebase-rewrites.md) – using agents to assess and transform existing codebases.
+* [Special Use Cases](./special-use-cases/README.md) – a container for special use cases which may or may not be relevant to most developers using agentic coding.
+  * [AI driven codebase rewrites](./special-use-cases/ai-driven-codebase-rewrites.md)<br>
+  Using agents to assess and transform existing codebases.
+  * [Public DLT leveraged SW Factories](./special-use-cases/dlt-sw-factories.md)<br> Software factories whose agents transact, authenticate, and record work via a public, permissionless distributed ledger instead of conventional Web2 infrastructure.
 
 A [Glossary](./glossary.md) at the end collects every term introduced across chapters, each with a short definition and a link back to where it's explained in detail.
 

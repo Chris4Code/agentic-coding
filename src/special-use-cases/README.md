@@ -4,5 +4,7 @@ This chapter is a container for several sub chapters discussing special use case
 
 The following special use cases are discussed
 
-* [AI driven codebase rewrites](ai-driven-codebase-rewrites.md) – using agents to assess and transform existing codebases.
-* [Public DLT leveraged SW Factories](dlt-sw-factories.md) – software factories whose agents transact, authenticate, and record work via a public, permissionless distributed ledger instead of conventional Web2 infrastructure.
+* [AI driven codebase rewrites](ai-driven-codebase-rewrites.md)<br>
+  Using agents to assess and transform existing codebases.
+* [Public DLT leveraged SW Factories](dlt-sw-factories.md)<br>
+  Software factories whose agents transact, authenticate, and record work via a public, permissionless distributed ledger instead of conventional Web2 infrastructure.
