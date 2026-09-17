@@ -180,6 +180,67 @@ Explicit constructor injection plus a hand-written composition root keeps the wh
 
 Research Note: agent over-mocking is measured in a large 2026 commit-mining study ([arXiv 2602.00409](https://arxiv.org/abs/2602.00409)), and the DI, seam, fake-versus-mock and test-induced-design-damage concepts are long-established software engineering. That agents specifically drift toward untestable coupling, that they will use a provided fake but invent a mock, and that DI-container magic costs an agent more than a human, are mechanism plus convergent 2026 practitioner writing rather than measured results.
 
+### Test Impact Analysis (TIA)
+
+The two previous sections are about whether a test is worth anything. This one is about *which* of them to run. Test Impact Analysis — selecting, from a suite, the subset a given change could plausibly break — used to be a CI cost optimisation that large monorepos needed and everyone else could skip. Agentic throughput moved it into the correctness path, for two reasons.
+
+The first is volume. Anthropic reports its engineers shipping **8x more code per quarter with Claude authoring 80% of it**, test volume up **10x**, headcount flat, and the consequence: a **25x increase in CI jobs over six months** ([Malhotra, September 2026](https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic)). A suite whose full run was an acceptable twenty minutes when humans opened six pull requests a day is a bottleneck when agents open sixty.
+
+The second is the [agent's inner loop](#the-agentic-quality-loop). An agent verifying its own change has exactly two bad options: run everything, which is too slow to iterate against, or run the tests next to the files it touched, which misses every indirect dependency. Classical regression test selection had the luxury of answering this question in the pipeline, after submission. An agent needs the answer *before* it submits, inside a limited context window, for a change it generated itself.
+
+#### The deterministic floor
+
+The baseline is not machine learning and does not need to be. *Regression test selection* (RTS) has safe variants with real guarantees: [Ekstazi](https://users.ece.utexas.edu/~gligoric/papers/GligoricETAL15Ekstazi.pdf) tracks each test's dynamic file dependencies by checksum, STARTS derives the same file-level dependencies statically. Build systems expose it directly — Bazel's `rdeps()` reverse-dependency query, `nx affected`, `jest --changedSince`, Azure Pipelines' [Test Impact Analysis](https://learn.microsoft.com/en-us/azure/devops/pipelines/test/test-impact-analysis?view=azure-devops) for managed code. Research keeps finding cheaper signals sufficient: a 2026 paper achieves safe Python RTS from identifier names alone, without program analysis ([Wang, Pradel & Liu, arXiv 2605.25356](https://arxiv.org/pdf/2605.25356)).
+
+Anthropic's own service is deliberately on this tier — a **deterministic** listener/selector pair, where the listener records the result of every test in every CI run and the selector reads that history to decide what runs on a PR, on past performance and package relevance. The interesting part of that write-up is not the algorithm but the scaling: the v0 singleton process became the bottleneck, and three successive stopgaps bought 70 days, then 29, then less than one, before it was rebuilt stateless and horizontally scalable. A selection service that agents depend on is infrastructure on the critical path, not a CI nicety.
+
+#### The learned layer
+
+Above the deterministic floor sits *predictive test selection* (PTS), which ranks tests by probability of failing given this change. Meta's is the reference implementation: a gradient-boosted decision tree over a feature abstraction of the change, with test flakiness modelled explicitly. It runs about a third of the tests that transitively depend on the modified code and **halves the total infrastructure cost of testing**, while still catching **over 95% of individual test failures** and — the number that actually matters — **over 99.9% of faulty changes** ([Machalica et al., arXiv 1810.05286](https://arxiv.org/abs/1810.05286)).
+
+That distinction is the one to carry away. Per-*test* recall sounds alarming at 95%; per-*change* recall at 99.9% is what makes the technique safe to deploy, because a faulty change usually breaks more than one test and only has to be caught by one of them. A selector should be evaluated on how often a bad change escapes, never on how many individual tests it skipped.
+
+Two vendors ship this commercially. [CloudBees Smart Tests](https://docs.cloudbees.com/docs/cloudbees-smart-tests/latest/features/predictive-test-selection) (which absorbed Launchable when CloudBees acquired it in August 2024) trains on test execution history, the historical correlation between changed files and failed tests, change characteristics such as size and filetype, and lexical test-name/path similarity; its documentation reports that a typical project needing ~75% of its suite to reach 90% confidence of catching a failing run gets there with **~20%** once a model is trained. [Gradle Develocity](https://docs.develocity.ai/2026.2/using-develocity/predictive-test-selection/) does the same for the JVM from Build Scan data, claiming up to 70% less test time, and — usefully — records in each Build Scan *why* every test was selected or skipped.
+
+Develocity also documents the third tier explicitly: some tests bypass prediction entirely and always run. Its rule is tests that are recently new, recently changed, recently failed, or recently flaky. In practice teams add their own always-run set for critical paths — payment, authentication, anything with a compliance obligation — because the cost of a model being wrong there is not measured in CI minutes.
+
+```mermaid
+flowchart TB
+    Change["Change<br/><i>agent's patch, before submission</i>"]
+    subgraph Select["Test selection service"]
+        direction LR
+        Floor["<b>Deterministic floor</b><br/>build graph · file dependencies<br/>Bazel rdeps · nx affected · Ekstazi"]
+        Learned["<b>Learned layer</b><br/>failure history · change features<br/>flakiness · name/path similarity"]
+        Always["<b>Always-run</b><br/>new · changed · recently failed<br/>flaky · critical paths"]
+    end
+    Change --> Floor & Learned & Always
+    Floor & Learned & Always --> Set["Selected subset<br/><i>union, not intersection</i>"]
+    Set -->|"agent runs it itself,<br/>self-corrects"| Inner["Inner loop"]
+    Inner -.->|"revised patch"| Change
+    Set -->|"same subset<br/>on the PR"| Gate["CI gate"]
+    Gate -->|"every result recorded"| Learned
+```
+
+#### Handing the map to the agent
+
+The agentic contribution is not a better selection algorithm. It is that the selection result, historically consumed by a CI scheduler, is now context an agent can act on mid-task.
+
+**TDAD** (Test-Driven Agentic Development), an open-source tool built to study exactly this, makes the case most sharply. It builds a source-to-test dependency map and delivers it to the agent as a skill file — a static text file the agent greps at runtime, with no graph database, MCP server or API call involved — so that before committing a patch the agent knows which tests its change endangers. On SWE-bench Verified with an open-weight model, a vanilla agent broke **6.5 previously-passing tests per patch**; with the map, test-level regression rate fell from **6.08% to 1.82%** ([Alonso, Yovine & Braberman, arXiv 2603.17973](https://arxiv.org/pdf/2603.17973)).
+
+The paper's ablation is the more instructive result. Adding TDD *procedural* instructions — write the tests first, then implement — **without** telling the agent which specific tests to check raised the regression rate to **9.94%**, worse than doing nothing at all. The authors' summary is that "agents do not need to be told *how* to do TDD; they need to be told *which tests to check*." It is the same lesson as [shipping the fakes](#making-it-stick): an agent responds to concrete artifacts in its context far better than to process instructions in a prompt, and a procedural rule it half-follows can leave it worse off than no rule.
+
+This also changes what the selection service is *for*. Used by CI alone, TIA saves money. Used by the agent, it closes the loop before a bad patch ever reaches review — which matters because regressions and CI failures are a leading reason agent-authored pull requests get rejected, and METR found roughly half of SWE-bench-passing patches would not be merged by a real maintainer.
+
+#### A caution about the obvious architecture
+
+The intuitive design, given everything else in this book, is a [RAG](./rags.md) pipeline: embed every test into a vector database, embed the diff, retrieve the nearest tests. It reads well and it is not what any of the systems above do. Meta uses decision trees over change features; Launchable and Develocity use failure history plus change fingerprints, with only *lexical* name and path similarity; Anthropic's service is deterministic by design. No vendor documents a vector store of test embeddings.
+
+The reason is that the available signal is far better than semantic similarity. Whether a change breaks a test is a question about *reachability and history* — does this code execute in that test, has this pairing broken before — and both are directly observable. Cosine distance between a diff and a test body is a proxy for the same question with strictly less information, and it degrades exactly where code is generic, since two unrelated files sharing ordinary language constructs can sit close in embedding space.
+
+Embedding-based selection does exist in the research literature, and the versions that work embed the right thing: NNE-TCP learns file and test vectors from *which files were modified when a test changed status* ([arXiv 2012.10154](https://arxiv.org/abs/2012.10154)), and Test2Vec embeds *execution traces* ([arXiv 2206.15428](https://arxiv.org/pdf/2206.15428)) — co-change and runtime behaviour, not source text. Treat it as a research direction. Build the dependency map first.
+
+Research Note: Meta's figures are from a peer-reviewed paper and are the best-evidenced numbers here. The CloudBees/Launchable and Develocity effect sizes are vendor-published, with no disclosed methodology and no independent replication — the mechanisms their documentation describes are reliable, the percentages are marketing. Anthropic's CI-growth figures are first-party and self-reported, and that write-up discloses no skip rate, recall or cost saving. TDAD's results come from a single research group on 100 and 25 SWE-bench instances with open-weight models on consumer hardware; the direction and the prompting-paradox finding are well argued but the effect sizes are small-sample and unreplicated. The claim that production test selection does not use code embeddings is an argument from absence — four vendors' documentation, none of which mentions them — not a positive finding that anyone tried and rejected the approach.
+
 ## Code review and walkthroughs for agent output
 
 Review volume scales with agent throughput while human review capacity does not, so teams make three moves:

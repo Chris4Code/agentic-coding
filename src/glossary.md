@@ -381,6 +381,9 @@ writing a CI/CD pipeline as a real program (a typed SDK such as Dagger, or a sta
 #### Policy Decision Point / Policy Enforcement Point (PDP/PEP)
 the split that keeps authorization out of agent-written code: the runtime (PEP) intercepts every proposed tool call and asks a separate policy engine (PDP — Cedar, OPA, or OpenFGA) for an allow/deny, passing the agent, the action, and the resource. See [Security § Role Management and Access Control](./security.md#role-management-and-access-control).
 
+#### Predictive Test Selection (PTS)
+the learned tier of [test impact analysis](#test-impact-analysis-tia): a model ranks tests by their probability of failing given a change and runs only the top subset. Meta's reference implementation (gradient-boosted trees over change features, flakiness modelled explicitly) halves testing infrastructure cost while still catching over 99.9% of faulty changes; commercial versions ship as CloudBees Smart Tests and Gradle Develocity. Evaluate a selector on per-*change* recall, never on how many individual tests it skipped. See [Quality § Test Impact Analysis (TIA)](./quality.md#test-impact-analysis-tia).
+
 #### Prefix matching
 the requirement that a cloud provider's prompt cache only hits if the request text is 100% identical, character-for-character, from the very start. See [Basics § Prompt caching](./basics.md#prompt-caching---efficient-cloud-model-integration).
 
@@ -419,6 +422,9 @@ the iterative pattern a harness's control loop drives: the agent reasons about i
 
 #### Reciprocal Rank Fusion (RRF)
 an algorithm that merges two separately ranked retrieval result lists (e.g. from a local and a cloud embedding search) into one combined ranking based on rank position rather than raw similarity scores. See [RAGs § Dual-Embedding / Hybrid-Embedding architectures](./rags.md#dual-embedding--hybrid-embedding-architectures).
+
+#### Regression Test Selection (RTS)
+the deterministic tier of [test impact analysis](#test-impact-analysis-tia): selecting tests from an observed dependency relation rather than a prediction — Ekstazi tracks each test's file dependencies dynamically by checksum, STARTS derives them statically, and build systems expose the same thing via `bazel query rdeps`, `nx affected` or `jest --changedSince`. *Safe* variants guarantee no affected test is missed. See [Quality § The deterministic floor](./quality.md#the-deterministic-floor).
 
 #### Relationship-based access control (ReBAC)
 the Google Zanzibar authorization model (implemented by OpenFGA) in which access is derived from a graph of relationships — `user → agent`, `agent → repo`, `agent → tool` — rather than from static roles; used for agents to constrain, for example, a retrieval agent to exactly the documents authorised for the current session. See [Security § Role Management and Access Control](./security.md#role-management-and-access-control).
@@ -498,11 +504,14 @@ the standard "resolve a real GitHub issue" benchmark: given a repo state and an 
 #### SYCL / oneAPI
 Intel's open, Khronos-standard GPU-compute programming model (SYCL) and its surrounding toolkit (oneAPI); the backend llama.cpp uses for Intel Arc GPUs and integrated graphics. The smallest and least mature of the four vendor stacks. See [Local Models § Intel + SYCL](./local-models.md#intel--sycl).
 
+#### Tamper-evident audit log
+an agent action log engineered so modification is detectable and hard: append-only / WORM storage against casual overwriting, hash-chaining (each entry commits to the previous one's hash) against a privileged insider, and real-time shipping off-host so a copy exists beyond the agent's reach. Distinct from observability tracing, which is sampled, mutable, and short-retention. See [Security § Audit Logs](./security.md#audit-logs).
+
 #### Task-tier routing
 a hybrid routing pattern that splits requests by *kind* rather than difficulty: high-volume, low-stakes calls (inline completion, commit messages, chat titles, one-line edits, the `ANTHROPIC_SMALL_FAST_MODEL` calls) go to a small local model, while planning, cross-file reasoning, and hard debugging go to a cloud frontier model. See [Hybrid Setups § Task-tier routing](./hybrid-setups.md#task-tier-routing).
 
-#### Tamper-evident audit log
-an agent action log engineered so modification is detectable and hard: append-only / WORM storage against casual overwriting, hash-chaining (each entry commits to the previous one's hash) against a privileged insider, and real-time shipping off-host so a copy exists beyond the agent's reach. Distinct from observability tracing, which is sampled, mutable, and short-retention. See [Security § Audit Logs](./security.md#audit-logs).
+#### TDAD (Test-Driven Agentic Development)
+an open-source tool and methodology that performs pre-change [test impact analysis](#test-impact-analysis-tia) for coding agents: it builds a source-to-test dependency map and hands it to the agent as a static skill file, so the agent knows which tests its patch endangers *before* submitting. Its central finding is that agents "do not need to be told *how* to do TDD; they need to be told *which tests to check*" — procedural TDD instructions without that targeted context made regressions worse than no intervention. See [Quality § Handing the map to the agent](./quality.md#handing-the-map-to-the-agent).
 
 #### Terminal-Bench
 a benchmark (Stanford / Laude Institute; version 2.x co-authored with Snorkel) where an agent is given a shell in a Docker container and must complete an end-to-end task (fix a build, set up a server, recover data), graded pass/fail on the outcome. Hand-authored rather than scraped, so the solution is not in a public git history. See [Local Models § Benchmarks](./local-models.md#benchmarks).
@@ -515,6 +524,9 @@ a stand-in for a real dependency in a test: a *stub* returns canned values, a *m
 
 #### Test-driven development (TDD)
 writing a failing test before the code that makes it pass, then refactoring. In agentic coding its value shifts: a test written (or human-approved) *before* the agent implements is a fixed target the agent did not author, which is one defense against the [test oracle problem](./quality.md#the-oracle-problem). Complementary to Design by Contract — "you can derive tests from a specification, not the other way around." See [Quality § Keeping the oracle out of the agent's hands](./quality.md#keeping-the-oracle-out-of-the-agents-hands).
+
+#### Test Impact Analysis (TIA)
+selecting the subset of a test suite that a given change could plausibly break, instead of running everything. Long a CI cost optimisation for large monorepos, it became load-bearing under agentic throughput — Anthropic reports a 25x rise in CI jobs over six months — and its output is now context for the *agent*, not just the pipeline: an agent told which tests its patch endangers can verify before submitting. Built as a deterministic floor ([RTS](#regression-test-selection-rts)), a learned layer ([PTS](#predictive-test-selection-pts)) and an always-run tier for critical paths. See [Quality § Test Impact Analysis (TIA)](./quality.md#test-impact-analysis-tia).
 
 #### Test-induced design damage
 the objection (DHH, in the 2014 *Is TDD Dead?* exchange with Beck and Fowler) that pursuing testability past a certain point degrades the design: an interface and an injected collaborator for every trivial thing, plus a mock-heavy suite, costs more maintainability than it buys. The agentic form is an agent told to "make this testable" introducing five interfaces and a mock per collaborator; the corrective instruction is *a testable seam at the process boundary*, not *inject everything*. See [Quality § Designing for testability](./quality.md#designing-for-testability).
