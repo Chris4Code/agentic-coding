@@ -343,7 +343,7 @@ introducing small deliberate faults ("mutants") into source code; a test suite t
 the category term for a login that is not a person — service accounts, CI runners, workload identities, bots, and AI agents. NHIs outnumber human identities in most organisations (vendor estimates vary from ~45:1 to >80:1), and an agent given its own NHI gets attributable actions, independently scoped permissions, independent revocation, and a managed lifecycle. See [Security § Agent Identity](./security.md#agent-identity).
 
 #### NVLink / NVSwitch
-NVIDIA's GPU-to-GPU interconnect (900 GB/s on Hopper, 1.8 TB/s per GPU on Blackwell, far above PCIe) and the switch fabric that connects many GPUs all-to-all; what makes tensor-parallel serving of a model too large for one GPU practical. See [Local Models § Datacenter GPU Stacks](./local-models.md#datacenter-gpu-stacks).
+NVIDIA's GPU-to-GPU interconnect (900 GB/s on Hopper, 1.8 TB/s per GPU on Blackwell, 3.6 TB/s per GPU on Rubin, far above PCIe) and the switch fabric that connects many GPUs all-to-all; what makes tensor-parallel serving of a model too large for one GPU practical. See [Local Models § Datacenter GPU Stacks](./local-models.md#datacenter-gpu-stacks).
 
 #### Ollama
 an MIT-licensed local-model runner wrapping a `ggml`-based engine behind a Docker-like CLI, a container-style model registry, an OpenAI-compatible API, and automatic GPU/CPU split and idle-model unloading. See [Local Models § Ollama](./local-models.md#ollama).
